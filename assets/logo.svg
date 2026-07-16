@@ -1,0 +1,19 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="icon-grad" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#F1F1F7"/>
+      <stop offset="100%" stop-color="#C4B5FD"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg-grad)"/>
+  <!-- P icon: polygon/brush stroke -->
+  <path d="M160 400V112L280 220L400 112V400" stroke="url(#icon-grad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Sparkle dots -->
+  <circle cx="120" cy="120" r="12" fill="#C4B5FD" opacity="0.6"/>
+  <circle cx="400" cy="380" r="16" fill="#F1F1F7" opacity="0.8"/>
+  <circle cx="300" cy="440" r="8" fill="#C4B5FD" opacity="0.4"/>
+</svg>
