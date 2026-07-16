@@ -72,7 +72,7 @@
   /* Upload Area — glassmorphism */
   .upload-section{margin:60px 0;text-align:center}
   .upload-zone{background:rgba(255,255,255,0.03);border:1.5px dashed rgba(255,255,255,0.1);
-    border-radius:24px;padding:80px 24px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+    border-radius:24px;padding:80px 24px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;max-width:640px;margin:0 auto}
   .upload-zone::before{content:'';position:absolute;inset:-1px;border-radius:24px;
     background:linear-gradient(135deg,#7C3AED,#A78BFA,#EC4899,#7C3AED);background-size:400% 400%;
     opacity:0;transition:opacity .3s;z-index:-1;animation:gradientShift 4s ease infinite}
@@ -87,7 +87,7 @@
     background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
 
   /* Result */
-  .result-area{display:none;margin:24px 0;gap:24px}
+  .result-area{display:none;margin:24px auto;gap:24px;max-width:640px}
   .result-area.show{display:grid;grid-template-columns:1fr 1fr}
   .result-panel{background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid var(--border)}
   .result-panel img{width:100%;border-radius:12px;display:block}
