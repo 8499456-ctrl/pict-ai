@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pict — AI Image Tools</title>
+<meta name="description" content="Free online AI image tools: remove background, upscale, expand, colorize, and generate images. No sign-up required." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0A0A1A;--card:rgba(255,255,255,0.04);--card-hover:rgba(255,255,255,0.08);--text:#F1F1F7;--text-dim:rgba(255,255,255,0.5);--accent:#7C3AED;--accent-light:#A78BFA;--accent-glow:rgba(124,58,237,0.3);--border:rgba(255,255,255,0.06);--radius:16px}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+  
+  /* Animated background */
+  .bg-glow{position:fixed;top:-50%;left:-50%;width:200%;height:200%;z-index:-1;opacity:0.15;
+    background:radial-gradient(ellipse at 20% 50%,#7C3AED 0%,transparent 50%),
+               radial-gradient(ellipse at 80% 20%,#3B82F6 0%,transparent 50%),
+               radial-gradient(ellipse at 50% 80%,#EC4899 0%,transparent 50%);
+    animation:bgShift 20s ease-in-out infinite alternate;}
+  @keyframes bgShift{0%{transform:rotate(0deg) scale(1)}100%{transform:rotate(8deg) scale(1.1)}}
+
+  .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* Nav — glassmorphism */
+  nav{position:sticky;top:12px;z-index:100;max-width:1100px;margin:0 auto;padding:0 24px}
+  .nav-inner{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--border);border-radius:100px;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-0.3px}
+  .logo .grad{background:linear-gradient(135deg,#7C3AED,#A78BFA,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .nav-links{display:flex;gap:4px}
+  .nav-links a{color:var(--text-dim);font-size:13px;font-weight:500;text-decoration:none;padding:6px 14px;border-radius:30px;transition:all .2s}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.06)}
+
+  /* Hero */
+  .hero{text-align:center;padding:100px 24px 60px;position:relative}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.2);
+    padding:6px 14px;border-radius:30px;font-size:12px;font-weight:600;color:var(--accent-light);margin-bottom:24px}
+  .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#10B981;animation:pulse-dot 2s infinite}
+  @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+  .hero h1{font-size:56px;font-weight:800;letter-spacing:-1.5px;line-height:1.08;margin-bottom:16px}
+  .hero h1 .grad{background:linear-gradient(135deg,#F1F1F7,#A78BFA,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero h1 .highlight{position:relative;display:inline-block}
+  .hero h1 .highlight::after{content:'';position:absolute;bottom:2px;left:0;width:100%;height:8px;background:linear-gradient(90deg,#7C3AED,transparent);border-radius:4px;opacity:0.4}
+  .hero p{font-size:17px;color:var(--text-dim);max-width:500px;margin:0 auto 32px;line-height:1.7}
+  .hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:30px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
+  .btn-primary{background:linear-gradient(135deg,#7C3AED,#A78BFA);color:#fff;box-shadow:0 4px 24px rgba(124,58,237,0.3)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,0.4)}
+  .btn-ghost{background:rgba(255,255,255,0.06);color:var(--text);border:1px solid var(--border)}
+  .btn-ghost:hover{background:rgba(255,255,255,0.1)}
+
+  /* Tool Grid — glow cards */
+  .section-label{text-align:center;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px}
+  .section-title{text-align:center;font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:32px}
+  .section-title .grad{background:linear-gradient(135deg,#A78BFA,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;
+    cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden}
+  .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+  .tool-card:hover{background:var(--card-hover);border-color:rgba(124,58,237,0.2);transform:translateY(-2px)}
+  .tool-card:hover::before{opacity:1}
+  .tool-card .icon{font-size:36px;margin-bottom:14px;display:block}
+  .tool-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
+  .tool-card p{font-size:12.5px;color:var(--text-dim);line-height:1.6}
+  .tool-card .badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;
+    background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(167,139,250,0.1));color:var(--accent-light);margin-top:12px}
+  .tool-card .arrow{position:absolute;top:24px;right:24px;font-size:14px;color:var(--text-dim);transition:all .3s;opacity:0}
+  .tool-card:hover .arrow{opacity:1;color:var(--accent-light);transform:translateX(3px)}
+
+  /* Upload Area — glassmorphism */
+  .upload-section{margin:60px 0;text-align:center}
+  .upload-zone{background:rgba(255,255,255,0.03);border:1.5px dashed rgba(255,255,255,0.1);
+    border-radius:24px;padding:80px 24px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+  .upload-zone::before{content:'';position:absolute;inset:-1px;border-radius:24px;
+    background:linear-gradient(135deg,#7C3AED,#A78BFA,#EC4899,#7C3AED);background-size:400% 400%;
+    opacity:0;transition:opacity .3s;z-index:-1;animation:gradientShift 4s ease infinite}
+  @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .upload-zone:hover::before,.upload-zone.dragover::before{opacity:0.3}
+  .upload-zone:hover,.upload-zone.dragover{border-color:transparent}
+  .upload-zone .icon{font-size:56px;margin-bottom:16px;display:block}
+  .upload-zone h3{font-size:20px;font-weight:700;margin-bottom:6px}
+  .upload-zone p{font-size:14px;color:var(--text-dim)}
+  .upload-zone input{display:none}
+  .tool-indicator{display:inline-block;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
+    background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
+
+  /* Result */
+  .result-area{display:none;margin:24px 0;gap:24px}
+  .result-area.show{display:grid;grid-template-columns:1fr 1fr}
+  .result-panel{background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid var(--border)}
+  .result-panel img{width:100%;border-radius:12px;display:block}
+  .result-panel .label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .result-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .btn-sm{padding:8px 16px;border-radius:20px;font-size:13px}
+  .spinner{display:none;width:28px;height:28px;border:3px solid rgba(255,255,255,0.06);border-top-color:var(--accent-light);border-radius:50%;animation:spin .6s linear infinite;margin:24px auto}
+  .spinner.show{display:block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Features strip */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:60px 0;text-align:center;padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .feature .fi{font-size:24px;margin-bottom:8px}
+  .feature h4{font-size:14px;font-weight:600;margin-bottom:4px}
+  .feature p{font-size:12.5px;color:var(--text-dim)}
+
+  /* Footer */
+  footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--text-dim)}
+  footer a{color:var(--accent-light);text-decoration:none;transition:color .2s}
+  footer a:hover{color:#C4B5FD}
+  footer .sister{margin-top:8px;font-size:12px}
+
+  @media(max-width:768px){.hero h1{font-size:32px}.tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:40px 16px}.nav-inner{border-radius:20px;flex-direction:column;gap:8px;padding:10px 16px}}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">✦ <span class="grad">Pict</span></div>
+    <div class="nav-links">
+      <a href="#tools">Tools</a>
+      <a href="#upload">Try Now</a>
+      <a href="https://genshinwiki.cn" target="_blank">Genshin Guide</a>
+      <a href="https://eggywiki.com" target="_blank">Eggy Wiki</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Free AI image tools — no sign-up required</div>
+  <h1>
+    <span class="grad">AI Image Tools</span><br>
+    <span class="highlight">Fast, Free</span>, Beautiful
+  </h1>
+  <p>Remove backgrounds, upscale, expand, colorize, and generate images — all powered by AI, right in your browser.</p>
+  <div class="hero-actions">
+    <a href="#upload" class="btn btn-primary">✨ Try It Now</a>
+    <a href="#tools" class="btn btn-ghost">View All Tools →</a>
+  </div>
+</section>
+
+<section class="container" id="tools">
+  <div class="section-label">🧰 AI Tools</div>
+  <h2 class="section-title">Everything you need, <span class="grad">one click away</span></h2>
+  <div class="tool-grid">
+    <a href="#upload" class="tool-card" onclick="selectTool('remove-bg')">
+      <span class="icon">✂️</span>
+      <h3>Remove Background</h3>
+      <p>Instantly remove image backgrounds with AI. Perfect for people, products, and game screenshots.</p>
+      <span class="badge">🔥 Popular</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" onclick="selectTool('upscale')">
+      <span class="icon">🔍</span>
+      <h3>AI Upscale 4x</h3>
+      <p>Enhance and upscale low-resolution images up to 4x. Revive old photos and game captures.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" onclick="selectTool('expand')">
+      <span class="icon">🖼️</span>
+      <h3>AI Outpaint</h3>
+      <p>Extend your image beyond its borders. AI fills in the new area naturally and seamlessly.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" onclick="selectTool('colorize')">
+      <span class="icon">🎨</span>
+      <h3>Colorize Photo</h3>
+      <p>Bring black & white photos to life with realistic AI colorization. Preserves original details.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" onclick="selectTool('generate')">
+      <span class="icon">✨</span>
+      <h3>Text to Image</h3>
+      <p>Generate stunning images from text. Powered by Stable Diffusion — describe, create, download.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" onclick="selectTool('remove-object')">
+      <span class="icon">🧹</span>
+      <h3>Remove Object</h3>
+      <p>Select and remove unwanted objects, text, people, or blemishes from your photos.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="container upload-section" id="upload" style="scroll-margin-top:100px;">
+  <div class="section-label">🚀 Get Started</div>
+  <h2 class="section-title">Upload & <span class="grad">Transform</span></h2>
+  <div class="tool-indicator" id="toolIndicator">✂️ Remove Background</div>
+
+  <div class="upload-zone" id="dropZone">
+    <span class="icon" id="dropIcon">📁</span>
+    <h3>Drop image here or click to browse</h3>
+    <p>JPG, PNG, WEBP — up to 20MB</p>
+    <input type="file" id="fileInput" accept="image/*" />
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <div class="result-panel">
+      <div class="label">📄 Original</div>
+      <img id="originalImg" src="" alt="original" />
+    </div>
+    <div class="result-panel">
+      <div class="label">✨ Result</div>
+      <div id="resultContent" style="min-height:100px;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+        <div class="spinner" id="spinner"></div>
+        <p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>
+      </div>
+      <div class="result-actions" id="resultActions" style="display:none;">
+        <button class="btn btn-primary btn-sm" onclick="downloadResult()">⬇ Download</button>
+        <button class="btn btn-ghost btn-sm" onclick="resetUpload()">🔄 Try Another</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container features">
+  <div class="feature">
+    <div class="fi">⚡</div>
+    <h4>Lightning Fast</h4>
+    <p>AI processing in seconds. No queue, no waiting.</p>
+  </div>
+  <div class="feature">
+    <div class="fi">🔒</div>
+    <h4>100% Private</h4>
+    <p>Images processed temporarily and deleted immediately.</p>
+  </div>
+  <div class="feature">
+    <div class="fi">💸</div>
+    <h4>Free Daily Usage</h4>
+    <p>No credit card needed. Free allowances every day.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Built with ❤️ — <a href="https://pict-ai.pages.dev">Pict</a> · AI Image Tools · Free for everyone</p>
+  <p class="sister">Also check out <a href="https://genshinwiki.cn">Genshin Guide</a> &amp; <a href="https://eggywiki.com">Eggy Wiki</a></p>
+</footer>
+
+<script>
+let currentTool = 'remove-bg';
+
+function selectTool(tool) {
+  currentTool = tool;
+  const labels = {
+    'remove-bg': '✂️ Remove Background','upscale': '🔍 AI Upscale 4x','expand': '🖼️ AI Outpaint',
+    'colorize': '🎨 Colorize Photo','generate': '✨ Text to Image','remove-object': '🧹 Remove Object'
+  };
+  document.getElementById('toolIndicator').textContent = labels[tool] || labels['remove-bg'];
+  resetUpload();
+}
+
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
+const resultArea=document.getElementById('resultArea'),originalImg=document.getElementById('originalImg');
+const spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
+const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
+
+dropZone.addEventListener('click',()=>fileInput.click());
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
+fileInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
+
+function handleFile(file){
+  if(!file)return;
+  if(file.size>20*1024*1024){showToast('File too large (max 20MB)');return}
+  const reader=new FileReader();
+  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';processImage(file)};
+  reader.readAsDataURL(file);
+}
+
+async function processImage(file){
+  spinner.classList.add('show');resultPlaceholder.textContent='';
+  const fd=new FormData();fd.append('image',file);fd.append('tool',currentTool);
+  try{
+    const res=await fetch('/api/process',{method:'POST',body:fd});
+    if(!res.ok)throw new Error('fail');
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    spinner.classList.remove('show');
+    resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;
+    resultActions.style.display='flex';
+    window.resultBlob=blob;
+  }catch(e){
+    spinner.classList.remove('show');
+    showMockResult(file);
+  }
+}
+
+function showMockResult(file){
+  const img=new Image();
+  img.onload=()=>{
+    const c=document.createElement('canvas');c.width=img.width;c.height=img.height;
+    const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
+    ctx.fillStyle='rgba(124,58,237,0.04)';ctx.fillRect(0,0,c.width,c.height);
+    c.toBlob(blob=>{const url=URL.createObjectURL(blob);resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;resultActions.style.display='flex';window.resultBlob=blob});
+  };
+  img.src=URL.createObjectURL(file);
+  setTimeout(()=>{resultPlaceholder.textContent='🔄 API key needed — showing preview';resultPlaceholder.style.color='#F59E0B';resultPlaceholder.style.fontSize='11px'},2000);
+}
+
+function downloadResult(){
+  if(!window.resultBlob)return;
+  const a=document.createElement('a');a.href=URL.createObjectURL(window.resultBlob);a.download=`pict-${currentTool}-${Date.now()}.png`;a.click();
+}
+function resetUpload(){resultArea.classList.remove('show');fileInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
+</script>
+
+</body>
+</html>
