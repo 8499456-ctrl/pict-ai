@@ -118,14 +118,22 @@
 
 <nav>
   <div class="nav-inner">
-    <div class="logo">✦ <span class="grad">Pict</span></div>
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-width:28px;">
+        <rect width="28" height="28" rx="8" fill="url(#pict-grad)"/>
+        <path d="M8 20V8L14 14L20 8V20" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="pict-grad" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#7C3AED"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs>
+      </svg>
+      <span class="grad">Pict</span>
+    </div>
     <div class="nav-links">
-      <a href="#tools">Tools</a>
-      <a href="#upload">Try Now</a>
+      <a href="#tools" data-i18n="nav.tools">Tools</a>
+      <a href="#upload" data-i18n="nav.try">Try Now</a>
       <a href="https://gearup.sjv.io/c/7462059/3204502/40222" target="_blank" rel="noopener nofollow">🚀 GearUP</a>
       <a href="https://www.exitlag.com/refer/10324758" target="_blank" rel="noopener nofollow">🌍 ExitLag</a>
       <a href="https://genshinwiki.cn" target="_blank">Genshin Guide</a>
       <a href="https://eggywiki.com" target="_blank">Eggy Wiki</a>
+      <a href="#" id="langToggle" onclick="toggleLang()" style="font-size:12px;background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:20px;">中文</a>
     </div>
   </div>
 </nav>
@@ -242,6 +250,136 @@
 </footer>
 
 <script>
+let currentLang = 'en';
+const i18n = {
+  en: {
+    'nav.tools': 'Tools',
+    'nav.try': 'Try Now',
+    'badge': 'Free AI image tools — no sign-up required',
+    'hero.title1': 'AI Image Tools',
+    'hero.title2': 'Fast, Free',
+    'hero.title3': 'Beautiful',
+    'hero.desc': 'Remove backgrounds, upscale, expand, colorize, and generate images — all powered by AI, right in your browser.',
+    'hero.cta': '✨ Try It Now',
+    'hero.view': 'View All Tools →',
+    'section.tools.label': '🧰 AI Tools',
+    'section.tools.title': 'Everything you need, one click away',
+    'section.upload.label': '🚀 Get Started',
+    'section.upload.title': 'Upload & Transform',
+    'tool.remove-bg': '✂️ Remove Background',
+    'tool.upscale': '🔍 AI Upscale 4x',
+    'tool.expand': '🖼️ AI Outpaint',
+    'tool.colorize': '🎨 Colorize Photo',
+    'tool.generate': '✨ Text to Image',
+    'tool.remove-object': '🧹 Remove Object',
+    'drop.hint': 'Drop image here or click to browse',
+    'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
+    'result.original': '📄 Original',
+    'result.result': '✨ Result',
+    'result.download': '⬇ Download',
+    'result.tryagain': '🔄 Try Another',
+    'feature.fast': 'Lightning Fast',
+    'feature.fast.desc': 'AI processing in seconds. No queue, no waiting.',
+    'feature.private': '100% Private',
+    'feature.private.desc': 'Images processed temporarily and deleted immediately.',
+    'feature.free': 'Free Daily Usage',
+    'feature.free.desc': 'No credit card needed. Free allowances every day.',
+    'footer.text': 'Built with ❤️ — Pict · AI Image Tools · Free for everyone',
+    'footer.sister': 'Also check out',
+  },
+  zh: {
+    'nav.tools': '工具',
+    'nav.try': '试试看',
+    'badge': '免费 AI 图片工具 — 无需注册',
+    'hero.title1': 'AI 图片工具',
+    'hero.title2': '免费、快速',
+    'hero.title3': '精美',
+    'hero.desc': '去背景、高清化、扩图、上色、文生图 — 全部 AI 驱动，浏览器直接使用。',
+    'hero.cta': '✨ 立即体验',
+    'hero.view': '查看全部工具 →',
+    'section.tools.label': '🧰 AI 工具',
+    'section.tools.title': '一站式搞定，一键完成',
+    'section.upload.label': '🚀 开始使用',
+    'section.upload.title': '上传 & 处理',
+    'tool.remove-bg': '✂️ 去除背景',
+    'tool.upscale': '🔍 AI 高清化',
+    'tool.expand': '🖼️ AI 扩图',
+    'tool.colorize': '🎨 照片上色',
+    'tool.generate': '✨ 文字生图',
+    'tool.remove-object': '🧹 去除物体',
+    'drop.hint': '拖拽图片到此处或点击上传',
+    'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
+    'result.original': '📄 原图',
+    'result.result': '✨ 处理结果',
+    'result.download': '⬇ 下载',
+    'result.tryagain': '🔄 再来一张',
+    'feature.fast': '闪电速度',
+    'feature.fast.desc': 'AI 处理只需几秒，无需排队等待。',
+    'feature.private': '100% 隐私',
+    'feature.private.desc': '图片临时处理，处理完即刻删除。',
+    'feature.free': '每日免费',
+    'feature.free.desc': '无需信用卡，每天免费使用额度。',
+    'footer.text': '用 ❤️ 打造 — Pict · AI 图片工具 · 人人免费',
+    'footer.sister': '访问姐妹站',
+  }
+};
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.getElementById('langToggle').textContent = currentLang === 'en' ? '中文' : 'English';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+  });
+  // Hero H1 — needs special split handling
+  const h1 = document.querySelector('.hero h1');
+  h1.innerHTML = `<span class="grad">${i18n[currentLang]['hero.title1']}</span><br><span class="highlight">${i18n[currentLang]['hero.title2']}</span>, ${i18n[currentLang]['hero.title3']}`;
+  // Hero desc
+  document.querySelector('.hero p').textContent = i18n[currentLang]['hero.desc'];
+  // Hero badge
+  document.querySelector('.hero-badge').textContent = i18n[currentLang]['badge'];
+  // Hero buttons
+  const btns = document.querySelectorAll('.hero-actions a');
+  if (btns[0]) btns[0].textContent = i18n[currentLang]['hero.cta'];
+  if (btns[1]) btns[1].textContent = i18n[currentLang]['hero.view'];
+  // Section labels
+  document.querySelectorAll('.section-label').forEach((el, i) => {
+    if (i === 0) el.textContent = i18n[currentLang]['section.tools.label'];
+    else el.textContent = i18n[currentLang]['section.upload.label'];
+  });
+  // Section titles
+  const st = document.querySelectorAll('.section-title');
+  if (st[0]) st[0].innerHTML = `${i18n[currentLang]['section.tools.title'].split(',')[0]}, <span class="grad">${i18n[currentLang]['section.tools.title'].split(',').pop()}</span>`;
+  if (st[1]) st[1].innerHTML = `${i18n[currentLang]['section.upload.title'].split('&')[0]}& <span class="grad">${i18n[currentLang]['section.upload.title'].split('&').pop()}</span>`;
+  // Tool cards
+  const cards = document.querySelectorAll('.tool-card');
+  const tools = ['remove-bg','upscale','expand','colorize','generate','remove-object'];
+  cards.forEach((card, i) => {
+    if (tools[i]) {
+      card.querySelector('h3').textContent = i18n[currentLang][`tool.${tools[i]}`];
+    }
+  });
+  // Upload zone
+  document.querySelector('.upload-zone h3').textContent = i18n[currentLang]['drop.hint'];
+  document.querySelector('.upload-zone p').textContent = i18n[currentLang]['drop.desc'];
+  // Result labels
+  const rl = document.querySelectorAll('.result-panel .label');
+  if (rl[0]) rl[0].textContent = i18n[currentLang]['result.original'];
+  if (rl[1]) rl[1].textContent = i18n[currentLang]['result.result'];
+  const ra = document.querySelectorAll('.result-actions .btn');
+  if (ra[0]) ra[0].textContent = i18n[currentLang]['result.download'];
+  if (ra[1]) ra[1].textContent = i18n[currentLang]['result.tryagain'];
+  // Features
+  const fc = document.querySelectorAll('.feature');
+  if (fc[0]) { fc[0].querySelector('h4').textContent = i18n[currentLang]['feature.fast']; fc[0].querySelector('p').textContent = i18n[currentLang]['feature.fast.desc']; }
+  if (fc[1]) { fc[1].querySelector('h4').textContent = i18n[currentLang]['feature.private']; fc[1].querySelector('p').textContent = i18n[currentLang]['feature.private.desc']; }
+  if (fc[2]) { fc[2].querySelector('h4').textContent = i18n[currentLang]['feature.free']; fc[2].querySelector('p').textContent = i18n[currentLang]['feature.free.desc']; }
+  // Footer
+  document.querySelector('footer p:first-child').innerHTML = i18n[currentLang]['footer.text'].replace('Pict', '<a href="https://pict-ai.pages.dev">Pict</a>');
+  const footerSister = document.querySelector('footer .sister');
+  if (footerSister) footerSister.textContent = `${i18n[currentLang]['footer.sister']} <a href="https://genshinwiki.cn">Genshin Guide</a> &amp; <a href="https://eggywiki.com">Eggy Wiki</a>`;
+}
+
 let currentTool = 'remove-bg';
 
 function selectTool(tool) {
