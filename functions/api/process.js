@@ -1,4 +1,3 @@
-// Cloudflare Pages Function — AI Image Processing Proxy
 export async function onRequest(context) {
   const { request, env } = context;
   const corsHeaders = {
@@ -19,8 +18,8 @@ export async function onRequest(context) {
     const token = env.REPLICATE_API_TOKEN;
     if (!token) return new Response(JSON.stringify({ error: 'API not configured' }), { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     const models = {
-      'remove-bg': { version: process.env.REMOVE_BG_VERSION || 'a42d8ed4e8e3c1e5b5e5c5d5e5f5g5h5i5j5k5l5m5n5o5p5', input: { image: dataUri } },
-      'upscale': { version: process.env.UPSCALE_VERSION || 'b42d8ed4e8e3c1e5b5e5c5d5e5f5g5h5i5j5k5l5m5n5o5p6', input: { image: dataUri, scale: 4 } },
+      'remove-bg': { version: 'a42d8ed4e8e3c1e5b5e5c5d5e5f5g5h5i5j5k5l5m5n5o5p5', input: { image: dataUri } },
+      'upscale': { version: 'b42d8ed4e8e3c1e5b5e5c5d5e5f5g5h5i5j5k5l5m5n5o5p6', input: { image: dataUri, scale: 4 } },
     };
     const model = models[tool] || models['remove-bg'];
     const pred = await (await fetch('https://api.replicate.com/v1/predictions', {
