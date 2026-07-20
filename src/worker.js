@@ -36,7 +36,13 @@ function json(request, body, status = 200, headers = {}) {
 }
 
 function isAllowedRequest(request) {
-  return ALLOWED_ORIGINS.has(request.headers.get('Origin'));
+  const origin = request.headers.get('Origin');
+  if (origin) return ALLOWED_ORIGINS.has(origin);
+  const referer = request.headers.get('Referer') || '';
+  if ([...ALLOWED_ORIGINS].some(allowed => referer.startsWith(`${allowed}/`))) return true;
+  // Some mobile camera upload flows omit Origin and Referer, but still identify
+  // themselves as a same-origin browser request.
+  return request.headers.get('Sec-Fetch-Site') === 'same-origin';
 }
 
 function dayKey() {
