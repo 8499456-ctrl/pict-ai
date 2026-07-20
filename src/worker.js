@@ -163,7 +163,10 @@ async function processImage(request, env) {
 async function quotaStatus(request, env) {
   if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
   if (request.method !== 'GET') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
-  if (!isAllowedRequest(request)) return json(request, { error: 'This request is not allowed.' }, 403);
+  // Same-origin browser GET requests may omit Origin. This endpoint only reports
+  // remaining quota and never starts an AI job, so those reads are safe to allow.
+  const origin = request.headers.get('Origin');
+  if (origin && !isAllowedRequest(request)) return json(request, { error: 'This request is not allowed.' }, 403);
   try {
     const groups = await Promise.all(Object.keys(DAILY_LIMITS).map(async group => {
       const result = await quotaRequest(request, env, group, 'status');
