@@ -8,6 +8,7 @@ const TOOL_GROUPS = {
   upscale: 'basic',
   colorize: 'basic',
   generate: 'generate',
+  'game-avatar': 'creative',
   cartoon: 'creative',
   art: 'creative',
   'change-background': 'creative',
@@ -22,7 +23,7 @@ function corsHeaders(request) {
   return {
     'Access-Control-Allow-Origin': ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.picttool.com',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Pict-Test-Token',
     'Access-Control-Expose-Headers': 'X-Pict-Quota-Limit, X-Pict-Quota-Remaining, X-Pict-Quota-Group',
     'Vary': 'Origin',
   };
@@ -93,9 +94,10 @@ async function processImage(request, env) {
     const style = String(form.get('style') || '').trim();
     const image = form.get('image');
     group = TOOL_GROUPS[tool];
+    const isTestMode = Boolean(env.ADMIN_TEST_TOKEN) && request.headers.get('X-Pict-Test-Token') === env.ADMIN_TEST_TOKEN;
 
     if (!group) return json(request, { error: 'This tool is not available.' }, 400);
-    if (tool === 'generate' && (!prompt || prompt.length > 500)) return json(request, { error: 'Please enter an image description of up to 500 characters.' }, 400);
+    if ((tool === 'generate' || tool === 'remove-object') && (!prompt || prompt.length > 500)) return json(request, { error: 'Please enter a short description of up to 500 characters.' }, 400);
     if (tool !== 'generate') {
       if (!image || typeof image.arrayBuffer !== 'function') return json(request, { error: 'No image was uploaded.' }, 400);
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type)) return json(request, { error: 'Please upload a JPG, PNG, or WEBP image.' }, 400);
@@ -103,9 +105,11 @@ async function processImage(request, env) {
     }
     if (!env.REPLICATE_API_TOKEN) return json(request, { error: 'The image service is not configured yet.' }, 503);
 
-    const quota = await quotaRequest(request, env, group, 'reserve');
-    if (!quota.ok) return json(request, { error: 'Today\'s free quota for this tool has been used. Please try again tomorrow.', quota: quota.data }, 429);
-    reservation = quota.data.reservation;
+    if (!isTestMode) {
+      const quota = await quotaRequest(request, env, group, 'reserve');
+      if (!quota.ok) return json(request, { error: 'Today\'s free quota for this tool has been used. Please try again tomorrow.', quota: quota.data }, 429);
+      reservation = quota.data.reservation;
+    }
 
     const dataUri = tool === 'generate' ? null : await toDataUri(image);
     const models = {
@@ -125,12 +129,43 @@ async function processImage(request, env) {
         version: 'c86579ac5193bf45422f1c8b92742135aa859b1850a8e4c531bff222fc75273d',
         input: { prompt: style ? `${prompt}, ${style}` : prompt, width: 1024, height: 1024, num_outputs: 1, scheduler: 'K_EULER', num_inference_steps: 30, guidance_scale: 7.5, apply_watermark: true },
       },
+      // These creative edits share the same commercially usable image-to-image
+      // model. Keeping input images to 1MP in the browser makes the cost and
+      // turnaround time predictable for the free preview.
+      'game-avatar': {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: 'Create an original fantasy RPG game avatar from this reference photo. Keep the person recognizable. Polished character concept art, expressive portrait, detailed original costume. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
+      cartoon: {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: 'Transform this image into a clean, charming cartoon illustration. Keep the main subject, composition, and recognizable details. Original artwork; do not imitate a named studio, character, or artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
+      art: {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: 'Transform this image into elegant original digital art with rich color, refined light, and a painterly editorial finish. Keep the main subject and composition. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
+      'change-background': {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: `Keep the main subject exactly recognizable and replace only the background with ${prompt || 'a clean cinematic fantasy landscape'}. Natural edges, coherent light, original imagery.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
+      'remove-object': {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: `Remove ${prompt} from this image. Preserve every other important subject and the original composition. Fill the removed area naturally and realistically.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
+      'scene-lighting': {
+        model: 'black-forest-labs/flux-2-dev',
+        input: { prompt: 'Improve the lighting and atmosphere of this photo: balanced exposure, flattering soft cinematic light, natural shadows, vivid but realistic color. Keep all people, objects, and composition recognizable.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+      },
     };
     const model = models[tool];
-    let prediction = await replicateJson('https://api.replicate.com/v1/predictions', {
+    if (!model) return json(request, { error: 'This tool is not configured yet.' }, 503);
+    const predictionUrl = model.model
+      ? `https://api.replicate.com/v1/models/${model.model}/predictions`
+      : 'https://api.replicate.com/v1/predictions';
+    let prediction = await replicateJson(predictionUrl, {
       method: 'POST',
       headers: { Authorization: `Bearer ${env.REPLICATE_API_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(model),
+      body: JSON.stringify(model.model ? { input: model.input } : model),
     });
 
     while (!['succeeded', 'failed', 'canceled'].includes(prediction.status)) {
@@ -141,7 +176,7 @@ async function processImage(request, env) {
     }
     if (prediction.status !== 'succeeded') throw new Error(prediction.error || 'AI processing failed.');
 
-    const committed = await quotaRequest(request, env, group, 'commit', reservation);
+    const committed = isTestMode ? { data: { limit: 0, remaining: 0 } } : await quotaRequest(request, env, group, 'commit', reservation);
     reservation = null;
     const output = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
     if (!output) throw new Error('No image was returned by the AI model.');
