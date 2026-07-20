@@ -3,6 +3,20 @@
   "name": "pict-ai-app",
   "main": "src/worker.js",
   "compatibility_date": "2026-07-20",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "RATE_LIMITER",
+        "class_name": "RateLimiter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["RateLimiter"]
+    }
+  ],
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
