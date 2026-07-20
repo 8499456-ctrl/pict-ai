@@ -113,6 +113,7 @@
   .generation-zone .btn{width:100%;justify-content:center}
   .tool-indicator{display:inline-block;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
     background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
+  .quota-status{margin:-7px 0 18px;font-size:12px;color:var(--text-dim)}
 
   /* Result */
   .result-area{display:none;margin:24px auto;gap:24px;max-width:640px}
@@ -260,6 +261,7 @@
   <div class="section-label">🚀 Get Started</div>
   <h2 class="section-title">Upload & <span class="grad">Transform</span></h2>
   <div class="tool-indicator" id="toolIndicator">✂️ Remove Background</div>
+  <p class="quota-status" id="quotaStatus" aria-live="polite">Free today: 3 basic edits · 1 image generation</p>
 
   <div class="upload-zone" id="dropZone">
     <span class="icon" id="dropIcon">📁</span>
@@ -497,10 +499,54 @@ function setLanguage(lang) {
   const footerSister = document.querySelector('footer .sister');
   if (footerSister) footerSister.textContent = translate('footer.sister');
   document.getElementById('toolIndicator').textContent = translate(`tool.${currentTool}`);
+  renderQuota();
 }
 
 let currentTool = 'remove-bg';
 let selectedGenerationStyle = 'photorealistic';
+let quotaGroups = null;
+let isProcessing = false;
+
+function quotaGroupForTool(tool) {
+  if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
+  if (tool === 'generate') return 'generate';
+  return 'creative';
+}
+
+function renderQuota() {
+  const status = document.getElementById('quotaStatus');
+  const group = quotaGroupForTool(currentTool);
+  const quota = quotaGroups && quotaGroups[group];
+  const names = currentLang === 'zh'
+    ? { basic: '基础修图', generate: '文字生图', creative: '高级创意编辑' }
+    : { basic: 'basic edits', generate: 'image generation', creative: 'creative edit' };
+  if (quota) {
+    status.textContent = currentLang === 'zh'
+      ? `今日${names[group]}剩余：${quota.remaining}/${quota.limit}`
+      : `Free today — ${names[group]} remaining: ${quota.remaining}/${quota.limit}`;
+  } else {
+    status.textContent = currentLang === 'zh'
+      ? '每日免费：基础修图 3 次 · 文字生图 1 次'
+      : 'Free today: 3 basic edits · 1 image generation';
+  }
+}
+
+async function refreshQuota() {
+  try {
+    const response = await fetch('/api/quota');
+    if (!response.ok) return;
+    const data = await response.json();
+    quotaGroups = data.groups || null;
+    renderQuota();
+  } catch (_) { renderQuota(); }
+}
+
+async function apiError(response, fallback) {
+  try {
+    const data = await response.json();
+    return data.error || fallback;
+  } catch (_) { return fallback; }
+}
 
 function selectTool(tool) {
   currentTool = tool;
@@ -514,6 +560,7 @@ function selectTool(tool) {
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
   resetUpload();
+  renderQuota();
 }
 
 const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
@@ -537,18 +584,21 @@ function handleFile(file){
 }
 
 async function processImage(file){
+  if(isProcessing)return;
+  isProcessing=true;
   spinner.classList.add('show');resultPlaceholder.textContent='';
   const fd=new FormData();fd.append('image',file);fd.append('tool',currentTool);
   try{
     const res=await fetch('/api/process',{method:'POST',body:fd});
-    if(!res.ok)throw new Error('fail');
+    if(!res.ok)throw new Error(await apiError(res,'Could not process the image. Please try again shortly.'));
     const blob=await optimizeResultBlob(await res.blob());
     const url=URL.createObjectURL(blob);
     spinner.classList.remove('show');
     resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;
     resultActions.style.display='flex';
     window.resultBlob=blob;
-  }catch(e){showProcessingError()}
+    await refreshQuota();
+  }catch(e){showProcessingError(e.message)}finally{isProcessing=false}
 }
 
 async function optimizeResultBlob(blob){
@@ -571,8 +621,10 @@ function setGenerationStyle(button){
 }
 
 async function generateImage(){
+  if(isProcessing)return;
   const prompt=promptInput.value.trim();
   if(!prompt){promptInput.focus();return}
+  isProcessing=true;
   resultArea.classList.add('show','generate-mode');
   resultActions.style.display='none';
   resultContent.innerHTML='<div class="spinner show" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Creating your image...</p>';
@@ -580,21 +632,22 @@ async function generateImage(){
   const fd=new FormData();fd.append('tool','generate');fd.append('prompt',prompt);fd.append('style',selectedGenerationStyle);
   try{
     const res=await fetch('/api/process',{method:'POST',body:fd});
-    if(!res.ok)throw new Error('fail');
+    if(!res.ok)throw new Error(await apiError(res,'Could not create the image. Please try again shortly.'));
     const blob=await optimizeResultBlob(await res.blob()),url=URL.createObjectURL(blob);
     liveSpinner.classList.remove('show');
     resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;
     resultActions.style.display='flex';window.resultBlob=blob;
+    await refreshQuota();
   }catch(e){
     liveSpinner.classList.remove('show');
-    livePlaceholder.textContent='Could not create the image. Please try again shortly.';
+    livePlaceholder.textContent=e.message || 'Could not create the image. Please try again shortly.';
     livePlaceholder.style.color='#F59E0B';
-  }
+  }finally{isProcessing=false}
 }
 
-function showProcessingError(){
+function showProcessingError(message){
   spinner.classList.remove('show');
-  resultPlaceholder.textContent='Could not process the image. Please try again shortly.';
+  resultPlaceholder.textContent=message || 'Could not process the image. Please try again shortly.';
   resultPlaceholder.style.color='#F59E0B';
 }
 
@@ -604,6 +657,8 @@ function downloadResult(){
   const a=document.createElement('a');a.href=URL.createObjectURL(window.resultBlob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();
 }
 function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
+
+refreshQuota();
 </script>
 
 </body>
