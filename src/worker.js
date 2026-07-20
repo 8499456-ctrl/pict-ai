@@ -15,7 +15,7 @@ const TOOL_GROUPS = {
   'scene-lighting': 'creative',
 };
 
-const DAILY_LIMITS = { basic: 3, generate: 1, creative: 1 };
+const DAILY_LIMITS = { basic: 3, generate: 1, creative: 1, feedback: 2 };
 
 function corsHeaders(request) {
   const origin = request.headers.get('Origin');
@@ -183,13 +183,82 @@ async function quotaStatus(request, env) {
   }
 }
 
+async function feedbackInbox(env, action, payload = {}) {
+  if (!env.RATE_LIMITER) throw new Error('Feedback storage is not configured yet.');
+  const id = env.RATE_LIMITER.idFromName('pict-feedback-inbox');
+  const response = await env.RATE_LIMITER.get(id).fetch('https://feedback-inbox/', {
+    method: 'POST',
+    body: JSON.stringify({ action, ...payload }),
+  });
+  return { ok: response.ok, data: await response.json() };
+}
+
+async function submitFeedback(request, env) {
+  if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
+  if (!isAllowedRequest(request)) return json(request, { error: 'This request is not allowed.' }, 403);
+
+  let reservation;
+  try {
+    const { type, message, email } = await request.json();
+    const safeType = ['idea', 'problem', 'result', 'other'].includes(type) ? type : 'other';
+    const safeMessage = String(message || '').trim();
+    const safeEmail = String(email || '').trim();
+    if (safeMessage.length < 3 || safeMessage.length > 500) return json(request, { error: 'Please enter feedback between 3 and 500 characters.' }, 400);
+    if (safeEmail && (!safeEmail.includes('@') || safeEmail.length > 254)) return json(request, { error: 'Please enter a valid email address.' }, 400);
+
+    const quota = await quotaRequest(request, env, 'feedback', 'reserve');
+    if (!quota.ok) return json(request, { error: 'You have sent the maximum number of feedback messages for today.' }, 429);
+    reservation = quota.data.reservation;
+    const saved = await feedbackInbox(env, 'feedback-submit', { type: safeType, message: safeMessage, email: safeEmail, createdAt: new Date().toISOString() });
+    if (!saved.ok) throw new Error('Could not save feedback.');
+    await quotaRequest(request, env, 'feedback', 'commit', reservation);
+    return json(request, { ok: true, id: saved.data.id });
+  } catch (error) {
+    if (reservation) {
+      try { await quotaRequest(request, env, 'feedback', 'release', reservation); } catch (_) { /* expires automatically */ }
+    }
+    return json(request, { error: error.message || 'Could not send feedback.' }, 500);
+  }
+}
+
+async function listFeedback(request, env) {
+  if (request.method !== 'GET') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
+  const token = new URL(request.url).searchParams.get('token');
+  if (!env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Feedback viewing is not configured yet.' }, 503);
+  if (!token || token !== env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Not authorized.' }, 401);
+  try {
+    const result = await feedbackInbox(env, 'feedback-list');
+    return json(request, { feedback: result.data.feedback || [] });
+  } catch (error) {
+    return json(request, { error: error.message || 'Could not load feedback.' }, 500);
+  }
+}
+
 export class RateLimiter {
   constructor(state) {
     this.state = state;
   }
 
   async fetch(request) {
-    const { action, day, limit, reservation } = await request.json();
+    const payload = await request.json();
+    const { action, day, limit, reservation } = payload;
+    if (action === 'feedback-submit') {
+      const messages = (await this.state.storage.get('feedbacks')) || [];
+      const id = crypto.randomUUID();
+      messages.unshift({
+        id,
+        type: payload.type,
+        message: payload.message,
+        email: payload.email || '',
+        createdAt: payload.createdAt,
+      });
+      await this.state.storage.put('feedbacks', messages.slice(0, 100));
+      return Response.json({ id });
+    }
+    if (action === 'feedback-list') {
+      return Response.json({ feedback: (await this.state.storage.get('feedbacks')) || [] });
+    }
     const now = Date.now();
     const data = (await this.state.storage.get('quota')) || { day, count: 0, pending: {} };
     if (data.day !== day) {
@@ -227,6 +296,7 @@ export default {
     const { pathname } = new URL(request.url);
     if (pathname === '/api/process') return processImage(request, env);
     if (pathname === '/api/quota') return quotaStatus(request, env);
+    if (pathname === '/api/feedback') return request.method === 'GET' ? listFeedback(request, env) : submitFeedback(request, env);
     return env.ASSETS.fetch(request);
   },
 };
