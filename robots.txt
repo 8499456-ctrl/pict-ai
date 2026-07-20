@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /feedback.html
+Disallow: /api/
+
+Sitemap: https://www.picttool.com/sitemap.xml
