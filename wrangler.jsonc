@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pict-ai-app",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-20",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  }
+}
