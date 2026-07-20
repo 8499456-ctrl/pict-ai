@@ -103,6 +103,9 @@
   .upload-zone h3{font-size:20px;font-weight:700;margin-bottom:6px}
   .upload-zone p{font-size:14px;color:var(--text-dim)}
   .upload-zone input{display:none}
+  .camera-action{display:none;margin:12px auto 0;padding:9px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.05);color:var(--text);font:inherit;font-size:13px;cursor:pointer}
+  .camera-action:hover{border-color:var(--accent-light);background:rgba(124,58,237,.16)}
+  @media (hover:none) and (pointer:coarse){.camera-action{display:inline-flex;align-items:center;gap:6px}}
   .generation-zone{max-width:640px;margin:0 auto;padding:28px;border:1px solid var(--border);border-radius:24px;background:rgba(255,255,255,.03);text-align:left}
   .generation-zone label{display:block;font-size:13px;font-weight:700;margin-bottom:10px}
   .generation-zone textarea{display:block;width:100%;min-height:130px;resize:vertical;padding:14px;border:1px solid var(--border);border-radius:14px;background:rgba(10,10,26,.7);color:var(--text);font:inherit;line-height:1.5;outline:none}
@@ -268,7 +271,9 @@
     <h3>Drop image here or click to browse</h3>
     <p>JPG, PNG, WEBP — up to 20MB</p>
     <input type="file" id="fileInput" accept="image/*" />
+    <input type="file" id="cameraInput" accept="image/jpeg,image/png,image/webp" capture="environment" />
   </div>
+  <button class="camera-action" id="cameraButton" type="button" data-i18n="camera.take">📷 Take a photo</button>
 
   <div class="generation-zone" id="generationZone" hidden>
     <label for="promptInput" data-i18n="generate.label">Describe the image you want to create</label>
@@ -359,6 +364,7 @@ const i18n = {
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
+    'camera.take': '📷 Take a photo',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -404,6 +410,7 @@ const i18n = {
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
+    'camera.take': '📷 拍照上传',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -563,7 +570,7 @@ function selectTool(tool) {
   renderQuota();
 }
 
-const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),cameraInput=document.getElementById('cameraInput'),cameraButton=document.getElementById('cameraButton');
 const resultArea=document.getElementById('resultArea'),originalImg=document.getElementById('originalImg');
 let spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
 const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
@@ -574,10 +581,13 @@ dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.a
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
 dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
 fileInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
+cameraButton.addEventListener('click',()=>cameraInput.click());
+cameraInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
 
 function handleFile(file){
   if(!file)return;
   if(file.size>20*1024*1024){alert('File too large (max 20MB)');return}
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
   reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');processImage(file)};
   reader.readAsDataURL(file);
@@ -656,7 +666,7 @@ function downloadResult(){
   const extension=window.resultBlob.type==='image/jpeg'?'jpg':'png';
   const a=document.createElement('a');a.href=URL.createObjectURL(window.resultBlob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();
 }
-function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
+function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
 refreshQuota();
 </script>
