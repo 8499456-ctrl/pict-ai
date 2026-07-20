@@ -556,6 +556,8 @@ async function optimizeResultBlob(blob){
     const canvas=document.createElement('canvas');canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);
     canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
     return await new Promise(resolve=>canvas.toBlob(result=>resolve(result||blob),'image/jpeg',0.88));
+  }catch(error){
+    return blob;
   }finally{URL.revokeObjectURL(sourceUrl)}
 }
 
