@@ -514,7 +514,7 @@ function selectTool(tool) {
 
 const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
 const resultArea=document.getElementById('resultArea'),originalImg=document.getElementById('originalImg');
-const spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
+let spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
 const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
 
@@ -528,7 +528,7 @@ function handleFile(file){
   if(!file)return;
   if(file.size>20*1024*1024){alert('File too large (max 20MB)');return}
   const reader=new FileReader();
-  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';processImage(file)};
+  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');processImage(file)};
   reader.readAsDataURL(file);
 }
 
