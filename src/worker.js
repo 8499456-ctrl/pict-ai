@@ -224,7 +224,9 @@ async function submitFeedback(request, env) {
 
 async function listFeedback(request, env) {
   if (request.method !== 'GET') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
-  const token = new URL(request.url).searchParams.get('token');
+  // The dashboard sends this as a header so the password is not exposed in a URL,
+  // browser history, or copied link.
+  const token = request.headers.get('X-Pict-Admin-Token') || new URL(request.url).searchParams.get('token');
   if (!env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Feedback viewing is not configured yet.' }, 503);
   if (!token || token !== env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Not authorized.' }, 401);
   try {
