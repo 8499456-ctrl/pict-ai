@@ -79,6 +79,8 @@
   .section-title{text-align:center;font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:32px}
   .section-title .grad{background:linear-gradient(135deg,#A78BFA,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .base-tool-grid{grid-template-columns:repeat(2,1fr);max-width:760px;margin:12px auto 0}
+  .tool-group-title{margin:28px 0 12px;color:var(--text-dim);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
   .tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;
     cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden}
   .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
@@ -158,7 +160,7 @@
   footer .partner-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-top:10px;font-size:12px}
 
   @media(max-width:768px){
-    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:40px 16px}
+    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:40px 16px}
     nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,#langSelect{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
     .nav-secondary a{color:var(--text-dim);font-size:13px;text-decoration:none;padding:8px 10px;border-radius:8px}.nav-secondary a:hover{background:rgba(255,255,255,.06);color:var(--text)}.comparison{min-height:260px}.before-after-head{padding:13px 15px}.privacy-card{padding:20px}
   }
@@ -233,7 +235,17 @@
 <section class="container" id="tools">
   <div class="section-label">🧰 AI Tools</div>
   <h2 class="section-title">Everything you need, <span class="grad">one click away</span></h2>
+  <p class="tool-group-title">🎮 Creative tools for gamers &amp; creators</p>
   <div class="tool-grid">
+    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon">🎮</span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon">🧸</span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon">🖼️</span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon">🏞️</span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon">🧹</span><h3>Remove Object</h3><p>Tell AI what to remove, then let it naturally fill the space.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="scene-lighting" onclick="selectTool('scene-lighting')"><span class="icon">💡</span><h3>Lighting Enhance</h3><p>Improve light, color, and atmosphere without changing the scene.</p><span class="arrow">→</span></a>
+  </div>
+  <p class="tool-group-title">✦ Everyday image tools</p>
+  <div class="tool-grid base-tool-grid">
     <a href="#upload" class="tool-card active" data-tool="remove-bg" onclick="selectTool('remove-bg')">
       <span class="icon">✂️</span>
       <h3>Remove Background</h3>
@@ -275,6 +287,11 @@
   <div class="tool-indicator" id="toolIndicator">✂️ Remove Background</div>
   <p class="quota-status" id="quotaStatus" aria-live="polite">Free today: 3 basic edits · 1 image generation</p>
 
+  <div class="generation-zone" id="creativeOptions" hidden>
+    <label for="creativePrompt" id="creativePromptLabel">Optional scene description</label>
+    <textarea id="creativePrompt" maxlength="500" placeholder="For example: a moonlit forest with soft blue light"></textarea>
+    <p id="creativeHelp" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
+  </div>
   <div class="upload-zone" id="dropZone">
     <span class="icon" id="dropIcon">📁</span>
     <h3>Drop image here or click to browse</h3>
@@ -391,6 +408,7 @@ const i18n = {
     'tool.upscale': '🔍 AI Upscale 4x',
     'tool.colorize': '🎨 Colorize Photo',
     'tool.generate': '✨ Text to Image',
+    'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
@@ -438,6 +456,7 @@ const i18n = {
     'tool.upscale': '🔍 AI 高清化',
     'tool.colorize': '🎨 照片上色',
     'tool.generate': '✨ 文字生图',
+    'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
@@ -511,12 +530,10 @@ function setLanguage(lang) {
   if (st[0]) { const parts = translate('section.tools.title').split(/[,，、،]/); st[0].innerHTML = parts.length > 1 ? `${parts[0]}, <span class="grad">${parts.slice(1).join('')}</span>` : parts[0]; }
   if (st[1]) st[1].innerHTML = `${translate('section.upload.title').split('&')[0]}& <span class="grad">${translate('section.upload.title').split('&').pop()}</span>`;
   // Tool cards
-  const cards = document.querySelectorAll('.tool-card');
-  const tools = ['remove-bg','upscale','colorize','generate'];
-  cards.forEach((card, i) => {
-    if (tools[i]) {
-      card.querySelector('h3').textContent = translate(`tool.${tools[i]}`);
-    }
+  document.querySelectorAll('.tool-card').forEach(card => {
+    const tool = card.dataset.tool;
+    const title = card.querySelector('h3');
+    if (title) title.textContent = translate(`tool.${tool}`);
   });
   // Upload zone
   document.querySelector('.upload-zone h3').textContent = translate('drop.hint');
@@ -541,10 +558,19 @@ function setLanguage(lang) {
   renderQuota();
 }
 
-let currentTool = 'remove-bg';
+let currentTool = 'game-avatar';
 let selectedGenerationStyle = 'photorealistic';
 let quotaGroups = null;
 let isProcessing = false;
+const testMode = new URLSearchParams(location.search).get('test') === '1';
+let testToken = testMode ? sessionStorage.getItem('pict-test-token') : '';
+if (testMode && !testToken) {
+  testToken = window.prompt('Private test mode — enter the test password:') || '';
+  if (testToken) sessionStorage.setItem('pict-test-token', testToken);
+}
+function processRequestOptions(form) {
+  return { method: 'POST', body: form, headers: testToken ? { 'X-Pict-Test-Token': testToken } : {} };
+}
 
 function quotaGroupForTool(tool) {
   if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
@@ -568,6 +594,7 @@ function renderQuota() {
       ? '每日免费：基础修图 3 次 · 文字生图 1 次'
       : 'Free today: 3 basic edits · 1 image generation';
   }
+  if (testMode && testToken) status.textContent = currentLang === 'zh' ? '🧪 私人测试模式：不占用每日免费次数' : '🧪 Private test mode: daily free quota is not used';
 }
 
 async function refreshQuota() {
@@ -596,8 +623,11 @@ function selectTool(tool) {
     card.setAttribute('aria-current', selected ? 'true' : 'false');
   });
   const isGenerate = tool === 'generate';
+  const isCreative = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting'].includes(tool);
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
+  creativeOptions.hidden = !isCreative;
+  if (isCreative) setCreativeCopy(tool);
   resetUpload();
   renderQuota();
 }
@@ -607,6 +637,7 @@ const resultArea=document.getElementById('resultArea'),originalImg=document.getE
 let spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
 const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
+const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=document.getElementById('creativePrompt'),creativePromptLabel=document.getElementById('creativePromptLabel'),creativeHelp=document.getElementById('creativeHelp');
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
 
 dropZone.addEventListener('click',()=>fileInput.click());
@@ -637,8 +668,27 @@ function handleFile(file){
   if(file.size>20*1024*1024){alert('File too large (max 20MB)');return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
-  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');processImage(file)};
+  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');prepareAndProcess(file)};
   reader.readAsDataURL(file);
+}
+
+async function prepareAndProcess(file){
+  const creative=['game-avatar','cartoon','art','change-background','remove-object','scene-lighting'].includes(currentTool);
+  const prepared=creative ? await resizeCreativeImage(file) : file;
+  processImage(prepared);
+}
+
+async function resizeCreativeImage(file){
+  const sourceUrl=URL.createObjectURL(file);
+  try{
+    const image=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=sourceUrl});
+    const maxPixels=1000000,scale=Math.min(1,Math.sqrt(maxPixels/(image.naturalWidth*image.naturalHeight)));
+    if(scale===1)return file;
+    const canvas=document.createElement('canvas');canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);
+    canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.9));
+    return blob ? new File([blob],'pict-creative.jpg',{type:'image/jpeg'}) : file;
+  }catch(_){return file}finally{URL.revokeObjectURL(sourceUrl)}
 }
 
 async function processImage(file){
@@ -646,8 +696,9 @@ async function processImage(file){
   isProcessing=true;
   spinner.classList.add('show');resultPlaceholder.textContent='';
   const fd=new FormData();fd.append('image',file);fd.append('tool',currentTool);
+  if (creativePrompt && !creativeOptions.hidden) fd.append('prompt',creativePrompt.value.trim());
   try{
-    const res=await fetch('/api/process',{method:'POST',body:fd});
+    const res=await fetch('/api/process',processRequestOptions(fd));
     if(!res.ok)throw new Error(await apiError(res,'Could not process the image. Please try again shortly.'));
     const blob=await optimizeResultBlob(await res.blob());
     const url=URL.createObjectURL(blob);
@@ -678,6 +729,22 @@ function setGenerationStyle(button){
   document.querySelectorAll('.style-chip').forEach(chip=>chip.classList.toggle('active',chip===button));
 }
 
+function setCreativeCopy(tool){
+  const zh=currentLang==='zh';
+  const copy={
+    'game-avatar': zh?['原创幻想游戏头像','上传人物照片，即可生成原创幻想 RPG 头像；不会模仿指定游戏或角色。']:['Original fantasy game avatar','Upload a portrait to create an original fantasy RPG avatar.'],
+    cartoon: zh?['卡通化风格','上传图片后直接生成卡通效果。']:['Cartoon effect','Upload an image to turn it into a cartoon.'],
+    art: zh?['艺术风格','上传图片后直接生成精致的原创数字艺术效果。']:['Art effect','Upload an image to create an original digital-art finish.'],
+    'change-background': zh?['新背景描述（可选）','例如：雨后的霓虹城市，或月光森林。主体会尽量保持不变。']:['New background (optional)','For example: a moonlit forest or neon city after rain. The subject stays recognizable.'],
+    'remove-object': zh?['要删除什么？','请用英文描述更准确，例如：the red bag on the table。']:['What should be removed?','Use a short English description for best results, for example: the red bag on the table.'],
+    'scene-lighting': zh?['灯光优化','上传图片后自动优化光线、色彩和氛围。']:['Lighting enhance','Upload an image to improve light, color, and atmosphere.']
+  }[tool];
+  creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
+  creativePrompt.required=tool==='remove-object';
+  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');
+  creativePrompt.value='';
+}
+
 async function generateImage(){
   if(isProcessing)return;
   const prompt=promptInput.value.trim();
@@ -689,7 +756,7 @@ async function generateImage(){
   const liveSpinner=document.getElementById('spinner'),livePlaceholder=document.getElementById('resultPlaceholder');
   const fd=new FormData();fd.append('tool','generate');fd.append('prompt',prompt);fd.append('style',selectedGenerationStyle);
   try{
-    const res=await fetch('/api/process',{method:'POST',body:fd});
+    const res=await fetch('/api/process',processRequestOptions(fd));
     if(!res.ok)throw new Error(await apiError(res,'Could not create the image. Please try again shortly.'));
     const blob=await optimizeResultBlob(await res.blob()),url=URL.createObjectURL(blob);
     liveSpinner.classList.remove('show');
@@ -716,6 +783,7 @@ function downloadResult(){
 }
 function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
+selectTool('game-avatar');
 refreshQuota();
 </script>
 
