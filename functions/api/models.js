@@ -13,9 +13,8 @@ export async function onRequest(context) {
   const models = {
     'remove-bg': { name: 'Remove Background', icon: '🖼️', free: true },
     'upscale': { name: 'Upscale Image', icon: '🔍', free: true },
-    'expand': { name: 'Expand Image', icon: '↔️', free: true },
     'colorize': { name: 'Colorize', icon: '🎨', free: true },
-    'generate': { name: 'Text to Image', icon: '✨', free: true },
+    'generate': { name: 'Text to Image', icon: '✨', free: true, styles: ['photorealistic', 'cartoon illustration', 'fine art'] },
   };
 
   return new Response(JSON.stringify(models), { headers });
