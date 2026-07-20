@@ -37,10 +37,11 @@ function json(request, body, status = 200, headers = {}) {
 
 function isAllowedRequest(request) {
   const origin = request.headers.get('Origin');
-  // A normal browser request sometimes has no Origin at all, especially after
-  // taking a photo on mobile. Reject only requests that explicitly identify a
-  // different website; daily quotas still protect the endpoint in every case.
-  return !origin || ALLOWED_ORIGINS.has(origin);
+  // Mobile camera hand-offs and embedded browsers may send no Origin or the
+  // literal value "null". Accept those normal uploads, and otherwise require
+  // the request to come from the same host that is serving this Worker.
+  if (!origin || origin === 'null') return true;
+  return origin === new URL(request.url).origin || ALLOWED_ORIGINS.has(origin);
 }
 
 function dayKey() {
