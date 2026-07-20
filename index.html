@@ -106,6 +106,10 @@
   .camera-action{display:none;margin:12px auto 0;padding:9px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.05);color:var(--text);font:inherit;font-size:13px;cursor:pointer}
   .camera-action:hover{border-color:var(--accent-light);background:rgba(124,58,237,.16)}
   @media (hover:none) and (pointer:coarse){.camera-action{display:inline-flex;align-items:center;gap:6px}}
+  .feedback-link{border:0;background:none;color:var(--text-dim);font:inherit;font-size:12px;cursor:pointer;padding:7px 0}.feedback-link:hover{color:var(--accent-light)}
+  .feedback-dialog{width:min(92vw,500px);border:1px solid var(--border);border-radius:22px;background:#15102a;color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+  .feedback-dialog::backdrop{background:rgba(3,1,12,.72);backdrop-filter:blur(4px)}
+  .feedback-form{padding:26px;text-align:left}.feedback-form h3{margin:0 0 8px;font-size:20px}.feedback-form p{margin:0 0 18px;color:var(--text-dim);font-size:13px;line-height:1.6}.feedback-form label{display:block;margin:13px 0 6px;font-size:12px;font-weight:700}.feedback-form select,.feedback-form textarea,.feedback-form input{box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:12px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:11px}.feedback-form textarea{min-height:110px;resize:vertical}.feedback-form .feedback-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.feedback-status{min-height:18px;margin-top:12px;color:var(--text-dim);font-size:12px}
   .generation-zone{max-width:640px;margin:0 auto;padding:28px;border:1px solid var(--border);border-radius:24px;background:rgba(255,255,255,.03);text-align:left}
   .generation-zone label{display:block;font-size:13px;font-weight:700;margin-bottom:10px}
   .generation-zone textarea{display:block;width:100%;min-height:130px;resize:vertical;padding:14px;border:1px solid var(--border);border-radius:14px;background:rgba(10,10,26,.7);color:var(--text);font:inherit;line-height:1.5;outline:none}
@@ -326,6 +330,7 @@
 
 <footer>
   <p>Built with ❤️ — <a href="https://pict-ai.pages.dev">Pict</a> · AI Image Tools · Free for everyone</p>
+  <button class="feedback-link" id="feedbackButton" type="button" data-i18n="feedback.button">💬 Feedback</button>
   <p class="sister">Friends &amp; partners</p>
   <p class="partner-links">
     <a href="https://gearup.sjv.io/c/7462059/3204502/40222" target="_blank" rel="noopener nofollow">🚀 GearUP</a>
@@ -334,6 +339,26 @@
     <a href="https://eggywiki.com" target="_blank" rel="noopener">Eggy Wiki</a>
   </p>
 </footer>
+
+<dialog class="feedback-dialog" id="feedbackDialog">
+  <form class="feedback-form" id="feedbackForm">
+    <h3 data-i18n="feedback.title">Help us improve Pict</h3>
+    <p data-i18n="feedback.desc">Tell us what worked, what did not, or what you would like next.</p>
+    <label for="feedbackType" data-i18n="feedback.type">Feedback type</label>
+    <select id="feedbackType">
+      <option value="idea" data-i18n="feedback.idea">Feature idea</option>
+      <option value="problem" data-i18n="feedback.problem">Something went wrong</option>
+      <option value="result" data-i18n="feedback.result">Result needs improvement</option>
+      <option value="other" data-i18n="feedback.other">Other</option>
+    </select>
+    <label for="feedbackMessage" data-i18n="feedback.message">Your feedback</label>
+    <textarea id="feedbackMessage" maxlength="500" required data-i18n-placeholder="feedback.placeholder" placeholder="Please share your idea or issue..."></textarea>
+    <label for="feedbackEmail" data-i18n="feedback.email">Email (optional, only if you want a reply)</label>
+    <input id="feedbackEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" />
+    <div class="feedback-status" id="feedbackStatus" aria-live="polite"></div>
+    <div class="feedback-actions"><button type="button" class="btn btn-ghost btn-sm" id="feedbackClose" data-i18n="feedback.close">Cancel</button><button type="submit" class="btn btn-primary btn-sm" data-i18n="feedback.send">Send feedback</button></div>
+  </form>
+</dialog>
 
 <script>
 let currentLang = 'en';
@@ -365,6 +390,7 @@ const i18n = {
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
     'camera.take': '📷 Take a photo',
+    'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -411,6 +437,7 @@ const i18n = {
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
     'camera.take': '📷 拍照上传',
+    'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -575,6 +602,7 @@ const resultArea=document.getElementById('resultArea'),originalImg=document.getE
 let spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
 const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
+const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
 
 dropZone.addEventListener('click',()=>fileInput.click());
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
@@ -583,6 +611,21 @@ dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remov
 fileInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
 cameraButton.addEventListener('click',()=>cameraInput.click());
 cameraInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
+feedbackButton.addEventListener('click',()=>feedbackDialog.showModal());
+document.getElementById('feedbackClose').addEventListener('click',()=>feedbackDialog.close());
+feedbackForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const message=document.getElementById('feedbackMessage').value.trim(),email=document.getElementById('feedbackEmail').value.trim(),type=document.getElementById('feedbackType').value;
+  if(!message)return;
+  feedbackStatus.textContent=currentLang==='zh'?'正在发送…':'Sending…';
+  try{
+    const response=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type,message,email})});
+    if(!response.ok)throw new Error(await apiError(response,'Could not send feedback.'));
+    feedbackStatus.textContent=currentLang==='zh'?'谢谢！你的反馈已收到。':'Thank you — your feedback has been received.';
+    feedbackForm.reset();
+    setTimeout(()=>feedbackDialog.close(),1200);
+  }catch(error){feedbackStatus.textContent=error.message||'Could not send feedback.'}
+});
 
 function handleFile(file){
   if(!file)return;
