@@ -134,19 +134,19 @@ async function processImage(request, env) {
       // turnaround time predictable for the free preview.
       'game-avatar': {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Create an original fantasy RPG game avatar from this reference photo. Keep the person recognizable. Polished character concept art, expressive portrait, detailed original costume. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Use this reference photo as the source of truth. Preserve the person\'s real facial features, age, hairstyle, expression, pose, body proportions, clothing colors, framing, and camera angle. Make only a gentle original fantasy-game portrait enhancement: subtle magical atmosphere, refined original details, and a softly improved background. The result must remain immediately recognizable as the same photo and person, not a new person or a different pose. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Transform this image into a clean, charming cartoon illustration. Keep the main subject, composition, and recognizable details. Original artwork; do not imitate a named studio, character, or artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Use this reference image as the source of truth. Create a clean, charming cartoon rendering while preserving the exact main subject, facial features, hairstyle, expression, pose, clothing, object details, composition, framing, and colors. Keep it obviously the same image, only illustrated. Original artwork; do not imitate a named studio, character, or artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Transform this image into elegant original digital art with rich color, refined light, and a painterly editorial finish. Keep the main subject and composition. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Use this reference image as the source of truth. Apply a restrained original digital-art finish while preserving the exact main subject, facial features, hairstyle, expression, pose, clothing, object details, composition, framing, and overall brightness. Keep it immediately recognizable as the same image; enhance style only, do not redesign the scene. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       'change-background': {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: `Keep the main subject exactly recognizable and replace only the background with ${prompt || 'a clean cinematic fantasy landscape'}. Natural edges, coherent light, original imagery.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: `Use this reference image as the source of truth. Preserve the main subject exactly: face, hairstyle, expression, pose, body proportions, clothing, foreground objects, framing, and camera angle. Change only the background to ${prompt || 'a clean, natural outdoor setting with soft daylight'}. Do not alter the subject or turn it into a new person. Natural edges and coherent light, original imagery.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       'remove-object': {
         model: 'black-forest-labs/flux-2-dev',
@@ -154,7 +154,7 @@ async function processImage(request, env) {
       },
       'scene-lighting': {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Improve the lighting and atmosphere of this photo: balanced exposure, flattering soft cinematic light, natural shadows, vivid but realistic color. Keep all people, objects, and composition recognizable.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Use this reference photo as the source of truth. Improve only exposure, white balance, and gentle natural color. Preserve every person, face, hairstyle, expression, object, clothing detail, composition, and background exactly as shown. Keep the overall brightness at least as bright as the original; lift dark shadows gently and do not make the background darker. No cinematic color grading, no scene redesign, and no new objects.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
     };
     const model = models[tool];
