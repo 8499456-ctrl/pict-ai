@@ -86,7 +86,15 @@
   .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
   .tool-card:hover{background:var(--card-hover);border-color:rgba(124,58,237,0.2);transform:translateY(-2px)}
   .tool-card:hover::before{opacity:1}
-  .tool-card .icon{font-size:36px;margin-bottom:14px;display:block}
+  /* Neon Arcade icon system — a consistent, lightweight alternative to mixed emoji. */
+  .tool-card .icon.neon-icon{width:52px;height:52px;margin:0 0 14px;display:grid;place-items:center;position:relative;
+    border:1px solid rgba(103,232,249,.78);border-radius:16px;background:linear-gradient(145deg,rgba(34,211,238,.16),rgba(236,72,153,.14));
+    box-shadow:inset 0 0 16px rgba(34,211,238,.08),0 0 15px rgba(34,211,238,.18),0 0 25px rgba(236,72,153,.11);
+    color:#e9d5ff;font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;font-size:28px;font-weight:800;line-height:1;
+    text-shadow:0 0 8px #22d3ee,0 0 15px #ec4899;transition:transform .3s,box-shadow .3s,border-color .3s}
+  .tool-card .icon.neon-icon::before{content:"";position:absolute;inset:5px;border:1px dashed rgba(236,72,153,.55);border-radius:11px;opacity:.78}
+  .tool-card .icon.neon-icon::after{content:attr(data-mark);position:relative;z-index:1}
+  .tool-card:hover .icon.neon-icon,.tool-card.active .icon.neon-icon{transform:translateY(-2px) scale(1.05);border-color:#f0abfc;box-shadow:inset 0 0 18px rgba(34,211,238,.15),0 0 18px rgba(34,211,238,.46),0 0 32px rgba(236,72,153,.33)}
   .tool-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
   .tool-card p{font-size:12.5px;color:var(--text-dim);line-height:1.6}
   .tool-card .badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;
@@ -247,36 +255,36 @@
   <h2 class="section-title">Everything you need, <span class="grad">one click away</span></h2>
   <p class="tool-group-title">🎮 Creative tools for gamers &amp; creators</p>
   <div class="tool-grid">
-    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon">🎮</span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon">🧸</span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon">🖼️</span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon">🏞️</span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon">🧹</span><h3>Remove Object</h3><p>Remove one unwanted item while keeping the rest of your photo intact.</p><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="scene-lighting" onclick="selectTool('scene-lighting')"><span class="icon">💡</span><h3>Lighting Enhance</h3><p>Improve light, color, and atmosphere without changing the scene.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon neon-icon" data-mark="☺" aria-hidden="true"></span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon neon-icon" data-mark="◈" aria-hidden="true"></span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon neon-icon" data-mark="⊘" aria-hidden="true"></span><h3>Remove Object</h3><p>Remove one unwanted item while keeping the rest of your photo intact.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="scene-lighting" onclick="selectTool('scene-lighting')"><span class="icon neon-icon" data-mark="☀" aria-hidden="true"></span><h3>Lighting Enhance</h3><p>Improve light, color, and atmosphere without changing the scene.</p><span class="arrow">→</span></a>
   </div>
   <p class="tool-group-title">✦ Everyday image tools</p>
   <div class="tool-grid base-tool-grid">
     <a href="#upload" class="tool-card active" data-tool="remove-bg" onclick="selectTool('remove-bg')">
-      <span class="icon">✂️</span>
+      <span class="icon neon-icon" data-mark="⌁" aria-hidden="true"></span>
       <h3>Remove Background</h3>
       <p>Instantly remove image backgrounds with AI. Perfect for people, products, and game screenshots.</p>
       <span class="badge">🔥 Popular</span>
       <span class="arrow">→</span>
     </a>
     <a href="#upload" class="tool-card" data-tool="upscale" onclick="selectTool('upscale')">
-      <span class="icon">🔍</span>
+      <span class="icon neon-icon" data-mark="↗" aria-hidden="true"></span>
       <h3>AI Upscale 4x</h3>
       <p>Enhance and upscale low-resolution images up to 4x. Revive old photos and game captures.</p>
       <span class="arrow">→</span>
     </a>
     <a href="#upload" class="tool-card" data-tool="colorize" onclick="selectTool('colorize')">
-      <span class="icon">🎨</span>
+      <span class="icon neon-icon" data-mark="◉" aria-hidden="true"></span>
       <h3>Colorize Photo</h3>
       <p>Bring black & white photos to life with realistic AI colorization. Preserves original details.</p>
       <span class="arrow">→</span>
     </a>
     <a href="#upload" class="tool-card" data-tool="generate" onclick="selectTool('generate')">
-      <span class="icon">✨</span>
+      <span class="icon neon-icon" data-mark="✧" aria-hidden="true"></span>
       <h3>Text to Image</h3>
       <p>Generate stunning images from text. Powered by Stable Diffusion — describe, create, download.</p>
       <span class="arrow">→</span>
@@ -285,19 +293,19 @@
   <p class="tool-group-title">✦ Quick tools — free &amp; private in your browser</p>
   <div class="tool-grid">
     <a href="#upload" class="tool-card" data-tool="add-text" onclick="selectTool('add-text')">
-      <span class="icon">✍️</span>
+      <span class="icon neon-icon" data-mark="T" aria-hidden="true"></span>
       <h3>Add Text to Image</h3>
       <p>Add a headline or caption with fonts, color, shadow, and simple placement controls.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
     </a>
     <a href="#upload" class="tool-card" data-tool="resize-crop" onclick="selectTool('resize-crop')">
-      <span class="icon">↔️</span>
+      <span class="icon neon-icon" data-mark="↔" aria-hidden="true"></span>
       <h3>Resize &amp; Crop</h3>
       <p>Make a clean, ready-to-share image for Instagram, Pinterest, YouTube, and more.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
     </a>
     <a href="#upload" class="tool-card" data-tool="compress-convert" onclick="selectTool('compress-convert')">
-      <span class="icon">🗜️</span>
+      <span class="icon neon-icon" data-mark="⇲" aria-hidden="true"></span>
       <h3>Compress &amp; Convert</h3>
       <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
