@@ -734,12 +734,12 @@ function setGenerationStyle(button){
 function setCreativeCopy(tool){
   const zh=currentLang==='zh';
   const copy={
-    'game-avatar': zh?['原创幻想游戏头像','上传人物照片，即可生成原创幻想 RPG 头像；不会模仿指定游戏或角色。']:['Original fantasy game avatar','Upload a portrait to create an original fantasy RPG avatar.'],
-    cartoon: zh?['卡通化风格','上传图片后直接生成卡通效果。']:['Cartoon effect','Upload an image to turn it into a cartoon.'],
-    art: zh?['艺术风格','上传图片后直接生成精致的原创数字艺术效果。']:['Art effect','Upload an image to create an original digital-art finish.'],
-    'change-background': zh?['新背景描述（可选）','例如：雨后的霓虹城市，或月光森林。主体会尽量保持不变。']:['New background (optional)','For example: a moonlit forest or neon city after rain. The subject stays recognizable.'],
+    'game-avatar': zh?['原创幻想游戏头像','默认会优先保留人物的脸、发型、姿势和衣服，只做轻度的幻想风格优化。']:['Original fantasy game avatar','By default, Pict preserves the person’s face, hair, pose, and clothing, then adds a gentle fantasy finish.'],
+    cartoon: zh?['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。']:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],
+    art: zh?['艺术风格','默认保留原图构图与人物细节，只做克制的艺术化处理。']:['Art effect','By default, Pict preserves the composition and subject details, then applies a restrained art finish.'],
+    'change-background': zh?['新背景描述（可选）','只更换背景，人物、姿势、衣服和前景会尽量保持不变。例如：阳光花园。']:['New background (optional)','Only the background changes; the subject, pose, clothing, and foreground stay intact. Example: a sunny flower garden.'],
     'remove-object': zh?['要删除什么？','请用英文描述更准确，例如：the red bag on the table。']:['What should be removed?','Use a short English description for best results, for example: the red bag on the table.'],
-    'scene-lighting': zh?['灯光优化','上传图片后自动优化光线、色彩和氛围。']:['Lighting enhance','Upload an image to improve light, color, and atmosphere.']
+    'scene-lighting': zh?['灯光优化','只改善曝光、白平衡和自然色彩；不会故意压暗背景或改变场景。']:['Lighting enhance','Improves exposure, white balance, and natural color only—without darkening or redesigning the scene.']
   }[tool];
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
   creativePrompt.required=tool==='remove-object';
