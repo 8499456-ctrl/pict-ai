@@ -149,8 +149,12 @@ async function processImage(request, env) {
         input: { prompt: `Use this reference image as the source of truth. Preserve the main subject exactly: face, hairstyle, expression, pose, body proportions, clothing, foreground objects, framing, and camera angle. Change only the background to ${prompt || 'a clean, natural outdoor setting with soft daylight'}. Do not alter the subject or turn it into a new person. Natural edges and coherent light, original imagery.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       'remove-object': {
-        model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: `Remove ${prompt} from this image. Preserve every other important subject and the original composition. Fill the removed area naturally and realistically.`, input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        // A dedicated instruction-following editor is much more reliable for
+        // removing one described object than a general creative image model.
+        // It keeps this tool distinct from background removal: the subject and
+        // existing background remain, while only the requested item is edited.
+        model: 'reve/edit-fast',
+        input: { image: dataUri, prompt: `Remove only ${prompt}. Keep every other person, object, edge, color, lighting, perspective, and the original composition unchanged. Naturally reconstruct only the area that was occupied by the requested item. Do not redesign the image or remove the entire background.` },
       },
       'scene-lighting': {
         model: 'black-forest-labs/flux-2-dev',
