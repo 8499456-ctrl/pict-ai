@@ -354,7 +354,8 @@
           <label>Quality <span id="qualityValue">82%</span><input id="compressQuality" type="range" min="50" max="95" value="82"></label>
           <p class="editor-help">JPG and WebP reduce file size. PNG keeps more detail but may be larger.</p>
         </div>
-        <button class="btn btn-primary" type="button" id="localDownload">⬇ Download image</button>
+        <button class="btn btn-primary" type="button" id="localDownload" data-i18n="local.download">⬇ Download image</button>
+        <button class="btn btn-ghost" type="button" id="localShare" data-i18n="local.share">↗ Share image</button>
       </div>
     </div>
   </div>
@@ -498,6 +499,7 @@ const i18n = {
     'generate.placeholder': 'For example: a cozy reading corner with warm afternoon sunlight, editorial photo',
     'generate.create': '✨ Create image',
     'style.photo': 'Photo', 'style.cartoon': 'Cartoon', 'style.art': 'Art',
+    'local.download': '⬇ Download image', 'local.share': '↗ Share image',
   },
   zh: {
     'nav.tools': '工具',
@@ -550,6 +552,7 @@ const i18n = {
     'generate.placeholder': '例如：午后暖阳下舒适的阅读角，杂志摄影风格',
     'generate.create': '✨ 生成图片',
     'style.photo': '写实', 'style.cartoon': '卡通', 'style.art': '艺术',
+    'local.download': '⬇ 下载图片', 'local.share': '↗ 分享图片',
   }
 };
 
@@ -782,6 +785,7 @@ document.getElementById('resizePreset').addEventListener('click',event=>{
   qualityValue.textContent=`${compressQuality.value}%`;renderLocalPreview();
 }));
 document.getElementById('localDownload').addEventListener('click',downloadLocalImage);
+document.getElementById('localShare').addEventListener('click',shareLocalImage);
 
 function localCanvasSize(image){
   if(currentTool==='resize-crop'){
@@ -822,15 +826,35 @@ function renderLocalPreview(){
 function loadLocalFile(file,dataUrl){
   localFile=file;localImage=new Image();localImage.onload=()=>{renderLocalPreview();localEditor.scrollIntoView({behavior:'smooth',block:'center'});};localImage.src=dataUrl;
 }
-async function downloadLocalImage(){
+async function createLocalResultBlob(){
   if(!localImage){alert(currentLang==='zh'?'请先上传图片。':'Please upload an image first.');return;}
   const mime=currentTool==='compress-convert'?compressFormat.value:'image/jpeg';
   const quality=currentTool==='compress-convert'?Number(compressQuality.value)/100:.92;
   const blob=await new Promise(resolve=>localCanvas.toBlob(value=>resolve(value),mime,quality));
-  if(!blob){alert('Could not create the image. Please try again.');return;}
-  window.resultBlob=blob;
+  if(!blob){alert('Could not create the image. Please try again.');return null;}
+  window.resultBlob=blob;return blob;
+}
+async function downloadLocalImage(){
+  const blob=await createLocalResultBlob();if(!blob)return;
+  const mime=blob.type;
   const extension=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+async function shareLocalImage(){
+  const blob=await createLocalResultBlob();if(!blob)return;
+  const extension=blob.type==='image/png'?'png':blob.type==='image/webp'?'webp':'jpg';
+  const file=new File([blob],`pict-result.${extension}`,{type:blob.type});
+  const title='PictTool — Free Image Tools',text='Made with PictTool.';
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title,text,files:[file]});return;}
+    if(navigator.share){await navigator.share({title,text,url:window.location.href});return;}
+    await copyText(window.location.href);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }catch(error){
+    if(error&&error.name==='AbortError')return;
+    await copyText(window.location.href);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }
 }
 
 function handleFile(file){
