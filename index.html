@@ -242,7 +242,7 @@
     <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon">🧸</span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon">🖼️</span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon">🏞️</span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
-    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon">🧹</span><h3>Remove Object</h3><p>Tell AI what to remove, then let it naturally fill the space.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon">🧹</span><h3>Remove Object</h3><p>Remove one unwanted item while keeping the rest of your photo intact.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="scene-lighting" onclick="selectTool('scene-lighting')"><span class="icon">💡</span><h3>Lighting Enhance</h3><p>Improve light, color, and atmosphere without changing the scene.</p><span class="arrow">→</span></a>
   </div>
   <p class="tool-group-title">✦ Everyday image tools</p>
@@ -750,7 +750,7 @@ function setCreativeCopy(tool){
     cartoon: zh?['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。']:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],
     art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],
     'change-background': zh?['新背景描述（可选）','只更换背景，人物、姿势、衣服和前景会尽量保持不变。例如：阳光花园。']:['New background (optional)','Only the background changes; the subject, pose, clothing, and foreground stay intact. Example: a sunny flower garden.'],
-    'remove-object': zh?['要删除什么？','请用英文描述更准确，例如：the red bag on the table。']:['What should be removed?','Use a short English description for best results, for example: the red bag on the table.'],
+    'remove-object': zh?['要删除什么？','只描述一个具体物体，并写明位置。例如：the red bag on the table。不会去除整张图片的背景。']:['What should be removed?','Describe one specific item and its location, for example: the red bag on the table. This keeps the rest of the photo intact.'],
     'scene-lighting': zh?['灯光优化','只改善曝光、白平衡和自然色彩；不会故意压暗背景或改变场景。']:['Lighting enhance','Improves exposure, white balance, and natural color only—without darkening or redesigning the scene.']
   }[tool];
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
