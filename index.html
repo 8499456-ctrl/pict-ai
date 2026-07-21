@@ -125,6 +125,15 @@
   .style-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:7px 12px;cursor:pointer;font:inherit;font-size:12px;transition:all .2s}
   .style-chip:hover,.style-chip.active{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
   .generation-zone .btn{width:100%;justify-content:center}
+  .local-editor{max-width:760px;margin:18px auto 0;padding:24px;border:1px solid var(--border);border-radius:24px;background:rgba(255,255,255,.03);text-align:left}
+  .local-editor[hidden]{display:none}
+  .local-editor h3{font-size:17px;margin-bottom:5px}.local-editor .editor-help{font-size:12px;color:var(--text-dim);margin-bottom:18px}
+  .editor-layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px;align-items:start}
+  .editor-preview{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:#090817;min-height:180px;display:grid;place-items:center}
+  .editor-preview canvas{display:block;width:100%;max-height:460px;object-fit:contain}
+  .editor-controls{display:grid;gap:12px}.editor-controls label{display:grid;gap:5px;font-size:12px;font-weight:700}.editor-controls input,.editor-controls select{width:100%;border:1px solid var(--border);border-radius:10px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:9px}
+  .editor-controls input[type="color"]{height:40px;padding:4px}.editor-controls input[type="range"]{padding:0}.editor-controls .btn{justify-content:center;width:100%;padding:10px 16px}
+  .preset-row{display:flex;gap:6px;flex-wrap:wrap}.preset-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:6px 9px;cursor:pointer;font:inherit;font-size:11px}.preset-chip.active,.preset-chip:hover{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
   .tool-indicator{display:inline-block;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
     background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
   .quota-status{margin:-7px 0 18px;font-size:12px;color:var(--text-dim)}
@@ -161,7 +170,7 @@
   footer .partner-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-top:10px;font-size:12px}
 
   @media(max-width:768px){
-    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:40px 16px}
+    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:40px 16px}.editor-layout{grid-template-columns:1fr}.editor-preview canvas{max-height:360px}
     nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,#langSelect{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
     .nav-secondary a{color:var(--text-dim);font-size:13px;text-decoration:none;padding:8px 10px;border-radius:8px}.nav-secondary a:hover{background:rgba(255,255,255,.06);color:var(--text)}.comparison{min-height:260px}.before-after-head{padding:13px 15px}.privacy-card{padding:20px}
   }
@@ -273,6 +282,27 @@
       <span class="arrow">→</span>
     </a>
   </div>
+  <p class="tool-group-title">✦ Quick tools — free &amp; private in your browser</p>
+  <div class="tool-grid">
+    <a href="#upload" class="tool-card" data-tool="add-text" onclick="selectTool('add-text')">
+      <span class="icon">✍️</span>
+      <h3>Add Text to Image</h3>
+      <p>Add a headline or caption with fonts, color, shadow, and simple placement controls.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="resize-crop" onclick="selectTool('resize-crop')">
+      <span class="icon">↔️</span>
+      <h3>Resize &amp; Crop</h3>
+      <p>Make a clean, ready-to-share image for Instagram, Pinterest, YouTube, and more.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="compress-convert" onclick="selectTool('compress-convert')">
+      <span class="icon">🗜️</span>
+      <h3>Compress &amp; Convert</h3>
+      <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+  </div>
 </section>
 
 <section class="container" id="privacy" style="scroll-margin-top:100px;">
@@ -301,6 +331,33 @@
     <input type="file" id="cameraInput" accept="image/jpeg,image/png,image/webp" capture="environment" />
   </div>
   <button class="camera-action" id="cameraButton" type="button" data-i18n="camera.take">📷 Take a photo</button>
+
+  <div class="local-editor" id="localEditor" hidden>
+    <h3 id="localEditorTitle">Add Text to Image</h3>
+    <p class="editor-help" id="localEditorHelp">Your image stays in this browser. Adjust the controls, then download your result.</p>
+    <div class="editor-layout">
+      <div class="editor-preview"><canvas id="localCanvas" width="1200" height="800"></canvas></div>
+      <div class="editor-controls">
+        <div id="textControls">
+          <label>Headline<input id="textHeadline" maxlength="80" placeholder="Your headline"></label>
+          <label>Caption (optional)<input id="textCaption" maxlength="120" placeholder="A short supporting line"></label>
+          <label>Font style<select id="textFont"><option value="Arial Black,Arial,sans-serif">Bold Sans</option><option value="Georgia,serif">Classic Serif</option><option value="Trebuchet MS,Arial,sans-serif">Friendly</option><option value="Impact,Arial Black,sans-serif">Poster</option></select></label>
+          <label>Text color<input id="textColor" type="color" value="#ffffff"></label>
+          <label>Position<div class="preset-row" id="textPosition"><button class="preset-chip" type="button" data-value="top">Top</button><button class="preset-chip active" type="button" data-value="center">Center</button><button class="preset-chip" type="button" data-value="bottom">Bottom</button></div></label>
+        </div>
+        <div id="resizeControls" hidden>
+          <label>Choose a size<div class="preset-row" id="resizePreset"><button class="preset-chip active" type="button" data-value="original">Original</button><button class="preset-chip" type="button" data-value="square">Square</button><button class="preset-chip" type="button" data-value="portrait">Portrait</button><button class="preset-chip" type="button" data-value="landscape">Landscape</button><button class="preset-chip" type="button" data-value="story">Story</button></div></label>
+          <p class="editor-help">Square 1:1 · Portrait 4:5 · Landscape 16:9 · Story 9:16</p>
+        </div>
+        <div id="compressControls" hidden>
+          <label>Download format<select id="compressFormat"><option value="image/jpeg">JPG — smaller files</option><option value="image/webp">WebP — smallest for web</option><option value="image/png">PNG — highest quality</option></select></label>
+          <label>Quality <span id="qualityValue">82%</span><input id="compressQuality" type="range" min="50" max="95" value="82"></label>
+          <p class="editor-help">JPG and WebP reduce file size. PNG keeps more detail but may be larger.</p>
+        </div>
+        <button class="btn btn-primary" type="button" id="localDownload">⬇ Download image</button>
+      </div>
+    </div>
+  </div>
 
   <div class="generation-zone" id="generationZone" hidden>
     <label for="promptInput" data-i18n="generate.label">Describe the image you want to create</label>
@@ -413,6 +470,7 @@ const i18n = {
     'tool.upscale': '🔍 AI Upscale 4x',
     'tool.colorize': '🎨 Colorize Photo',
     'tool.generate': '✨ Text to Image',
+    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert',
     'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
@@ -464,6 +522,7 @@ const i18n = {
     'tool.upscale': '🔍 AI 高清化',
     'tool.colorize': '🎨 照片上色',
     'tool.generate': '✨ 文字生图',
+    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换',
     'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
@@ -548,7 +607,9 @@ function setLanguage(lang) {
   });
   // Upload zone
   document.querySelector('.upload-zone h3').textContent = translate('drop.hint');
-  document.querySelector('.upload-zone p').textContent = translate('drop.desc');
+  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert'].includes(currentTool)
+    ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
+    : translate('drop.desc');
   // Result labels
   const rl = document.querySelectorAll('.result-panel .label');
   if (rl[0]) rl[0].textContent = translate('result.original');
@@ -587,6 +648,7 @@ function processRequestOptions(form) {
 }
 
 function quotaGroupForTool(tool) {
+  if (['add-text','resize-crop','compress-convert'].includes(tool)) return 'local';
   if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
   if (tool === 'generate') return 'generate';
   return 'creative';
@@ -597,8 +659,12 @@ function renderQuota() {
   const group = quotaGroupForTool(currentTool);
   const quota = quotaGroups && quotaGroups[group];
   const names = currentLang === 'zh'
-    ? { basic: '基础修图', generate: '文字生图', creative: '高级创意编辑' }
-    : { basic: 'basic edits', generate: 'image generation', creative: 'creative edit' };
+    ? { basic: '基础修图', generate: '文字生图', creative: '高级创意编辑', local: '本地实用工具' }
+    : { basic: 'basic edits', generate: 'image generation', creative: 'creative edit', local: 'quick tools' };
+  if (group === 'local') {
+    status.textContent = currentLang === 'zh' ? '免费本地工具：不限次数，不上传到服务器' : 'Free quick tool: unlimited, processed in your browser';
+    return;
+  }
   if (quota) {
     status.textContent = currentLang === 'zh'
       ? `今日${names[group]}剩余：${quota.remaining}/${quota.limit}`
@@ -638,9 +704,16 @@ function selectTool(tool) {
   });
   const isGenerate = tool === 'generate';
   const isCreative = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting'].includes(tool);
+  const isLocal = ['add-text','resize-crop','compress-convert'].includes(tool);
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
   creativeOptions.hidden = !isCreative;
+  localEditor.hidden = !isLocal;
+  cameraButton.hidden = isGenerate;
+  dropZone.querySelector('p').textContent = isLocal
+    ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
+    : (i18n[currentLang]['drop.desc'] || i18n.en['drop.desc']);
+  if (isLocal) setLocalEditorCopy(tool);
   if (isCreative) setCreativeCopy(tool);
   resetUpload();
   renderQuota();
@@ -653,6 +726,12 @@ const resultActions=document.getElementById('resultActions'),resultContent=docum
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
 const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=document.getElementById('creativePrompt'),creativePromptLabel=document.getElementById('creativePromptLabel'),creativeHelp=document.getElementById('creativeHelp');
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
+const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
+const localEditorTitle=document.getElementById('localEditorTitle'),localEditorHelp=document.getElementById('localEditorHelp');
+const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls');
+const textHeadline=document.getElementById('textHeadline'),textCaption=document.getElementById('textCaption'),textFont=document.getElementById('textFont'),textColor=document.getElementById('textColor');
+const compressFormat=document.getElementById('compressFormat'),compressQuality=document.getElementById('compressQuality'),qualityValue=document.getElementById('qualityValue');
+let localImage=null,localFile=null,localTextPosition='center',localResizePreset='original';
 
 dropZone.addEventListener('click',()=>fileInput.click());
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
@@ -677,12 +756,93 @@ feedbackForm.addEventListener('submit',async event=>{
   }catch(error){feedbackStatus.textContent=error.message||'Could not send feedback.'}
 });
 
+function setLocalEditorCopy(tool){
+  const zh=currentLang==='zh';
+  const copy={
+    'add-text': zh?['图片加文字','图片仅在本机浏览器中处理。添加标题、说明和简单样式后即可下载。']:['Add Text to Image','Your image stays in this browser. Add a headline, caption, and simple style, then download.'],
+    'resize-crop': zh?['改尺寸与裁剪','按常见社交媒体比例裁剪图片。裁剪只在本机完成。']:['Resize & Crop','Crop your image to popular social-media sizes. Nothing is uploaded.'],
+    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.']
+  }[tool];
+  localEditorTitle.textContent=copy[0];localEditorHelp.textContent=copy[1];
+  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';
+}
+
+function setActiveChip(container,value){
+  container.querySelectorAll('.preset-chip').forEach(button=>button.classList.toggle('active',button.dataset.value===value));
+}
+document.getElementById('textPosition').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  localTextPosition=button.dataset.value;setActiveChip(event.currentTarget,localTextPosition);renderLocalPreview();
+});
+document.getElementById('resizePreset').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  localResizePreset=button.dataset.value;setActiveChip(event.currentTarget,localResizePreset);renderLocalPreview();
+});
+[textHeadline,textCaption,textFont,textColor,compressFormat,compressQuality].forEach(control=>control.addEventListener('input',()=>{
+  qualityValue.textContent=`${compressQuality.value}%`;renderLocalPreview();
+}));
+document.getElementById('localDownload').addEventListener('click',downloadLocalImage);
+
+function localCanvasSize(image){
+  if(currentTool==='resize-crop'){
+    return {original:[image.naturalWidth,image.naturalHeight],square:[1080,1080],portrait:[1080,1350],landscape:[1920,1080],story:[1080,1920]}[localResizePreset];
+  }
+  const maxSide=2600,scale=Math.min(1,maxSide/Math.max(image.naturalWidth,image.naturalHeight));
+  return [Math.max(1,Math.round(image.naturalWidth*scale)),Math.max(1,Math.round(image.naturalHeight*scale))];
+}
+
+function drawCover(image,width,height){
+  const scale=Math.max(width/image.naturalWidth,height/image.naturalHeight),drawWidth=image.naturalWidth*scale,drawHeight=image.naturalHeight*scale;
+  localContext.drawImage(image,(width-drawWidth)/2,(height-drawHeight)/2,drawWidth,drawHeight);
+}
+function wrapCanvasText(text,maxWidth){
+  const words=text.split(/\s+/);const lines=[];let line='';
+  words.forEach(word=>{const test=line?`${line} ${word}`:word;if(localContext.measureText(test).width<=maxWidth||!line)line=test;else{lines.push(line);line=word}});
+  if(line)lines.push(line);return lines.slice(0,3);
+}
+function drawCenteredLines(lines,x,y,lineHeight){lines.forEach((line,index)=>localContext.fillText(line,x,y+index*lineHeight));}
+function drawTextOverlay(width,height){
+  const headline=textHeadline.value.trim()||'Your headline',caption=textCaption.value.trim();
+  const size=Math.max(30,Math.round(Math.min(width,height)*.092)),captionSize=Math.max(18,Math.round(size*.42));
+  const maxWidth=width*.82;localContext.textAlign='center';localContext.fillStyle=textColor.value;localContext.shadowColor='rgba(0,0,0,.72)';localContext.shadowBlur=Math.max(4,Math.round(size*.12));localContext.shadowOffsetY=Math.max(2,Math.round(size*.04));
+  localContext.font=`800 ${size}px ${textFont.value}`;const titleLines=wrapCanvasText(headline,maxWidth);
+  localContext.font=`600 ${captionSize}px ${textFont.value}`;const captionLines=caption?wrapCanvasText(caption,maxWidth):[];
+  const titleHeight=titleLines.length*size*1.08,captionHeight=captionLines.length*captionSize*1.35,totalHeight=titleHeight+(captionLines.length?captionSize*.5+captionHeight:0);
+  const margin=Math.round(height*.09);let top=localTextPosition==='top'?margin:localTextPosition==='bottom'?height-margin-totalHeight:(height-totalHeight)/2;
+  localContext.font=`800 ${size}px ${textFont.value}`;drawCenteredLines(titleLines,width/2,top+size,size*1.08);
+  if(captionLines.length){top+=titleHeight+captionSize*.7;localContext.font=`600 ${captionSize}px ${textFont.value}`;drawCenteredLines(captionLines,width/2,top+captionSize,captionSize*1.35);}
+  localContext.shadowColor='transparent';
+}
+function renderLocalPreview(){
+  if(!localImage)return;
+  const [width,height]=localCanvasSize(localImage);localCanvas.width=width;localCanvas.height=height;localContext.clearRect(0,0,width,height);
+  if(currentTool==='resize-crop')drawCover(localImage,width,height);else localContext.drawImage(localImage,0,0,width,height);
+  if(currentTool==='add-text')drawTextOverlay(width,height);
+}
+function loadLocalFile(file,dataUrl){
+  localFile=file;localImage=new Image();localImage.onload=()=>{renderLocalPreview();localEditor.scrollIntoView({behavior:'smooth',block:'center'});};localImage.src=dataUrl;
+}
+async function downloadLocalImage(){
+  if(!localImage){alert(currentLang==='zh'?'请先上传图片。':'Please upload an image first.');return;}
+  const mime=currentTool==='compress-convert'?compressFormat.value:'image/jpeg';
+  const quality=currentTool==='compress-convert'?Number(compressQuality.value)/100:.92;
+  const blob=await new Promise(resolve=>localCanvas.toBlob(value=>resolve(value),mime,quality));
+  if(!blob){alert('Could not create the image. Please try again.');return;}
+  window.resultBlob=blob;
+  const extension=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
 function handleFile(file){
   if(!file)return;
-  if(file.size>20*1024*1024){alert('File too large (max 20MB)');return}
+  const isLocal=['add-text','resize-crop','compress-convert'].includes(currentTool),maxSize=isLocal?50:20;
+  if(file.size>maxSize*1024*1024){alert(`File too large (max ${maxSize}MB)`);return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
-  reader.onload=e=>{originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');prepareAndProcess(file)};
+  reader.onload=e=>{
+    if(isLocal){resultArea.classList.remove('show','generate-mode');loadLocalFile(file,e.target.result);return;}
+    originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');prepareAndProcess(file)
+  };
   reader.readAsDataURL(file);
 }
 
