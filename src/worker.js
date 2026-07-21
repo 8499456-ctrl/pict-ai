@@ -134,7 +134,7 @@ async function processImage(request, env) {
       // turnaround time predictable for the free preview.
       'game-avatar': {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Use this reference photo as the source of truth. Preserve the person\'s real facial features, age, hairstyle, expression, pose, body proportions, clothing colors, framing, and camera angle. Make only a gentle original fantasy-game portrait enhancement: subtle magical atmosphere, refined original details, and a softly improved background. The result must remain immediately recognizable as the same photo and person, not a new person or a different pose. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Create a clearly visible original fantasy-game avatar from this reference photo. Keep the same child or person immediately recognizable: preserve real facial features, age, hairstyle, expression, pose, body proportions, framing, and camera angle. Transform the clothing into an age-appropriate fantasy adventurer outfit that follows the original clothing colors and silhouette; replace the setting with an original magical landscape and add subtle glowing details. The result must still be obviously the same person and same pose, never an adult when the reference is a child, never a new person. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
         model: 'black-forest-labs/flux-2-dev',
@@ -142,7 +142,7 @@ async function processImage(request, env) {
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Use this reference image as the source of truth. Apply a restrained original digital-art finish while preserving the exact main subject, facial features, hairstyle, expression, pose, clothing, object details, composition, framing, and overall brightness. Keep it immediately recognizable as the same image; enhance style only, do not redesign the scene. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        input: { prompt: 'Create a clearly visible original digital-art version of this reference image. Preserve the exact main subject, facial features, hairstyle, expression, pose, clothing, object details, and composition so it remains immediately recognizable as the same image. Use richer color, painterly texture, and refined light, but do not redesign the subject or change people into someone else. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       'change-background': {
         model: 'black-forest-labs/flux-2-dev',
