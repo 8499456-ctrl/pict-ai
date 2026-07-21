@@ -327,6 +327,9 @@
       </div>
       <div class="result-actions" id="resultActions" style="display:none;">
         <button class="btn btn-primary btn-sm" onclick="downloadResult()">⬇ Download</button>
+        <button class="btn btn-ghost btn-sm" onclick="shareResult()">↗ Share result</button>
+        <button class="btn btn-ghost btn-sm" onclick="shareToPinterest()">📌 Pinterest</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyPictToolLink()">🔗 Copy link</button>
         <button class="btn btn-ghost btn-sm" onclick="resetUpload()">🔄 Try Another</button>
       </div>
     </div>
@@ -419,6 +422,9 @@ const i18n = {
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
+    'result.share': '↗ Share result',
+    'result.pinterest': '📌 Pinterest',
+    'result.copylink': '🔗 Copy link',
     'result.tryagain': '🔄 Try Another',
     'feature.fast': 'Lightning Fast',
     'feature.fast.desc': 'AI processing in seconds. No queue, no waiting.',
@@ -467,6 +473,9 @@ const i18n = {
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
+    'result.share': '↗ 分享结果',
+    'result.pinterest': '📌 Pinterest',
+    'result.copylink': '🔗 复制链接',
     'result.tryagain': '🔄 再来一张',
     'feature.fast': '闪电速度',
     'feature.fast.desc': 'AI 处理只需几秒，无需排队等待。',
@@ -546,7 +555,10 @@ function setLanguage(lang) {
   if (rl[1]) rl[1].textContent = translate('result.result');
   const ra = document.querySelectorAll('.result-actions .btn');
   if (ra[0]) ra[0].textContent = translate('result.download');
-  if (ra[1]) ra[1].textContent = translate('result.tryagain');
+  if (ra[1]) ra[1].textContent = translate('result.share');
+  if (ra[2]) ra[2].textContent = translate('result.pinterest');
+  if (ra[3]) ra[3].textContent = translate('result.copylink');
+  if (ra[4]) ra[4].textContent = translate('result.tryagain');
   // Features
   const fc = document.querySelectorAll('.feature');
   if (fc[0]) { fc[0].querySelector('h4').textContent = translate('feature.fast'); fc[0].querySelector('p').textContent = translate('feature.fast.desc'); }
@@ -782,6 +794,41 @@ function downloadResult(){
   if(!window.resultBlob)return;
   const extension=window.resultBlob.type==='image/jpeg'?'jpg':'png';
   const a=document.createElement('a');a.href=URL.createObjectURL(window.resultBlob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();
+}
+async function shareResult(){
+  const title='PictTool — AI Image Tools';
+  const text='I made this with PictTool.';
+  const url=window.location.origin+window.location.pathname+'#upload';
+  try{
+    if(window.resultBlob&&navigator.canShare){
+      const extension=window.resultBlob.type==='image/jpeg'?'jpg':'png';
+      const file=new File([window.resultBlob],`pict-result.${extension}`,{type:window.resultBlob.type});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({title,text,files:[file]});
+        return;
+      }
+    }
+    if(navigator.share){await navigator.share({title,text,url});return}
+    await copyText(url);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }catch(error){
+    if(error&&error.name==='AbortError')return;
+    await copyText(url);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }
+}
+function shareToPinterest(){
+  const url=window.location.origin+window.location.pathname+'#upload';
+  const description='Create and transform images with PictTool AI Image Tools.';
+  window.open(`https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(description)}`,'_blank','noopener,noreferrer');
+}
+async function copyText(text){
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return}
+  const field=document.createElement('textarea');field.value=text;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();document.execCommand('copy');field.remove();
+}
+async function copyPictToolLink(){
+  await copyText(window.location.origin+window.location.pathname+'#upload');
+  alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
 }
 function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
