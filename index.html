@@ -235,7 +235,7 @@
         <a href="#examples" data-i18n="nav.examples">Examples</a>
         <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
         <a href="#upload" data-i18n="nav.try">Try Now</a>
-        <select class="nav-language" id="mobileLangSelect" onchange="setLanguage(this.value)" aria-label="Select language">
+        <select class="nav-language" id="mobileLangSelect" onchange="setMobileLanguage(this.value)" aria-label="Select language">
           <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="fr">Français</option><option value="pt">Português</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ar">العربية</option><option value="de">Deutsch</option>
         </select>
       </div>
@@ -626,7 +626,7 @@ function setLanguage(lang) {
   });
   // Section titles
   const st = document.querySelectorAll('.section-title');
-  if (st[0]) { const parts = translate('section.tools.title').split(/[,，、،]/); st[0].innerHTML = parts.length > 1 ? `${parts[0]}, <span class="grad">${parts.slice(1).join('')}</span>` : parts[0]; }
+  if (st[0]) { const parts = translate('section.tools.title').split(/[,，、،]/); st[0].innerHTML = parts.length > 1 ? `<span class="title-3d">${parts[0]},</span> <span class="grad">${parts.slice(1).join('')}</span>` : `<span class="title-3d">${parts[0]}</span>`; }
   if (st[1]) st[1].innerHTML = `${translate('section.upload.title').split('&')[0]}& <span class="grad">${translate('section.upload.title').split('&').pop()}</span>`;
   // Tool cards
   document.querySelectorAll('.tool-card').forEach(card => {
@@ -660,6 +660,11 @@ function setLanguage(lang) {
   if (footerSister) footerSister.textContent = translate('footer.sister');
   document.getElementById('toolIndicator').textContent = translate(`tool.${currentTool}`);
   renderQuota();
+}
+
+function setMobileLanguage(lang) {
+  setLanguage(lang);
+  document.querySelector('.nav-menu')?.removeAttribute('open');
 }
 
 let currentTool = 'game-avatar';
