@@ -137,12 +137,11 @@ async function processImage(request, env) {
         input: { prompt: 'Create a clearly visible original fantasy-game avatar from this reference photo. Keep the same child or person immediately recognizable: preserve real facial features, age, hairstyle, expression, pose, body proportions, framing, and camera angle. Transform the clothing into an age-appropriate fantasy adventurer outfit that follows the original clothing colors and silhouette; replace the setting with an original magical landscape and add subtle glowing details. The result must still be obviously the same person and same pose, never an adult when the reference is a child, never a new person. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
-        // A dedicated image-to-image animation LoRA gives this tool a more
-        // appealing hand-painted result than the general creative editor.
-        // Keep prompt strength modest so a person's identity and the original
-        // photo composition remain recognizable instead of being redesigned.
-        model: 'datacte/flux-aesthetic-anime',
-        input: { prompt: 'Turn this exact reference image into a warm, hand-painted animated illustration with soft watercolor texture, gentle cel shading, natural expressive features, cozy storybook lighting, and rich but realistic colors. Preserve the exact main subject, facial features, age, hairstyle, expression, pose, body proportions, clothing, objects, composition, framing, and camera angle. Keep the person immediately recognizable as the same person. Do not add a new person, alter the age, exaggerate facial features, or imitate a named studio, character, or artist.', image: dataUri, prompt_strength: 0.38 },
+        // Use Replicate's dedicated, maintained photo-to-cartoon endpoint.
+        // It is more predictable than a low-cost generic anime LoRA when the
+        // source is a real person and the result must remain recognizable.
+        model: 'flux-kontext-apps/cartoonify',
+        input: { input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2 },
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
