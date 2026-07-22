@@ -137,11 +137,11 @@ async function processImage(request, env) {
         input: { prompt: 'Create a clearly visible original fantasy-game avatar from this reference photo. Keep the same child or person immediately recognizable: preserve real facial features, age, hairstyle, expression, pose, body proportions, framing, and camera angle. Transform the clothing into an age-appropriate fantasy adventurer outfit that follows the original clothing colors and silhouette; replace the setting with an original magical landscape and add subtle glowing details. The result must still be obviously the same person and same pose, never an adult when the reference is a child, never a new person. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
-        // Use Replicate's dedicated, maintained photo-to-cartoon endpoint.
-        // It is more predictable than a low-cost generic anime LoRA when the
-        // source is a real person and the result must remain recognizable.
-        model: 'flux-kontext-apps/cartoonify',
-        input: { input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2 },
+        // The one-click cartoon filter can collapse photos into harsh line art.
+        // Use prompt-guided Kontext Pro instead, so the result stays colorful
+        // and the original person, composition, and proportions are protected.
+        model: 'black-forest-labs/flux-kontext-pro',
+        input: { prompt: 'Render this exact photo as a colorful, gentle hand-painted animation illustration: soft watercolor-like shading, clean rounded shapes, warm natural light, rich but realistic colors, and a cozy storybook feeling. Preserve the exact person or subject, facial features, age, hairstyle, expression, pose, body proportions, clothing, objects, composition, framing, and camera angle. Keep the subject immediately recognizable as the same person. Do not make black-and-white line art, pencil sketch, manga ink, comic hatching, exaggerated facial features, or a new person. Do not imitate a named studio, character, or artist.', input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
