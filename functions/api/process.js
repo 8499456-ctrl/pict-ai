@@ -5,6 +5,10 @@ export async function onRequest(context) {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
+  const finalStatuses = new Set(['succeeded', 'failed', 'canceled']);
+  const pollIntervalMs = 2000;
+  const maxPolls = 30;
+
   if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
   if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: corsHeaders });
   try {
@@ -68,11 +72,14 @@ export async function onRequest(context) {
     })).json();
     if (!pred.id) throw new Error(pred.detail || 'Replicate error');
     let res = pred;
-    while (res.status !== 'succeeded' && res.status !== 'failed') {
-      await new Promise(r => setTimeout(r, 1000));
+    let pollCount = 0;
+    while (!finalStatuses.has(res.status) && pollCount < maxPolls) {
+      await new Promise(r => setTimeout(r, pollIntervalMs));
+      pollCount += 1;
       res = await (await fetch(`https://api.replicate.com/v1/predictions/${res.id}`, { headers: { 'Authorization': `Bearer ${token}` } })).json();
     }
-    if (res.status === 'failed') throw new Error('AI processing failed');
+    if (!finalStatuses.has(res.status)) throw new Error('The AI image is still processing. Please try again in a moment.');
+    if (res.status !== 'succeeded') throw new Error('AI processing failed');
     const output = Array.isArray(res.output) ? res.output[0] : res.output;
     if (!output) throw new Error('No image was returned by the AI model');
     const imgRes = await fetch(output);
