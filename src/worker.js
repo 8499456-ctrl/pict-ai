@@ -8,6 +8,7 @@ const TOOL_GROUPS = {
   upscale: 'basic',
   colorize: 'basic',
   generate: 'generate',
+  'comic-portrait': 'creative',
   'game-avatar': 'creative',
   cartoon: 'creative',
   art: 'creative',
@@ -139,16 +140,19 @@ async function processImage(request, env) {
       // These creative edits share the same commercially usable image-to-image
       // model. Keeping input images to 1MP in the browser makes the cost and
       // turnaround time predictable for the free preview.
+      'comic-portrait': {
+        model: 'black-forest-labs/flux-kontext-pro',
+        input: { prompt: `Turn this exact photo into a clean colorful editorial comic portrait. Keep the same person or people immediately recognizable: preserve faces, facial features, expressions, hairstyle, hairline, glasses, facial hair, age, body proportions, clothing, pose, camera angle, and composition. Add clear ink outlines, detailed linework, natural skin tones, realistic proportions, soft professional shading, and a polished magazine-style comic look. Keep the background coherent but do not let it distract from the subject. Do not make it watercolor, anime, manga, childish cartoon, storybook illustration, plastic-looking, or a different person.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
+      },
       'game-avatar': {
         model: 'black-forest-labs/flux-2-dev',
         input: { prompt: 'Create a clearly visible original fantasy-game avatar from this reference photo. Keep the same child or person immediately recognizable: preserve real facial features, age, hairstyle, expression, pose, body proportions, framing, and camera angle. Transform the clothing into an age-appropriate fantasy adventurer outfit that follows the original clothing colors and silhouette; replace the setting with an original magical landscape and add subtle glowing details. The result must still be obviously the same person and same pose, never an adult when the reference is a child, never a new person. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
-        // The one-click cartoon filter can collapse photos into harsh line art.
-        // Use prompt-guided Kontext Pro instead, so the result stays colorful
-        // and the original person, composition, and proportions are protected.
+        // Temporary effect test: make the existing Photo to Cartoon button run
+        // a comic portrait prompt so we can validate output quality first.
         model: 'black-forest-labs/flux-kontext-pro',
-        input: { prompt: 'Render this exact photo as a colorful, gentle hand-painted animation illustration: soft watercolor-like shading, clean rounded shapes, warm natural light, rich but realistic colors, and a cozy storybook feeling. Preserve the exact person or subject, facial features, age, hairstyle, expression, pose, body proportions, clothing, objects, composition, framing, and camera angle. Keep the subject immediately recognizable as the same person. Do not make black-and-white line art, pencil sketch, manga ink, comic hatching, exaggerated facial features, or a new person. Do not imitate a named studio, character, or artist.', input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
+        input: { prompt: `Turn this exact photo into a clean colorful editorial comic portrait. Keep the same person or people immediately recognizable: preserve faces, facial features, expressions, hairstyle, hairline, glasses, facial hair, age, body proportions, clothing, pose, camera angle, and composition. Add clear ink outlines, detailed linework, natural skin tones, realistic proportions, soft professional shading, and a polished magazine-style comic look. Keep the background coherent but do not let it distract from the subject. Do not make it watercolor, anime, manga, childish cartoon, storybook illustration, plastic-looking, or a different person.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
