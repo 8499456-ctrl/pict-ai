@@ -17,6 +17,9 @@ const TOOL_GROUPS = {
 };
 
 const DAILY_LIMITS = { basic: 3, generate: 1, creative: 1, feedback: 2 };
+const FINAL_PREDICTION_STATUSES = new Set(['succeeded', 'failed', 'canceled']);
+const PREDICTION_POLL_INTERVAL_MS = 2000;
+const MAX_PREDICTION_POLLS = 30;
 
 function corsHeaders(request) {
   const origin = request.headers.get('Origin');
@@ -78,6 +81,10 @@ async function replicateJson(url, options) {
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.detail || payload.error || 'The AI service could not process this request.');
   return payload;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function processImage(request, env) {
@@ -175,11 +182,16 @@ async function processImage(request, env) {
       body: JSON.stringify(model.model ? { input: model.input } : model),
     });
 
-    while (!['succeeded', 'failed', 'canceled'].includes(prediction.status)) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    let pollCount = 0;
+    while (!FINAL_PREDICTION_STATUSES.has(prediction.status) && pollCount < MAX_PREDICTION_POLLS) {
+      await sleep(PREDICTION_POLL_INTERVAL_MS);
+      pollCount += 1;
       prediction = await replicateJson(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
         headers: { Authorization: `Bearer ${env.REPLICATE_API_TOKEN}` },
       });
+    }
+    if (!FINAL_PREDICTION_STATUSES.has(prediction.status)) {
+      throw new Error('The AI image is still processing. Please try again in a moment.');
     }
     if (prediction.status !== 'succeeded') throw new Error(prediction.error || 'AI processing failed.');
 
