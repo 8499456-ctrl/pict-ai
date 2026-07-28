@@ -149,10 +149,11 @@ async function processImage(request, env) {
         input: { prompt: 'Create a clearly visible original fantasy-game avatar from this reference photo. Keep the same child or person immediately recognizable: preserve real facial features, age, hairstyle, expression, pose, body proportions, framing, and camera angle. Transform the clothing into an age-appropriate fantasy adventurer outfit that follows the original clothing colors and silhouette; replace the setting with an original magical landscape and add subtle glowing details. The result must still be obviously the same person and same pose, never an adult when the reference is a child, never a new person. Do not imitate any named game, character, artist, or logo.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
       },
       cartoon: {
-        // Temporary effect test: make the existing Photo to Cartoon button run
-        // a comic portrait prompt so we can validate output quality first.
+        // The one-click cartoon filter can collapse photos into harsh line art.
+        // Use prompt-guided Kontext Pro instead, so the result stays colorful
+        // and the original person, composition, and proportions are protected.
         model: 'black-forest-labs/flux-kontext-pro',
-        input: { prompt: `Turn this exact photo into a clean colorful editorial comic portrait. Keep the same person or people immediately recognizable: preserve faces, facial features, expressions, hairstyle, hairline, glasses, facial hair, age, body proportions, clothing, pose, camera angle, and composition. Add clear ink outlines, detailed linework, natural skin tones, realistic proportions, soft professional shading, and a polished magazine-style comic look. Keep the background coherent but do not let it distract from the subject. Do not make it watercolor, anime, manga, childish cartoon, storybook illustration, plastic-looking, or a different person.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
+        input: { prompt: 'Render this exact photo as a colorful, gentle hand-painted animation illustration: soft watercolor-like shading, clean rounded shapes, warm natural light, rich but realistic colors, and a cozy storybook feeling. Preserve the exact person or subject, facial features, age, hairstyle, expression, pose, body proportions, clothing, objects, composition, framing, and camera angle. Keep the subject immediately recognizable as the same person. Do not make black-and-white line art, pencil sketch, manga ink, comic hatching, exaggerated facial features, or a new person. Do not imitate a named studio, character, or artist.', input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       art: {
         model: 'black-forest-labs/flux-2-dev',
@@ -295,6 +296,63 @@ async function listFeedback(request, env) {
   }
 }
 
+function enhanceIndexHtml(html) {
+  if (html.includes('data-tool="comic-portrait"')) return html;
+
+  const comicIconCss = '  .tool-card[data-tool="comic-portrait"] .neon-icon{background:linear-gradient(145deg,#fff0a8 0%,#f59f59 52%,#b967e8 100%)}';
+  html = html.replace(
+    '  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}',
+    `${comicIconCss}\n  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}`
+  );
+
+  const gameAvatarCard = '    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
+  const comicPortraitCard = '    <a href="#upload" class="tool-card active" data-tool="comic-portrait" onclick="selectTool(\'comic-portrait\')"><span class="icon neon-icon" data-mark="☷" aria-hidden="true"></span><h3>Comic Portrait</h3><p>Turn a portrait into a polished comic illustration while keeping the person recognizable.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
+  const secondaryGameAvatarCard = '    <a href="#upload" class="tool-card" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="arrow">→</span></a>';
+  html = html.replace(gameAvatarCard, `${comicPortraitCard}\n${secondaryGameAvatarCard}`);
+
+  html = html
+    .replace(
+      "'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',",
+      "'tool.comic-portrait': '☷ Comic Portrait', 'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',"
+    )
+    .replace(
+      "'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',",
+      "'tool.comic-portrait': '☷ 漫画肖像', 'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',"
+    )
+    .replace("let currentTool = 'game-avatar';", "let currentTool = 'comic-portrait';")
+    .replaceAll("['game-avatar','cartoon','art','change-background','remove-object','scene-lighting']", "['comic-portrait','game-avatar','cartoon','art','change-background','remove-object','scene-lighting']")
+    .replace(
+      "    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],",
+      "    'comic-portrait': zh?['漫画肖像','把头像或团队照变成专业漫画肖像。提示词越具体，脸部、发型、表情和风格越稳定。']:['Comic portrait','Turn a portrait or team photo into a polished comic illustration. Better prompts help preserve the face, hair, expression, and style.'],\n    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],"
+    )
+    .replace(
+      "  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');",
+      "  creativePrompt.placeholder=tool==='remove-object'\n    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')\n    : tool==='comic-portrait'\n      ? 'professional founder portrait, clean ink outlines, natural skin tones, keep the same face'\n      : tool==='scene-lighting'\n        ? 'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'\n        : (zh?'例如：月光森林':'For example: a moonlit forest');"
+    )
+    .replace("selectTool('game-avatar');", "selectTool('comic-portrait');");
+
+  return html;
+}
+
+async function assetResponse(request, env) {
+  const response = await env.ASSETS.fetch(request);
+  const url = new URL(request.url);
+  const isIndex = request.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html');
+  const contentType = response.headers.get('Content-Type') || '';
+  if (!isIndex || !contentType.includes('text/html')) return response;
+
+  const headers = new Headers(response.headers);
+  headers.delete('Content-Length');
+  headers.delete('Content-Encoding');
+  headers.delete('ETag');
+  headers.set('Content-Type', 'text/html; charset=UTF-8');
+  return new Response(enhanceIndexHtml(await response.text()), {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export class RateLimiter {
   constructor(state) {
     this.state = state;
@@ -357,6 +415,6 @@ export default {
     if (pathname === '/api/process') return processImage(request, env);
     if (pathname === '/api/quota') return quotaStatus(request, env);
     if (pathname === '/api/feedback') return request.method === 'GET' ? listFeedback(request, env) : submitFeedback(request, env);
-    return env.ASSETS.fetch(request);
+    return assetResponse(request, env);
   },
 };
