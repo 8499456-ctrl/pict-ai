@@ -396,15 +396,158 @@ function enhanceIndexHtml(html) {
   @media(max-width:760px){.art-style-options{grid-template-columns:repeat(2,minmax(0,1fr))}.art-style-button{font-size:11.5px}}`;
     const artStyleScript = `<script>
 (function(){
-  const styles=[
-    ['cinematic','电影写真','Cinematic'],
-    ['literary','文艺写真','Literary'],
-    ['melancholy','忧郁氛围','Moody'],
-    ['street','街头嘻哈','Street'],
-    ['japanese','日系清冷','Japanese']
-  ];
+  const styles=['cinematic','literary','melancholy','street','japanese'];
+  const locales={
+    en:{
+      styles:{cinematic:'Cinematic',literary:'Literary',melancholy:'Moody',street:'Street',japanese:'Japanese'},
+      note:'Choose one style, then run again. Switching styles clears the old preview so the result does not get mixed up.',
+      changed:'Style changed. Upload or run again to preview this look.',
+      exampleTitle:'Turn travel photos into comic art',
+      exampleSubtitle:'AI comic-style travel example',
+      exampleNote:'A real example from PictTool - upload a travel photo and create your own result.',
+      beforeAlt:'Tree-lined travel photo before AI comic transformation',
+      afterAlt:'Tree-lined travel photo after AI comic transformation',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    zh:{
+      styles:{cinematic:'电影写真',literary:'文艺写真',melancholy:'忧郁氛围',street:'街头嘻哈',japanese:'日系清冷'},
+      note:'选择一个写真风格后再生成。切换风格会清空旧预览，避免误用上一次结果。',
+      changed:'风格已切换。请重新上传或再次生成，预览新的效果。',
+      exampleTitle:'旅行照片也能变漫画',
+      exampleSubtitle:'AI 漫画风旅行照片示例',
+      exampleNote:'真实示例 - 上传自己的旅行照片即可开始处理。',
+      beforeAlt:'AI 漫画转换前的林荫道旅行照片',
+      afterAlt:'AI 漫画转换后的林荫道旅行照片',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    ja:{
+      styles:{cinematic:'シネマ',literary:'文芸',melancholy:'ムーディ',street:'ストリート',japanese:'日本風'},
+      note:'スタイルを選んでから再生成してください。切り替えると古いプレビューはクリアされます。',
+      changed:'スタイルを変更しました。新しい効果を見るにはアップロードまたは再生成してください。',
+      exampleTitle:'旅行写真をコミック風アートに',
+      exampleSubtitle:'AI コミック風旅行写真の例',
+      exampleNote:'PictTool の実例 - 旅行写真をアップロードして自分の結果を作れます。',
+      beforeAlt:'AI コミック変換前の並木道の旅行写真',
+      afterAlt:'AI コミック変換後の並木道の旅行写真',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    ko:{
+      styles:{cinematic:'시네마',literary:'감성',melancholy:'무드',street:'스트리트',japanese:'일본풍'},
+      note:'스타일을 선택한 뒤 다시 생성하세요. 스타일을 바꾸면 이전 미리보기가 지워집니다.',
+      changed:'스타일이 변경되었습니다. 새 결과를 보려면 업로드하거나 다시 생성하세요.',
+      exampleTitle:'여행 사진을 코믹 아트로',
+      exampleSubtitle:'AI 코믹 스타일 여행 사진 예시',
+      exampleNote:'PictTool 실제 예시 - 여행 사진을 업로드해 직접 만들어 보세요.',
+      beforeAlt:'AI 코믹 변환 전 나무길 여행 사진',
+      afterAlt:'AI 코믹 변환 후 나무길 여행 사진',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    es:{
+      styles:{cinematic:'Cine',literary:'Editorial',melancholy:'Melancolico',street:'Urbano',japanese:'Japones'},
+      note:'Elige un estilo y vuelve a generar. Al cambiar de estilo se limpia la vista previa anterior.',
+      changed:'Estilo cambiado. Sube la imagen o genera otra vez para ver este resultado.',
+      exampleTitle:'Convierte fotos de viaje en comic art',
+      exampleSubtitle:'Ejemplo de viaje con estilo comic AI',
+      exampleNote:'Ejemplo real de PictTool - sube una foto de viaje y crea tu propio resultado.',
+      beforeAlt:'Foto de viaje arbolada antes de la transformacion comic AI',
+      afterAlt:'Foto de viaje arbolada despues de la transformacion comic AI',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    fr:{
+      styles:{cinematic:'Cinema',literary:'Editorial',melancholy:'Melancolie',street:'Street',japanese:'Japonais'},
+      note:'Choisissez un style, puis relancez la generation. Changer de style efface l ancien apercu.',
+      changed:'Style modifie. Importez ou relancez pour voir ce rendu.',
+      exampleTitle:'Transformez vos photos de voyage en comic art',
+      exampleSubtitle:'Exemple de voyage en style comic IA',
+      exampleNote:'Exemple reel de PictTool - importez une photo de voyage et creez votre resultat.',
+      beforeAlt:'Photo de voyage sous les arbres avant transformation comic IA',
+      afterAlt:'Photo de voyage sous les arbres apres transformation comic IA',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    de:{
+      styles:{cinematic:'Kino',literary:'Editorial',melancholy:'Moody',street:'Street',japanese:'Japanisch'},
+      note:'Wahle einen Stil und generiere erneut. Beim Wechsel wird die alte Vorschau geleert.',
+      changed:'Stil geandert. Lade hoch oder generiere erneut, um diesen Look zu sehen.',
+      exampleTitle:'Reisefotos in Comic Art verwandeln',
+      exampleSubtitle:'AI Comic-Stil Beispiel fur Reisefotos',
+      exampleNote:'Ein echtes PictTool Beispiel - lade ein Reisefoto hoch und erstelle dein Ergebnis.',
+      beforeAlt:'Reisefoto einer Baumallee vor der AI Comic-Umwandlung',
+      afterAlt:'Reisefoto einer Baumallee nach der AI Comic-Umwandlung',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    pt:{
+      styles:{cinematic:'Cinema',literary:'Editorial',melancholy:'Melancolico',street:'Urbano',japanese:'Japones'},
+      note:'Escolha um estilo e gere novamente. Trocar de estilo limpa a previa antiga.',
+      changed:'Estilo alterado. Envie a imagem ou gere novamente para ver este visual.',
+      exampleTitle:'Transforme fotos de viagem em comic art',
+      exampleSubtitle:'Exemplo de viagem em estilo comic com IA',
+      exampleNote:'Exemplo real do PictTool - envie uma foto de viagem e crie seu resultado.',
+      beforeAlt:'Foto de viagem arborizada antes da transformacao comic por IA',
+      afterAlt:'Foto de viagem arborizada depois da transformacao comic por IA',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    }
+  };
+  function storedLanguage(name){
+    try { return localStorage.getItem(name) || ''; } catch (_) { return ''; }
+  }
+  function languageKey(){
+    const raw=[storedLanguage('pict-lang'),storedLanguage('language'),storedLanguage('lang'),document.documentElement.lang,navigator.language].filter(Boolean).join(' ').toLowerCase();
+    if(raw.includes('zh')) return 'zh';
+    if(raw.includes('ja')) return 'ja';
+    if(raw.includes('ko')) return 'ko';
+    if(raw.includes('es')) return 'es';
+    if(raw.includes('fr')) return 'fr';
+    if(raw.includes('de')) return 'de';
+    if(raw.includes('pt')) return 'pt';
+    return 'en';
+  }
+  function copy(){
+    return locales[languageKey()] || locales.en;
+  }
   let selectedArtStyle='cinematic';
   let lastArtStyle='cinematic';
+  function applyLocalizedCopy(){
+    const c=copy();
+    document.querySelectorAll('[data-i18n="example.title"]').forEach(node=>{ node.textContent=c.exampleTitle; });
+    document.querySelectorAll('[data-i18n="example.subtitle"]').forEach(node=>{ node.textContent=c.exampleSubtitle; });
+    document.querySelectorAll('[data-i18n="example.note"]').forEach(node=>{ node.textContent=c.exampleNote; });
+    document.querySelectorAll('img[src*="homepage-travel-comic-before"]').forEach(img=>{ img.alt=c.beforeAlt; });
+    document.querySelectorAll('img[src*="homepage-travel-comic-after"]').forEach(img=>{ img.alt=c.afterAlt; });
+    const note=document.getElementById('artStyleNote');
+    if(note) note.textContent=c.note;
+    const wrap=document.getElementById('artStyleOptions');
+    if(wrap){
+      wrap.querySelectorAll('[data-art-style]').forEach(button=>{
+        const value=button.dataset.artStyle;
+        const label=(c.styles && c.styles[value]) || locales.en.styles[value] || value;
+        const english=locales.en.styles[value] || value;
+        button.innerHTML=label+(languageKey()==='en'?'':'<br><span>'+english+'</span>');
+      });
+    }
+    const currentTool=document.querySelector('.tool-card.active')?.dataset.tool;
+    const prompt=document.getElementById('creativePrompt');
+    if(prompt){
+      if(currentTool==='comic-portrait') prompt.placeholder=c.comicPlaceholder;
+      if(currentTool==='art') prompt.placeholder=c.artPlaceholder;
+      if(currentTool==='scene-lighting') prompt.placeholder=c.lightingPlaceholder;
+    }
+  }
   function resetNode(node){
     if(!node) return;
     if(node instanceof HTMLImageElement || node instanceof HTMLVideoElement){
@@ -433,7 +576,7 @@ function enhanceIndexHtml(html) {
     scope.querySelectorAll('img,video,canvas,a[href],#result,#output,#preview,#resultImage,#outputImage,#previewImage,#processedImage,#downloadBtn,#downloadLink,.result,.output,.preview,.download').forEach(resetNode);
     scope.querySelectorAll('input[type="file"]').forEach(input=>{ input.value=''; });
     const status=document.getElementById('status') || document.getElementById('resultStatus') || document.querySelector('[role="status"]');
-    if(status) status.textContent='Style changed. Upload or run again to preview this look.';
+    if(status) status.textContent=copy().changed;
   }
   function ensureArtStyleControls(){
     const creativeOptions=document.getElementById('creativeOptions');
@@ -441,12 +584,12 @@ function enhanceIndexHtml(html) {
     const note=document.createElement('p');
     note.id='artStyleNote';
     note.className='art-style-note';
-    note.textContent='Choose one style, then run again. Switching styles clears the old preview so the result does not get mixed up.';
+    note.textContent=copy().note;
     const wrap=document.createElement('div');
     wrap.id='artStyleOptions';
     wrap.className='art-style-options';
     wrap.hidden=true;
-    wrap.innerHTML=styles.map(([value,zh,en],index)=>'<button type="button" class="art-style-button '+(index===0?'active':'')+'" data-art-style="'+value+'">'+zh+'<br><span>'+en+'</span></button>').join('');
+    wrap.innerHTML=styles.map((value,index)=>'<button type="button" class="art-style-button '+(index===0?'active':'')+'" data-art-style="'+value+'"></button>').join('');
     const target=document.getElementById('creativeHelp') || creativeOptions.firstElementChild;
     if(target){
       target.insertAdjacentElement('afterend', note);
@@ -456,6 +599,7 @@ function enhanceIndexHtml(html) {
       creativeOptions.prepend(note);
     }
     note.hidden=true;
+    applyLocalizedCopy();
     wrap.addEventListener('click', event=>{
       const target=event.target instanceof Element ? event.target : event.target.parentElement;
       const button=target && target.closest('[data-art-style]');
@@ -476,6 +620,7 @@ function enhanceIndexHtml(html) {
     const note=document.getElementById('artStyleNote');
     if(wrap) wrap.hidden=!show;
     if(note) note.hidden=!show;
+    applyLocalizedCopy();
   }
   const originalSelectTool=window.selectTool;
   if(typeof originalSelectTool==='function'){
@@ -493,8 +638,13 @@ function enhanceIndexHtml(html) {
     }
     return originalFetch.apply(this, arguments);
   };
-  document.addEventListener('DOMContentLoaded', ()=>syncArtStyles());
+  document.addEventListener('DOMContentLoaded', ()=>{ syncArtStyles(); applyLocalizedCopy(); });
+  document.addEventListener('click', event=>{
+    const target=event.target instanceof Element ? event.target : null;
+    if(target && target.closest('[data-lang],[data-language],.language-switcher,.lang-switcher')) setTimeout(applyLocalizedCopy, 120);
+  }, true);
   syncArtStyles();
+  applyLocalizedCopy();
 })();
 </script>`;
     html = html.replace('</style>', `${artStyleCss}\n</style>`);
