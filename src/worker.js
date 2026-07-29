@@ -317,6 +317,18 @@ async function listFeedback(request, env) {
 function enhanceIndexHtml(html) {
   const hasComicPortrait = html.includes('data-tool="comic-portrait"');
   const hasArtStyleControls = html.includes('id="artStyleOptions"');
+  html = html
+    .replaceAll('See the difference instantly', 'Turn travel photos into comic art')
+    .replaceAll('AI background removal example', 'AI comic-style travel example')
+    .replaceAll('A real example — upload your own image to create your result.', 'A real example from PictTool — upload a travel photo and create your own result.')
+    .replaceAll('一眼看见变化', '旅行照片也能变漫画')
+    .replaceAll('AI 去背景效果示例', 'AI 漫画风旅行照片示例')
+    .replaceAll('真实示例 — 上传自己的图片即可开始处理。', '真实示例 — 上传自己的旅行照片即可开始处理。')
+    .replace('aria-label="Before and after product image comparison"', 'aria-label="Before and after travel photo comic-art comparison"')
+    .replace('assets/bouquet-before.jpg', 'assets/homepage-travel-comic-before.jpg')
+    .replace('assets/bouquet-after.png', 'assets/homepage-travel-comic-after.jpg')
+    .replace('alt="Bouquet in a room before background removal"', 'alt="Tree-lined travel photo before AI comic transformation"')
+    .replace('alt="Bouquet isolated on a purple background after AI background removal"', 'alt="Tree-lined travel photo after AI comic transformation"');
   if (hasComicPortrait && hasArtStyleControls) return html;
 
   if (!hasComicPortrait) {
