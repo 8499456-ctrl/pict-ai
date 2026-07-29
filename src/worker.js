@@ -22,12 +22,11 @@ const FINAL_PREDICTION_STATUSES = new Set(['succeeded', 'failed', 'canceled']);
 const PREDICTION_POLL_INTERVAL_MS = 2000;
 const MAX_PREDICTION_POLLS = 30;
 const ART_STYLE_PROMPTS = {
-  cinematic: 'vertical 3:4 cinematic portrait photoshoot, half-body or upper-body composition, low-key dark background, soft side light from above, one side of the face gently fading into shadow, realistic skin texture, muted colors, subtle film grain, calm professional editorial mood',
-  literary: 'vertical 3:4 literary editorial portrait, half-body composition, quiet cafe, library, window, or simple indoor atmosphere, soft natural window light, muted warm-gray palette, relaxed thoughtful expression, simple tasteful clothing, gentle film texture',
-  melancholy: 'vertical 3:4 moody cinematic portrait, half-body composition, deep neutral background, soft side light, gentle facial shadow, restrained calm expression, cool muted tones, controlled contrast, dramatic but realistic atmosphere',
-  fashion: 'vertical 3:4 premium fashion portrait, half-body or full-body composition, clean magazine cover feeling, confident pose, refined styling, elegant dark or neutral outfit, polished professional lighting, realistic face details, tasteful and non-explicit glamour',
-  street: 'vertical 3:4 urban street portrait, half-body or full-body composition, night city background, neon signs or wet pavement, hoodie or modern streetwear styling, high contrast teal-magenta lighting, cinematic hip-hop editorial mood, realistic photography',
-  japanese: 'vertical 3:4 Japanese-style quiet portrait, half-body or full-body composition, minimalist background, soft overcast window light, low saturation, clean composition, gentle natural expression, understated clothing, calm cinematic stillness',
+  cinematic: 'vertical 3:4 cinematic portrait photoshoot, half-body or upper-body composition, replace the original background with a clean dark studio, cinematic interior, or night city backdrop, soft side light from above, one side of the face gently fading into shadow, realistic skin texture, muted colors, subtle film grain, calm professional editorial mood',
+  literary: 'vertical 3:4 literary editorial portrait, half-body composition, replace the original background with a quiet cafe, library, window-light room, old street, or clean indoor atmosphere, soft natural window light, muted warm-gray palette, relaxed thoughtful expression, simple tasteful clothing, gentle film texture',
+  melancholy: 'vertical 3:4 moody cinematic portrait, half-body composition, replace the original background with a deep neutral studio, rainy window, quiet night interior, or dark waterfront atmosphere, soft side light, gentle facial shadow, restrained calm expression, cool muted tones, controlled contrast, dramatic but realistic atmosphere',
+  street: 'vertical 3:4 urban street portrait, half-body or full-body composition, replace the original background with a night city street, neon signs, wet pavement, alley wall, or modern urban scene, hoodie or modern streetwear styling, high contrast teal-magenta lighting, cinematic hip-hop editorial mood, realistic photography',
+  japanese: 'vertical 3:4 Japanese-style quiet portrait, half-body or full-body composition, replace the original background with a minimalist room, soft window light, quiet street, seaside, or clean neutral setting, low saturation, clean composition, gentle natural expression, understated clothing, calm cinematic stillness',
 };
 
 function artStylePrompt(style) {
@@ -176,7 +175,7 @@ async function processImage(request, env) {
       },
       art: {
         model: 'black-forest-labs/flux-kontext-pro',
-        input: { prompt: `Use this uploaded photo mainly as the identity reference, not as a scene that must be copied. Create a realistic professional AI photoshoot that looks immediately attractive as a social profile image or editorial cover. Keep the same person immediately recognizable: preserve facial structure, facial features, age, hairstyle, hairline, facial hair, expression, skin texture, body proportions, and natural human anatomy. The photo style should be: ${artDirection}. Prefer a vertical 3:4 portrait composition when possible. You may replace a messy room or plain snapshot background with a tasteful professional portrait setting, improve clothing styling, adjust the pose slightly, and redesign lighting, color mood, and camera framing to make the portrait look polished. Keep the result photographic and believable, with real skin texture, natural shadows, and a professional camera look. Do not merely repaint the original photo. Do not keep cluttered indoor background unless the user explicitly asks. Do not make oil paint, watercolor, cartoon, anime, comic, plastic skin, over-smoothed face, orange skin, exaggerated muscles, a different person, distorted hands, extra fingers, explicit sexual content, or a fantasy costume. Do not imitate any named artist, celebrity, movie, brand, or copyrighted character.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
+        input: { prompt: `Use this uploaded photo mainly as the identity reference, not as a scene that must be copied. Create a realistic professional AI photoshoot that looks immediately attractive as a social profile image or editorial cover. Keep the same person immediately recognizable: preserve facial structure, facial features, age, hairstyle, hairline, facial hair, expression, skin texture, body proportions, and natural human anatomy. The photo style should be: ${artDirection}. Prefer a vertical 3:4 portrait composition when possible. Replace the original snapshot background with a tasteful professional portrait background unless the user explicitly asks to keep it. Improve clothing styling, adjust the pose slightly, and redesign lighting, color mood, and camera framing to make the portrait look polished. Keep the result photographic and believable, with real skin texture, natural shadows, and a professional camera look. Do not merely repaint the original photo. Do not keep cluttered indoor background, plain wall, home furniture, or casual room details unless the user explicitly asks. Do not make oil paint, watercolor, cartoon, anime, comic, plastic skin, over-smoothed face, orange skin, exaggerated muscles, a different person, distorted hands, extra fingers, explicit sexual content, or a fantasy costume. Do not imitate any named artist, celebrity, movie, brand, or copyrighted character.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       'change-background': {
         model: 'black-forest-labs/flux-2-dev',
@@ -329,13 +328,12 @@ function enhanceIndexHtml(html) {
 
     const gameAvatarCard = '    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
     const comicPortraitCard = '    <a href="#upload" class="tool-card active" data-tool="comic-portrait" onclick="selectTool(\'comic-portrait\')"><span class="icon neon-icon" data-mark="☷" aria-hidden="true"></span><h3>Comic Portrait</h3><p>Turn a portrait into a polished comic illustration while keeping the person recognizable.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
-    const secondaryGameAvatarCard = '    <a href="#upload" class="tool-card" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="arrow">→</span></a>';
-    html = html.replace(gameAvatarCard, `${comicPortraitCard}\n${secondaryGameAvatarCard}`);
+    html = html.replace(gameAvatarCard, comicPortraitCard);
 
     html = html
       .replace(
         '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>',
-        '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, fashion, or street.</p><span class="arrow">→</span></a>'
+        '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, moody, street, or Japanese.</p><span class="arrow">→</span></a>'
       )
       .replace(
         "'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',",
@@ -347,13 +345,14 @@ function enhanceIndexHtml(html) {
       )
       .replace("let currentTool = 'game-avatar';", "let currentTool = 'comic-portrait';")
       .replaceAll("['game-avatar','cartoon','art','change-background','remove-object','scene-lighting']", "['comic-portrait','game-avatar','cartoon','art','change-background','remove-object','scene-lighting']")
+      .replaceAll("['comic-portrait','game-avatar','cartoon','art','change-background','remove-object','scene-lighting']", "['comic-portrait','cartoon','art','change-background','remove-object','scene-lighting']")
       .replace(
         "    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],",
         "    'comic-portrait': zh?['漫画肖像','把头像或团队照变成专业漫画肖像。提示词越具体，脸部、发型、表情和风格越稳定。']:['Comic portrait','Turn a portrait or team photo into a polished comic illustration. Better prompts help preserve the face, hair, expression, and style.'],\n    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],"
       )
       .replace(
         "    art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],",
-        "    art: zh?['AI写真','选择电影、文艺、忧郁、时尚、街头或日系写真风格。提示词越具体，人物身份和氛围越稳定。']:['AI photoshoot','Choose a cinematic, literary, moody, fashion, street, or Japanese-style portrait. Better prompts help keep identity and mood stable.'],"
+        "    art: zh?['AI写真','选择电影、文艺、忧郁、街头或日系写真风格。提示词越具体，人物身份和氛围越稳定。']:['AI photoshoot','Choose a cinematic, literary, moody, street, or Japanese-style portrait. Better prompts help keep identity and mood stable.'],"
       )
       .replace(
         "  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');",
@@ -365,41 +364,72 @@ function enhanceIndexHtml(html) {
   html = html
     .replace(
       '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>',
-      '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, fashion, or street.</p><span class="arrow">→</span></a>'
+      '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, moody, street, or Japanese.</p><span class="arrow">→</span></a>'
     )
     .replace("'tool.art': '🖼️ Art Style'", "'tool.art': '📸 AI Photoshoot'")
     .replace("'tool.art': '🖼️ 艺术风格'", "'tool.art': '📸 AI写真'")
     .replace(
       "    art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],",
-      "    art: zh?['AI写真','选择电影、文艺、忧郁、时尚、街头或日系写真风格。提示词越具体，人物身份和氛围越稳定。']:['AI photoshoot','Choose a cinematic, literary, moody, fashion, street, or Japanese-style portrait. Better prompts help keep identity and mood stable.'],"
+      "    art: zh?['AI写真','选择电影、文艺、忧郁、街头或日系写真风格。切换风格会清空旧预览，避免误用旧结果。']:['AI photoshoot','Choose a cinematic, literary, moody, street, or Japanese-style portrait. Switching styles clears the old preview to avoid mixing results.'],"
     );
 
   if (!hasArtStyleControls) {
-    const artStyleCss = `  .art-style-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:-2px 0 16px}
+    const artStyleCss = `  .tool-card[data-tool="game-avatar"]{display:none!important}
+  .art-style-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin:-2px 0 16px}
   .art-style-options[hidden]{display:none}
   .art-style-button{min-height:38px;border:1px solid rgba(167,139,250,.24);border-radius:12px;background:rgba(255,255,255,.055);color:#eee8ff;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
   .art-style-button:hover{border-color:rgba(216,180,254,.56);background:rgba(167,139,250,.13)}
   .art-style-button.active{border-color:rgba(253,186,116,.9);background:linear-gradient(135deg,rgba(253,186,116,.22),rgba(168,85,247,.2));color:#fff7ed}
   .art-style-note{margin:-6px 0 12px;color:var(--text-dim);font-size:12px;line-height:1.55}
-  @media(max-width:640px){.art-style-options{grid-template-columns:repeat(2,minmax(0,1fr))}.art-style-button{font-size:11.5px}}`;
+  @media(max-width:760px){.art-style-options{grid-template-columns:repeat(2,minmax(0,1fr))}.art-style-button{font-size:11.5px}}`;
     const artStyleScript = `<script>
 (function(){
   const styles=[
     ['cinematic','电影写真','Cinematic'],
     ['literary','文艺写真','Literary'],
     ['melancholy','忧郁氛围','Moody'],
-    ['fashion','高级时尚','Fashion'],
     ['street','街头嘻哈','Street'],
     ['japanese','日系清冷','Japanese']
   ];
   let selectedArtStyle='cinematic';
+  let lastArtStyle='cinematic';
+  function resetNode(node){
+    if(!node) return;
+    if(node instanceof HTMLImageElement || node instanceof HTMLVideoElement){
+      node.removeAttribute('src');
+      node.style.display='none';
+      return;
+    }
+    if(node instanceof HTMLAnchorElement){
+      node.removeAttribute('href');
+      node.style.display='none';
+      return;
+    }
+    if(node.tagName==='CANVAS'){
+      const context=node.getContext('2d');
+      if(context) context.clearRect(0,0,node.width,node.height);
+      node.style.display='none';
+      return;
+    }
+    if(node.id && /(result|output|download|preview|processed)/i.test(node.id)){
+      node.hidden=true;
+      node.style.display='none';
+    }
+  }
+  function clearArtPreview(){
+    const scope=document.getElementById('upload') || document.getElementById('creativeOptions')?.closest('section') || document.body;
+    scope.querySelectorAll('img,video,canvas,a[href],#result,#output,#preview,#resultImage,#outputImage,#previewImage,#processedImage,#downloadBtn,#downloadLink,.result,.output,.preview,.download').forEach(resetNode);
+    scope.querySelectorAll('input[type="file"]').forEach(input=>{ input.value=''; });
+    const status=document.getElementById('status') || document.getElementById('resultStatus') || document.querySelector('[role="status"]');
+    if(status) status.textContent='Style changed. Upload or run again to preview this look.';
+  }
   function ensureArtStyleControls(){
     const creativeOptions=document.getElementById('creativeOptions');
     if(!creativeOptions || document.getElementById('artStyleOptions')) return;
     const note=document.createElement('p');
     note.id='artStyleNote';
     note.className='art-style-note';
-    note.textContent='AI Photoshoot works best when you choose a style first. Extra English prompts can further control lighting, mood, clothing, or background.';
+    note.textContent='Choose one style, then run again. Switching styles clears the old preview so the result does not get mixed up.';
     const wrap=document.createElement('div');
     wrap.id='artStyleOptions';
     wrap.className='art-style-options';
@@ -420,6 +450,10 @@ function enhanceIndexHtml(html) {
       if(!button) return;
       selectedArtStyle=button.dataset.artStyle || 'cinematic';
       wrap.querySelectorAll('.art-style-button').forEach(item=>item.classList.toggle('active', item===button));
+      if(selectedArtStyle!==lastArtStyle){
+        lastArtStyle=selectedArtStyle;
+        clearArtPreview();
+      }
     });
   }
   function syncArtStyles(tool){
