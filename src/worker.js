@@ -24,7 +24,7 @@ const MAX_PREDICTION_POLLS = 30;
 const ART_STYLE_PROMPTS = {
   cinematic: 'vertical 3:4 cinematic portrait photoshoot, half-body or upper-body composition, low-key dark background, soft side light from above, one side of the face gently fading into shadow, realistic skin texture, muted colors, subtle film grain, calm professional editorial mood',
   literary: 'vertical 3:4 literary editorial portrait, half-body composition, quiet cafe, library, window, or simple indoor atmosphere, soft natural window light, muted warm-gray palette, relaxed thoughtful expression, simple tasteful clothing, gentle film texture',
-  melancholy: 'vertical 3:4 melancholy cinematic portrait, half-body composition, dark background, strong side light, one side of the face in shadow, restrained lonely emotion, cool muted tones, controlled contrast, dramatic but realistic atmosphere',
+  melancholy: 'vertical 3:4 moody cinematic portrait, half-body composition, deep neutral background, soft side light, gentle facial shadow, restrained calm expression, cool muted tones, controlled contrast, dramatic but realistic atmosphere',
   fashion: 'vertical 3:4 premium fashion portrait, half-body or full-body composition, clean magazine cover feeling, confident pose, refined styling, elegant dark or neutral outfit, polished professional lighting, realistic face details, tasteful and non-explicit glamour',
   street: 'vertical 3:4 urban street portrait, half-body or full-body composition, night city background, neon signs or wet pavement, hoodie or modern streetwear styling, high contrast teal-magenta lighting, cinematic hip-hop editorial mood, realistic photography',
   japanese: 'vertical 3:4 Japanese-style quiet portrait, half-body or full-body composition, minimalist background, soft overcast window light, low saturation, clean composition, gentle natural expression, understated clothing, calm cinematic stillness',
@@ -91,7 +91,13 @@ async function toDataUri(file) {
 
 async function replicateJson(url, options) {
   const response = await fetch(url, options);
-  const payload = await response.json();
+  const text = await response.text();
+  let payload;
+  try {
+    payload = text ? JSON.parse(text) : {};
+  } catch (_) {
+    payload = { error: text || 'The AI service returned an unreadable response.' };
+  }
   if (!response.ok) throw new Error(payload.detail || payload.error || 'The AI service could not process this request.');
   return payload;
 }
@@ -170,7 +176,7 @@ async function processImage(request, env) {
       },
       art: {
         model: 'black-forest-labs/flux-kontext-pro',
-        input: { prompt: `Use this uploaded photo mainly as the identity reference, not as a scene that must be copied. Create a realistic professional AI photoshoot that looks immediately attractive as a social profile image or editorial cover. Keep the same person immediately recognizable: preserve facial structure, facial features, age, hairstyle, hairline, facial hair, expression, skin texture, body proportions, and natural human anatomy. The photo style should be: ${artDirection}. You may replace a messy room or plain snapshot background with a tasteful professional portrait setting, improve clothing styling, adjust the pose slightly, and redesign lighting, color mood, and camera framing to make the portrait look polished. Keep the result photographic and believable, with real skin texture, natural shadows, and a professional camera look. Do not merely repaint the original photo. Do not keep cluttered indoor background unless the user explicitly asks. Do not make oil paint, watercolor, cartoon, anime, comic, plastic skin, over-smoothed face, orange skin, exaggerated muscles, a different person, distorted hands, extra fingers, explicit sexual content, or a fantasy costume. Do not imitate any named artist, celebrity, movie, brand, or copyrighted character.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: '3:4', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
+        input: { prompt: `Use this uploaded photo mainly as the identity reference, not as a scene that must be copied. Create a realistic professional AI photoshoot that looks immediately attractive as a social profile image or editorial cover. Keep the same person immediately recognizable: preserve facial structure, facial features, age, hairstyle, hairline, facial hair, expression, skin texture, body proportions, and natural human anatomy. The photo style should be: ${artDirection}. Prefer a vertical 3:4 portrait composition when possible. You may replace a messy room or plain snapshot background with a tasteful professional portrait setting, improve clothing styling, adjust the pose slightly, and redesign lighting, color mood, and camera framing to make the portrait look polished. Keep the result photographic and believable, with real skin texture, natural shadows, and a professional camera look. Do not merely repaint the original photo. Do not keep cluttered indoor background unless the user explicitly asks. Do not make oil paint, watercolor, cartoon, anime, comic, plastic skin, over-smoothed face, orange skin, exaggerated muscles, a different person, distorted hands, extra fingers, explicit sexual content, or a fantasy costume. Do not imitate any named artist, celebrity, movie, brand, or copyrighted character.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       'change-background': {
         model: 'black-forest-labs/flux-2-dev',
