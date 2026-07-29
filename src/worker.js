@@ -21,6 +21,18 @@ const DAILY_LIMITS = { basic: 3, generate: 1, creative: 1, feedback: 2 };
 const FINAL_PREDICTION_STATUSES = new Set(['succeeded', 'failed', 'canceled']);
 const PREDICTION_POLL_INTERVAL_MS = 2000;
 const MAX_PREDICTION_POLLS = 30;
+const ART_STYLE_PROMPTS = {
+  cinematic: 'vertical 3:4 cinematic portrait photoshoot, half-body or upper-body composition, low-key dark background, soft side light from above, one side of the face gently fading into shadow, realistic skin texture, muted colors, subtle film grain, calm professional editorial mood',
+  literary: 'vertical 3:4 literary editorial portrait, half-body composition, quiet cafe, library, window, or simple indoor atmosphere, soft natural window light, muted warm-gray palette, relaxed thoughtful expression, simple tasteful clothing, gentle film texture',
+  melancholy: 'vertical 3:4 melancholy cinematic portrait, half-body composition, dark background, strong side light, one side of the face in shadow, restrained lonely emotion, cool muted tones, controlled contrast, dramatic but realistic atmosphere',
+  fashion: 'vertical 3:4 premium fashion portrait, half-body or full-body composition, clean magazine cover feeling, confident pose, refined styling, elegant dark or neutral outfit, polished professional lighting, realistic face details, tasteful and non-explicit glamour',
+  street: 'vertical 3:4 urban street portrait, half-body or full-body composition, night city background, neon signs or wet pavement, hoodie or modern streetwear styling, high contrast teal-magenta lighting, cinematic hip-hop editorial mood, realistic photography',
+  japanese: 'vertical 3:4 Japanese-style quiet portrait, half-body or full-body composition, minimalist background, soft overcast window light, low saturation, clean composition, gentle natural expression, understated clothing, calm cinematic stillness',
+};
+
+function artStylePrompt(style) {
+  return ART_STYLE_PROMPTS[style] || ART_STYLE_PROMPTS.cinematic;
+}
 
 function corsHeaders(request) {
   const origin = request.headers.get('Origin');
@@ -120,6 +132,7 @@ async function processImage(request, env) {
     }
 
     const dataUri = tool === 'generate' ? null : await toDataUri(image);
+    const artDirection = artStylePrompt(style);
     const models = {
       'remove-bg': {
         version: '95fcc2a26d3899cd6c2691c900465aaeff466285a65c14638cc5f36f34befaf1',
@@ -156,8 +169,8 @@ async function processImage(request, env) {
         input: { prompt: 'Render this exact photo as a colorful, gentle hand-painted animation illustration: soft watercolor-like shading, clean rounded shapes, warm natural light, rich but realistic colors, and a cozy storybook feeling. Preserve the exact person or subject, facial features, age, hairstyle, expression, pose, body proportions, clothing, objects, composition, framing, and camera angle. Keep the subject immediately recognizable as the same person. Do not make black-and-white line art, pencil sketch, manga ink, comic hatching, exaggerated facial features, or a new person. Do not imitate a named studio, character, or artist.', input_image: dataUri, aspect_ratio: 'match_input_image', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       art: {
-        model: 'black-forest-labs/flux-2-dev',
-        input: { prompt: 'Create a clearly visible original digital-art version of this reference image. Preserve the exact main subject, facial features, hairstyle, expression, pose, clothing, object details, and composition so it remains immediately recognizable as the same image. Use richer color, painterly texture, and refined light, but do not redesign the subject or change people into someone else. Do not imitate a named artist.', input_images: [dataUri], aspect_ratio: 'match_input_image', output_format: 'jpg', output_quality: 82, go_fast: true },
+        model: 'black-forest-labs/flux-kontext-pro',
+        input: { prompt: `Use this uploaded photo mainly as the identity reference, not as a scene that must be copied. Create a realistic professional AI photoshoot that looks immediately attractive as a social profile image or editorial cover. Keep the same person immediately recognizable: preserve facial structure, facial features, age, hairstyle, hairline, facial hair, expression, skin texture, body proportions, and natural human anatomy. The photo style should be: ${artDirection}. You may replace a messy room or plain snapshot background with a tasteful professional portrait setting, improve clothing styling, adjust the pose slightly, and redesign lighting, color mood, and camera framing to make the portrait look polished. Keep the result photographic and believable, with real skin texture, natural shadows, and a professional camera look. Do not merely repaint the original photo. Do not keep cluttered indoor background unless the user explicitly asks. Do not make oil paint, watercolor, cartoon, anime, comic, plastic skin, over-smoothed face, orange skin, exaggerated muscles, a different person, distorted hands, extra fingers, explicit sexual content, or a fantasy costume. Do not imitate any named artist, celebrity, movie, brand, or copyrighted character.${prompt ? ` Additional user direction: ${prompt}` : ''}`, input_image: dataUri, aspect_ratio: '3:4', output_format: 'jpg', safety_tolerance: 2, prompt_upsampling: false },
       },
       'change-background': {
         model: 'black-forest-labs/flux-2-dev',
@@ -297,39 +310,144 @@ async function listFeedback(request, env) {
 }
 
 function enhanceIndexHtml(html) {
-  if (html.includes('data-tool="comic-portrait"')) return html;
+  const hasComicPortrait = html.includes('data-tool="comic-portrait"');
+  const hasArtStyleControls = html.includes('id="artStyleOptions"');
+  if (hasComicPortrait && hasArtStyleControls) return html;
 
-  const comicIconCss = '  .tool-card[data-tool="comic-portrait"] .neon-icon{background:linear-gradient(145deg,#fff0a8 0%,#f59f59 52%,#b967e8 100%)}';
-  html = html.replace(
-    '  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}',
-    `${comicIconCss}\n  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}`
-  );
+  if (!hasComicPortrait) {
+    const comicIconCss = '  .tool-card[data-tool="comic-portrait"] .neon-icon{background:linear-gradient(145deg,#fff0a8 0%,#f59f59 52%,#b967e8 100%)}';
+    html = html.replace(
+      '  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}',
+      `${comicIconCss}\n  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}`
+    );
 
-  const gameAvatarCard = '    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
-  const comicPortraitCard = '    <a href="#upload" class="tool-card active" data-tool="comic-portrait" onclick="selectTool(\'comic-portrait\')"><span class="icon neon-icon" data-mark="☷" aria-hidden="true"></span><h3>Comic Portrait</h3><p>Turn a portrait into a polished comic illustration while keeping the person recognizable.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
-  const secondaryGameAvatarCard = '    <a href="#upload" class="tool-card" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="arrow">→</span></a>';
-  html = html.replace(gameAvatarCard, `${comicPortraitCard}\n${secondaryGameAvatarCard}`);
+    const gameAvatarCard = '    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
+    const comicPortraitCard = '    <a href="#upload" class="tool-card active" data-tool="comic-portrait" onclick="selectTool(\'comic-portrait\')"><span class="icon neon-icon" data-mark="☷" aria-hidden="true"></span><h3>Comic Portrait</h3><p>Turn a portrait into a polished comic illustration while keeping the person recognizable.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>';
+    const secondaryGameAvatarCard = '    <a href="#upload" class="tool-card" data-tool="game-avatar" onclick="selectTool(\'game-avatar\')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="arrow">→</span></a>';
+    html = html.replace(gameAvatarCard, `${comicPortraitCard}\n${secondaryGameAvatarCard}`);
+
+    html = html
+      .replace(
+        '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>',
+        '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, fashion, or street.</p><span class="arrow">→</span></a>'
+      )
+      .replace(
+        "'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',",
+        "'tool.comic-portrait': '☷ Comic Portrait', 'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '📸 AI Photoshoot', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',"
+      )
+      .replace(
+        "'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',",
+        "'tool.comic-portrait': '☷ 漫画肖像', 'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '📸 AI写真', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',"
+      )
+      .replace("let currentTool = 'game-avatar';", "let currentTool = 'comic-portrait';")
+      .replaceAll("['game-avatar','cartoon','art','change-background','remove-object','scene-lighting']", "['comic-portrait','game-avatar','cartoon','art','change-background','remove-object','scene-lighting']")
+      .replace(
+        "    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],",
+        "    'comic-portrait': zh?['漫画肖像','把头像或团队照变成专业漫画肖像。提示词越具体，脸部、发型、表情和风格越稳定。']:['Comic portrait','Turn a portrait or team photo into a polished comic illustration. Better prompts help preserve the face, hair, expression, and style.'],\n    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],"
+      )
+      .replace(
+        "    art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],",
+        "    art: zh?['AI写真','选择电影、文艺、忧郁、时尚、街头或日系写真风格。提示词越具体，人物身份和氛围越稳定。']:['AI photoshoot','Choose a cinematic, literary, moody, fashion, street, or Japanese-style portrait. Better prompts help keep identity and mood stable.'],"
+      )
+      .replace(
+        "  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');",
+        "  creativePrompt.placeholder=tool==='remove-object'\n    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')\n    : tool==='comic-portrait'\n      ? 'professional founder portrait, clean ink outlines, natural skin tones, keep the same face'\n      : tool==='art'\n        ? 'soft side light, muted colors, realistic skin texture, keep the same face'\n        : tool==='scene-lighting'\n          ? 'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'\n          : (zh?'例如：月光森林':'For example: a moonlit forest');"
+      )
+      .replace("selectTool('game-avatar');", "selectTool('comic-portrait');");
+  }
 
   html = html
     .replace(
-      "'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',",
-      "'tool.comic-portrait': '☷ Comic Portrait', 'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',"
+      '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>',
+      '<a href="#upload" class="tool-card" data-tool="art" onclick="selectTool(\'art\')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>AI Photoshoot</h3><p>Choose a realistic portrait style such as cinematic, literary, fashion, or street.</p><span class="arrow">→</span></a>'
     )
+    .replace("'tool.art': '🖼️ Art Style'", "'tool.art': '📸 AI Photoshoot'")
+    .replace("'tool.art': '🖼️ 艺术风格'", "'tool.art': '📸 AI写真'")
     .replace(
-      "'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',",
-      "'tool.comic-portrait': '☷ 漫画肖像', 'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',"
-    )
-    .replace("let currentTool = 'game-avatar';", "let currentTool = 'comic-portrait';")
-    .replaceAll("['game-avatar','cartoon','art','change-background','remove-object','scene-lighting']", "['comic-portrait','game-avatar','cartoon','art','change-background','remove-object','scene-lighting']")
-    .replace(
-      "    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],",
-      "    'comic-portrait': zh?['漫画肖像','把头像或团队照变成专业漫画肖像。提示词越具体，脸部、发型、表情和风格越稳定。']:['Comic portrait','Turn a portrait or team photo into a polished comic illustration. Better prompts help preserve the face, hair, expression, and style.'],\n    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],"
-    )
-    .replace(
-      "  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');",
-      "  creativePrompt.placeholder=tool==='remove-object'\n    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')\n    : tool==='comic-portrait'\n      ? 'professional founder portrait, clean ink outlines, natural skin tones, keep the same face'\n      : tool==='scene-lighting'\n        ? 'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'\n        : (zh?'例如：月光森林':'For example: a moonlit forest');"
-    )
-    .replace("selectTool('game-avatar');", "selectTool('comic-portrait');");
+      "    art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],",
+      "    art: zh?['AI写真','选择电影、文艺、忧郁、时尚、街头或日系写真风格。提示词越具体，人物身份和氛围越稳定。']:['AI photoshoot','Choose a cinematic, literary, moody, fashion, street, or Japanese-style portrait. Better prompts help keep identity and mood stable.'],"
+    );
+
+  if (!hasArtStyleControls) {
+    const artStyleCss = `  .art-style-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:-2px 0 16px}
+  .art-style-options[hidden]{display:none}
+  .art-style-button{min-height:38px;border:1px solid rgba(167,139,250,.24);border-radius:12px;background:rgba(255,255,255,.055);color:#eee8ff;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+  .art-style-button:hover{border-color:rgba(216,180,254,.56);background:rgba(167,139,250,.13)}
+  .art-style-button.active{border-color:rgba(253,186,116,.9);background:linear-gradient(135deg,rgba(253,186,116,.22),rgba(168,85,247,.2));color:#fff7ed}
+  .art-style-note{margin:-6px 0 12px;color:var(--text-dim);font-size:12px;line-height:1.55}
+  @media(max-width:640px){.art-style-options{grid-template-columns:repeat(2,minmax(0,1fr))}.art-style-button{font-size:11.5px}}`;
+    const artStyleScript = `<script>
+(function(){
+  const styles=[
+    ['cinematic','电影写真','Cinematic'],
+    ['literary','文艺写真','Literary'],
+    ['melancholy','忧郁氛围','Moody'],
+    ['fashion','高级时尚','Fashion'],
+    ['street','街头嘻哈','Street'],
+    ['japanese','日系清冷','Japanese']
+  ];
+  let selectedArtStyle='cinematic';
+  function ensureArtStyleControls(){
+    const creativeOptions=document.getElementById('creativeOptions');
+    if(!creativeOptions || document.getElementById('artStyleOptions')) return;
+    const note=document.createElement('p');
+    note.id='artStyleNote';
+    note.className='art-style-note';
+    note.textContent='AI Photoshoot works best when you choose a style first. Extra English prompts can further control lighting, mood, clothing, or background.';
+    const wrap=document.createElement('div');
+    wrap.id='artStyleOptions';
+    wrap.className='art-style-options';
+    wrap.hidden=true;
+    wrap.innerHTML=styles.map(([value,zh,en],index)=>'<button type="button" class="art-style-button '+(index===0?'active':'')+'" data-art-style="'+value+'">'+zh+'<br><span>'+en+'</span></button>').join('');
+    const target=document.getElementById('creativeHelp') || creativeOptions.firstElementChild;
+    if(target){
+      target.insertAdjacentElement('afterend', note);
+      note.insertAdjacentElement('afterend', wrap);
+    }else{
+      creativeOptions.prepend(wrap);
+      creativeOptions.prepend(note);
+    }
+    note.hidden=true;
+    wrap.addEventListener('click', event=>{
+      const target=event.target instanceof Element ? event.target : event.target.parentElement;
+      const button=target && target.closest('[data-art-style]');
+      if(!button) return;
+      selectedArtStyle=button.dataset.artStyle || 'cinematic';
+      wrap.querySelectorAll('.art-style-button').forEach(item=>item.classList.toggle('active', item===button));
+    });
+  }
+  function syncArtStyles(tool){
+    ensureArtStyleControls();
+    const activeTool=tool || document.querySelector('.tool-card.active')?.dataset.tool;
+    const show=activeTool==='art';
+    const wrap=document.getElementById('artStyleOptions');
+    const note=document.getElementById('artStyleNote');
+    if(wrap) wrap.hidden=!show;
+    if(note) note.hidden=!show;
+  }
+  const originalSelectTool=window.selectTool;
+  if(typeof originalSelectTool==='function'){
+    window.selectTool=function(tool){
+      const result=originalSelectTool.apply(this, arguments);
+      syncArtStyles(tool);
+      return result;
+    };
+  }
+  const originalFetch=window.fetch;
+  window.fetch=function(input, init){
+    const url=typeof input==='string'?input:(input && input.url) || '';
+    if(init && init.body instanceof FormData && url.includes('/api/process') && init.body.get('tool')==='art'){
+      init.body.set('style', selectedArtStyle);
+    }
+    return originalFetch.apply(this, arguments);
+  };
+  document.addEventListener('DOMContentLoaded', ()=>syncArtStyles());
+  syncArtStyles();
+})();
+</script>`;
+    html = html.replace('</style>', `${artStyleCss}\n</style>`);
+    html = html.replace('</body>', `${artStyleScript}\n</body>`);
+  }
 
   return html;
 }
