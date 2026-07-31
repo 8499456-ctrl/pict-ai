@@ -60,6 +60,15 @@ function isAllowedRequest(request) {
   return origin === new URL(request.url).origin || ALLOWED_ORIGINS.has(origin);
 }
 
+function isTestRequest(request, env) {
+  return Boolean(env.ADMIN_TEST_TOKEN) && request.headers.get('X-Pict-Test-Token') === env.ADMIN_TEST_TOKEN;
+}
+
+function testQuotaGroups() {
+  const quota = { limit: 999999, remaining: 999999, used: 0, test: true };
+  return Object.fromEntries(Object.keys(DAILY_LIMITS).map(group => [group, quota]));
+}
+
 function dayKey() {
   return new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
 }
@@ -119,7 +128,7 @@ async function processImage(request, env) {
     const style = String(form.get('style') || '').trim();
     const image = form.get('image');
     group = TOOL_GROUPS[tool];
-    const isTestMode = Boolean(env.ADMIN_TEST_TOKEN) && request.headers.get('X-Pict-Test-Token') === env.ADMIN_TEST_TOKEN;
+    const isTestMode = isTestRequest(request, env);
 
     if (!group) return json(request, { error: 'This tool is not available.' }, 400);
     if ((tool === 'generate' || tool === 'remove-object') && (!prompt || prompt.length > 500)) return json(request, { error: 'Please enter a short description of up to 500 characters.' }, 400);
@@ -218,7 +227,7 @@ async function processImage(request, env) {
     }
     if (prediction.status !== 'succeeded') throw new Error(prediction.error || 'AI processing failed.');
 
-    const committed = isTestMode ? { data: { limit: 0, remaining: 0 } } : await quotaRequest(request, env, group, 'commit', reservation);
+    const committed = isTestMode ? { data: { limit: 999999, remaining: 999999 } } : await quotaRequest(request, env, group, 'commit', reservation);
     reservation = null;
     const output = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
     if (!output) throw new Error('No image was returned by the AI model.');
@@ -232,6 +241,7 @@ async function processImage(request, env) {
         'X-Pict-Quota-Limit': String(committed.data.limit),
         'X-Pict-Quota-Remaining': String(committed.data.remaining),
         'X-Pict-Quota-Group': group,
+        'X-Pict-Test-Mode': isTestMode ? 'true' : 'false',
       },
     });
   } catch (error) {
@@ -249,6 +259,7 @@ async function quotaStatus(request, env) {
   // remaining quota and never starts an AI job, so those reads are safe to allow.
   const origin = request.headers.get('Origin');
   if (origin && !isAllowedRequest(request)) return json(request, { error: 'This request is not allowed.' }, 403);
+  if (isTestRequest(request, env)) return json(request, { groups: testQuotaGroups(), test: true });
   try {
     const groups = await Promise.all(Object.keys(DAILY_LIMITS).map(async group => {
       const result = await quotaRequest(request, env, group, 'status');
@@ -456,6 +467,18 @@ function enhanceIndexHtml(html) {
     .replace('<p>🎮 Creative tools for gamers & creators</p>', '<p data-i18n="group.creative">🎮 Creative tools for gamers & creators</p>')
     .replace('<p>✦ Everyday image tools</p>', '<p data-i18n="group.everyday">✦ Everyday image tools</p>')
     .replace('<p>✦ Quick tools — free & private in your browser</p>', '<p data-i18n="group.quick">✦ Quick tools — free & private in your browser</p>')
+    .replace(
+      "const testMode = new URLSearchParams(location.search).get('test') === '1';\nlet testToken = testMode ? sessionStorage.getItem('pict-test-token') : '';\nif (testMode && !testToken) {",
+      "const testModeParam = new URLSearchParams(location.search).get('test') === '1';\nlet testToken = sessionStorage.getItem('pict-test-token') || '';\nif (testModeParam && !testToken) {"
+    )
+    .replace(
+      "  if (testToken) sessionStorage.setItem('pict-test-token', testToken);\n}\nfunction processRequestOptions(form) {",
+      "  if (testToken) sessionStorage.setItem('pict-test-token', testToken);\n}\nconst testMode = testModeParam || Boolean(testToken);\nfunction processRequestOptions(form) {"
+    )
+    .replace(
+      "    const response = await fetch('/api/quota');",
+      "    const response = await fetch('/api/quota', testToken ? { headers: { 'X-Pict-Test-Token': testToken } } : undefined);"
+    )
     .replaceAll('https://pict-ai.pages.dev', 'https://picttool.com');
   if (hasComicPortrait && hasArtStyleControls) return applyLocalizationFixes(html);
 
