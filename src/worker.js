@@ -39,7 +39,7 @@ function corsHeaders(request) {
     'Access-Control-Allow-Origin': ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.picttool.com',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-Pict-Test-Token',
-    'Access-Control-Expose-Headers': 'X-Pict-Quota-Limit, X-Pict-Quota-Remaining, X-Pict-Quota-Group',
+    'Access-Control-Expose-Headers': 'X-Pict-Quota-Limit, X-Pict-Quota-Remaining, X-Pict-Quota-Group, X-Pict-Test-Mode',
     'Vary': 'Origin',
   };
 }
@@ -61,7 +61,8 @@ function isAllowedRequest(request) {
 }
 
 function isTestRequest(request, env) {
-  return Boolean(env.ADMIN_TEST_TOKEN) && request.headers.get('X-Pict-Test-Token') === env.ADMIN_TEST_TOKEN;
+  const token = request.headers.get('X-Pict-Test-Token');
+  return Boolean(env.ADMIN_TEST_TOKEN) && token === env.ADMIN_TEST_TOKEN;
 }
 
 function testQuotaGroups() {
@@ -473,11 +474,27 @@ function enhanceIndexHtml(html) {
     )
     .replace(
       "  if (testToken) sessionStorage.setItem('pict-test-token', testToken);\n}\nfunction processRequestOptions(form) {",
-      "  if (testToken) sessionStorage.setItem('pict-test-token', testToken);\n}\nconst testMode = testModeParam || Boolean(testToken);\nfunction processRequestOptions(form) {"
+      "  if (testToken) sessionStorage.setItem('pict-test-token', testToken);\n}\nlet testMode = testModeParam || Boolean(testToken);\nfunction testRequestHeaders(){ return testToken ? { 'X-Pict-Test-Token': testToken } : {}; }\nfunction processRequestOptions(form) {"
+    )
+    .replace(
+      "  return { method: 'POST', body: form, headers: testToken ? { 'X-Pict-Test-Token': testToken } : {} };\n}\n\nfunction quotaGroupForTool(tool) {",
+      "  return { method: 'POST', body: form, headers: testRequestHeaders() };\n}\nfunction quotaRequestUrl(){ return '/api/quota'; }\nfunction quotaRequestOptions(){ return testToken ? { headers: testRequestHeaders() } : undefined; }\nfunction clearInvalidTestToken(){\n  if (!testToken) return;\n  sessionStorage.removeItem('pict-test-token');\n  testToken = '';\n  testMode = false;\n  if (testModeParam) alert(currentLang === 'zh' ? '测试密码无效，请刷新后重新输入。' : 'The test password is invalid. Refresh and enter it again.');\n}\n\nfunction quotaGroupForTool(tool) {"
     )
     .replace(
       "    const response = await fetch('/api/quota');",
-      "    const response = await fetch('/api/quota', testToken ? { headers: { 'X-Pict-Test-Token': testToken } } : undefined);"
+      "    const response = await fetch(quotaRequestUrl(), quotaRequestOptions());"
+    )
+    .replace(
+      "    const response = await fetch('/api/quota', quotaRequestOptions());",
+      "    const response = await fetch(quotaRequestUrl(), quotaRequestOptions());"
+    )
+    .replace(
+      "    quotaGroups = data.groups || null;\n    renderQuota();",
+      "    if (testToken && !data.test) clearInvalidTestToken();\n    quotaGroups = data.groups || null;\n    renderQuota();"
+    )
+    .replace(
+      "  if (testMode && testToken) status.textContent = currentLang === 'zh' ? '🧪 私人测试模式：不占用每日免费次数' : '🧪 Private test mode: daily free quota is not used';",
+      "  if (testMode && testToken) status.textContent = currentLang === 'zh' ? '🧪 私人测试模式：不占用每日免费次数' : '🧪 Private test mode: daily free quota is not used';"
     )
     .replaceAll('https://pict-ai.pages.dev', 'https://picttool.com');
   if (hasComicPortrait && hasArtStyleControls) return applyLocalizationFixes(html);
