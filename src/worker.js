@@ -328,7 +328,11 @@ function enhanceIndexHtml(html) {
     .replace('assets/bouquet-before.jpg', 'assets/homepage-travel-comic-before.jpg')
     .replace('assets/bouquet-after.png', 'assets/homepage-travel-comic-after.jpg')
     .replace('alt="Bouquet in a room before background removal"', 'alt="Tree-lined travel photo before AI comic transformation"')
-    .replace('alt="Bouquet isolated on a purple background after AI background removal"', 'alt="Tree-lined travel photo after AI comic transformation"');
+    .replace('alt="Bouquet isolated on a purple background after AI background removal"', 'alt="Tree-lined travel photo after AI comic transformation"')
+    .replace('<p>🎮 Creative tools for gamers & creators</p>', '<p data-i18n="group.creative">🎮 Creative tools for gamers & creators</p>')
+    .replace('<p>✦ Everyday image tools</p>', '<p data-i18n="group.everyday">✦ Everyday image tools</p>')
+    .replace('<p>✦ Quick tools — free & private in your browser</p>', '<p data-i18n="group.quick">✦ Quick tools — free & private in your browser</p>')
+    .replaceAll('https://pict-ai.pages.dev', 'https://picttool.com');
   if (hasComicPortrait && hasArtStyleControls) return html;
 
   if (!hasComicPortrait) {
@@ -501,13 +505,247 @@ function enhanceIndexHtml(html) {
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    },
+    ar:{
+      styles:{cinematic:'سينمائي',literary:'تحريري',melancholy:'مزاجي',street:'شارع',japanese:'ياباني'},
+      note:'اختر نمطاً ثم أنشئ الصورة من جديد. تغيير النمط يمسح المعاينة القديمة.',
+      changed:'تم تغيير النمط. ارفع الصورة أو أنشئها من جديد لرؤية النتيجة.',
+      exampleTitle:'حوّل صور السفر إلى فن قصصي',
+      exampleSubtitle:'مثال لصورة سفر بأسلوب القصص المصورة بالذكاء الاصطناعي',
+      exampleNote:'مثال حقيقي من PictTool - ارفع صورة سفر وأنشئ نتيجتك الخاصة.',
+      beforeAlt:'صورة سفر بين الأشجار قبل تحويلها إلى فن قصصي',
+      afterAlt:'صورة سفر بين الأشجار بعد تحويلها إلى فن قصصي',
+      comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
+      artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
+      lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
+    }
+  };
+  const uiText={
+    en:{
+      creativeGroup:'Creative tools for gamers & creators',
+      everydayGroup:'Everyday image tools',
+      quickGroup:'Quick tools - free & private in your browser',
+      before:'Before',
+      after:'After',
+      comparisonAria:'Before and after travel photo comic-art comparison',
+      tools:{
+        'comic-portrait':['Comic Portrait','Turn a portrait into a polished comic illustration while keeping the person recognizable.'],
+        cartoon:['Photo to Cartoon','Make a clean, charming cartoon version while keeping the subject recognizable.'],
+        art:['AI Photoshoot','Choose a realistic portrait style such as cinematic, literary, moody, street, or Japanese.'],
+        'change-background':['Change Background','Keep the subject and create a new scene around it.'],
+        'remove-object':['Remove Object','Remove one unwanted item while keeping the rest of your photo intact.'],
+        'scene-lighting':['Lighting Enhance','Improve light, color, and atmosphere without changing the scene.']
+      },
+      promptHelp:{
+        'comic-portrait':'Turn a portrait or team photo into a polished comic illustration. Better prompts help preserve the face, hair, expression, and style.',
+        art:'Choose a realistic portrait style. Better prompts help keep identity, background, and mood stable.',
+        'change-background':'Describe the new background while keeping the main subject unchanged.',
+        'remove-object':'Describe the single object to remove. Other people and objects will stay unchanged.',
+        'scene-lighting':'Improve light, color, and atmosphere while keeping the scene unchanged.',
+        cartoon:'Create a clean, charming cartoon version while keeping the subject recognizable.'
+      }
+    },
+    zh:{
+      creativeGroup:'🎮 面向玩家和创作者的创意工具',
+      everydayGroup:'✦ 日常图片工具',
+      quickGroup:'✦ 快速工具 - 免费且保护隐私',
+      before:'处理前',
+      after:'处理后',
+      comparisonAria:'旅行照片漫画效果前后对比',
+      tools:{
+        'comic-portrait':['☷ 漫画肖像','把头像变成专业漫画肖像，同时保持人物可识别。'],
+        cartoon:['🧸 图片卡通化','生成干净、有亲和力的卡通效果，同时保持主体可识别。'],
+        art:['📸 AI写真','选择电影、文艺、忧郁、街头或日系写真风格。'],
+        'change-background':['🏞️ 更换背景','保留主体，并为照片创建新的场景。'],
+        'remove-object':['🧹 去除物体','去除一个不需要的物体，同时保留照片其他内容。'],
+        'scene-lighting':['💡 灯光优化','改善光线、色彩和氛围，不改变原有场景。']
+      },
+      promptHelp:{
+        'comic-portrait':'把头像或团队照变成专业漫画肖像。提示词越具体，脸部、发型、表情和风格越稳定。',
+        art:'选择一种写真风格。提示词越具体，人物身份、背景和氛围越稳定。',
+        'change-background':'描述想要的新背景，同时保持主体不变。',
+        'remove-object':'描述需要去除的一个物体，其他人物和物体会保持不变。',
+        'scene-lighting':'改善光线、色彩和氛围，同时保持场景不变。',
+        cartoon:'生成干净、有亲和力的卡通效果，同时保持主体可识别。'
+      }
+    },
+    es:{
+      creativeGroup:'🎮 Herramientas creativas para jugadores y creadores',
+      everydayGroup:'✦ Herramientas de imagen cotidianas',
+      quickGroup:'✦ Herramientas rápidas - gratis y privadas',
+      before:'Antes',
+      after:'Después',
+      comparisonAria:'Comparación antes y después de la transformación comic',
+      tools:{
+        'comic-portrait':['☷ Retrato comic','Convierte un retrato en una ilustración comic manteniendo reconocible a la persona.'],
+        cartoon:['🧸 Foto a caricatura','Crea una caricatura limpia y agradable manteniendo reconocible al sujeto.'],
+        art:['📸 Sesión de fotos IA','Elige un estilo de retrato cinematográfico, editorial, melancólico, urbano o japonés.'],
+        'change-background':['🏞️ Cambiar fondo','Mantén el sujeto y crea una nueva escena a su alrededor.'],
+        'remove-object':['🧹 Eliminar objeto','Elimina un objeto no deseado manteniendo intacto el resto de la foto.'],
+        'scene-lighting':['💡 Mejorar iluminación','Mejora la luz, el color y el ambiente sin cambiar la escena.']
+      },
+      promptHelp:{
+        'comic-portrait':'Convierte un retrato o equipo en una ilustración comic. Los prompts detallados ayudan a conservar el rostro y el estilo.',
+        art:'Elige un estilo de retrato realista. Los prompts detallados mantienen estables la identidad, el fondo y el ambiente.',
+        'change-background':'Describe el nuevo fondo manteniendo intacto el sujeto principal.',
+        'remove-object':'Describe el único objeto que quieres eliminar. Los demás elementos no cambiarán.',
+        'scene-lighting':'Mejora la luz, el color y el ambiente manteniendo la escena.',
+        cartoon:'Crea una caricatura limpia y agradable manteniendo reconocible al sujeto.'
+      }
+    },
+    fr:{
+      creativeGroup:'🎮 Outils créatifs pour joueurs et créateurs',
+      everydayGroup:'✦ Outils photo du quotidien',
+      quickGroup:'✦ Outils rapides - gratuits et privés',
+      before:'Avant',
+      after:'Après',
+      comparisonAria:'Comparaison avant et après de la transformation comic',
+      tools:{
+        'comic-portrait':['☷ Portrait comic','Transformez un portrait en illustration comic tout en gardant la personne reconnaissable.'],
+        cartoon:['🧸 Photo en cartoon','Créez une version cartoon propre et agréable tout en gardant le sujet reconnaissable.'],
+        art:['📸 Séance photo IA','Choisissez un style de portrait cinéma, éditorial, mélancolique, urbain ou japonais.'],
+        'change-background':['🏞️ Changer le fond','Conservez le sujet et créez une nouvelle scène autour de lui.'],
+        'remove-object':['🧹 Supprimer un objet','Supprimez un objet indésirable en gardant le reste de la photo intact.'],
+        'scene-lighting':['💡 Améliorer la lumière','Améliorez la lumière, les couleurs et l’ambiance sans changer la scène.']
+      },
+      promptHelp:{
+        'comic-portrait':'Transformez un portrait ou une équipe en illustration comic. Des prompts précis aident à préserver le visage et le style.',
+        art:'Choisissez un style de portrait réaliste. Des prompts précis stabilisent l’identité, le fond et l’ambiance.',
+        'change-background':'Décrivez le nouveau fond en gardant le sujet principal intact.',
+        'remove-object':'Décrivez le seul objet à supprimer. Les autres éléments resteront inchangés.',
+        'scene-lighting':'Améliorez la lumière, les couleurs et l’ambiance sans changer la scène.',
+        cartoon:'Créez une version cartoon propre et agréable tout en gardant le sujet reconnaissable.'
+      }
+    },
+    pt:{
+      creativeGroup:'🎮 Ferramentas criativas para jogadores e criadores',
+      everydayGroup:'✦ Ferramentas de imagem do dia a dia',
+      quickGroup:'✦ Ferramentas rápidas - gratuitas e privadas',
+      before:'Antes',
+      after:'Depois',
+      comparisonAria:'Comparação antes e depois da transformação comic',
+      tools:{
+        'comic-portrait':['☷ Retrato comic','Transforme um retrato em uma ilustração comic mantendo a pessoa reconhecível.'],
+        cartoon:['🧸 Foto para cartoon','Crie uma versão cartoon limpa e agradável mantendo o sujeito reconhecível.'],
+        art:['📸 Sessão de fotos IA','Escolha um estilo de retrato cinematográfico, editorial, melancólico, urbano ou japonês.'],
+        'change-background':['🏞️ Alterar fundo','Mantenha o sujeito e crie uma nova cena ao redor dele.'],
+        'remove-object':['🧹 Remover objeto','Remova um objeto indesejado mantendo o restante da foto intacto.'],
+        'scene-lighting':['💡 Melhorar iluminação','Melhore luz, cor e ambiente sem alterar a cena.']
+      },
+      promptHelp:{
+        'comic-portrait':'Transforme um retrato ou equipe em uma ilustração comic. Prompts detalhados ajudam a preservar rosto e estilo.',
+        art:'Escolha um estilo de retrato realista. Prompts detalhados mantêm identidade, fundo e clima estáveis.',
+        'change-background':'Descreva o novo fundo mantendo o sujeito principal intacto.',
+        'remove-object':'Descreva o único objeto que deve ser removido. Os demais elementos permanecem.',
+        'scene-lighting':'Melhore luz, cor e ambiente mantendo a cena inalterada.',
+        cartoon:'Crie uma versão cartoon limpa e agradável mantendo o sujeito reconhecível.'
+      }
+    },
+    ja:{
+      creativeGroup:'🎮 ゲーマーとクリエイター向けのクリエイティブツール',
+      everydayGroup:'✦ 日常の画像ツール',
+      quickGroup:'✦ クイックツール - 無料・プライベート',
+      before:'変換前',
+      after:'変換後',
+      comparisonAria:'旅行写真のコミック変換前後比較',
+      tools:{
+        'comic-portrait':['☷ コミックポートレート','人物を認識できる状態で、ポートレートを洗練されたコミック風に変換します。'],
+        cartoon:['🧸 写真をカートゥーンに','人物を保ちながら、きれいで親しみやすい効果にします。'],
+        art:['📸 AI フォトシュート','シネマ、文芸、ムーディ、ストリート、日本風から選べます。'],
+        'change-background':['🏞️ 背景を変更','被写体を保ったまま、新しい背景を作成します。'],
+        'remove-object':['🧹 オブジェクトを削除','不要な物体を一つ削除し、他の部分を保ちます。'],
+        'scene-lighting':['💡 ライティング補正','シーンを変えずに光、色、雰囲気を改善します。']
+      },
+      promptHelp:{
+        'comic-portrait':'ポートレートを洗練されたコミック風に変換します。具体的なプロンプトほど顔や髪型を保ちやすくなります。',
+        art:'リアルなポートレートスタイルを選びます。具体的なプロンプトで人物と雰囲気が安定します。',
+        'change-background':'被写体を保ったまま、新しい背景を説明してください。',
+        'remove-object':'削除する一つの物体を説明してください。他の要素は変わりません。',
+        'scene-lighting':'シーンを変えずに光、色、雰囲気を改善します。',
+        cartoon:'人物を保ちながら、きれいで親しみやすい効果にします。'
+      }
+    },
+    ko:{
+      creativeGroup:'🎮 게이머와 크리에이터를 위한 창작 도구',
+      everydayGroup:'✦ 일상 이미지 도구',
+      quickGroup:'✦ 빠른 도구 - 무료 및 비공개',
+      before:'변환 전',
+      after:'변환 후',
+      comparisonAria:'여행 사진 코믹 변환 전후 비교',
+      tools:{
+        'comic-portrait':['☷ 코믹 초상화','인물을 알아볼 수 있도록 유지하면서 세련된 코믹 일러스트로 변환합니다.'],
+        cartoon:['🧸 사진을 카툰으로','대상을 알아볼 수 있도록 유지하면서 깔끔한 카툰 효과를 만듭니다.'],
+        art:['📸 AI 포토슈트','시네마, 감성, 무드, 스트리트, 일본풍 중에서 선택하세요.'],
+        'change-background':['🏞️ 배경 변경','대상을 유지하고 주변에 새로운 장면을 만듭니다.'],
+        'remove-object':['🧹 물체 제거','원하지 않는 물체 하나를 제거하고 나머지는 유지합니다.'],
+        'scene-lighting':['💡 조명 개선','장면을 바꾸지 않고 빛, 색상, 분위기를 개선합니다.']
+      },
+      promptHelp:{
+        'comic-portrait':'초상화나 단체 사진을 코믹 일러스트로 변환합니다. 구체적인 프롬프트가 얼굴과 스타일을 더 잘 보존합니다.',
+        art:'사실적인 인물 스타일을 선택합니다. 구체적인 프롬프트가 인물과 분위기를 안정적으로 유지합니다.',
+        'change-background':'주요 대상을 유지하면서 새 배경을 설명하세요.',
+        'remove-object':'삭제할 물체 하나를 설명하세요. 다른 요소는 바뀌지 않습니다.',
+        'scene-lighting':'장면을 바꾸지 않고 빛, 색상, 분위기를 개선합니다.',
+        cartoon:'대상을 알아볼 수 있도록 유지하면서 깔끔한 카툰 효과를 만듭니다.'
+      }
+    },
+    de:{
+      creativeGroup:'🎮 Kreativtools für Gamer und Creator',
+      everydayGroup:'✦ Bildtools für jeden Tag',
+      quickGroup:'✦ Schnelle Tools - kostenlos und privat',
+      before:'Vorher',
+      after:'Nachher',
+      comparisonAria:'Vorher-Nachher-Vergleich der Comic-Umwandlung',
+      tools:{
+        'comic-portrait':['☷ Comic-Porträt','Verwandle ein Porträt in eine hochwertige Comic-Illustration und erhalte die Wiedererkennbarkeit.'],
+        cartoon:['🧸 Foto zu Cartoon','Erstelle einen klaren, freundlichen Cartoon und erhalte das Motiv.'],
+        art:['📸 KI-Fotoshooting','Wähle einen Kino-, Editorial-, Moody-, Street- oder japanischen Porträtstil.'],
+        'change-background':['🏞️ Hintergrund ändern','Behalte das Motiv und erstelle eine neue Szene darum herum.'],
+        'remove-object':['🧹 Objekt entfernen','Entferne ein unerwünschtes Objekt und erhalte den Rest des Fotos.'],
+        'scene-lighting':['💡 Licht verbessern','Verbessere Licht, Farben und Atmosphäre ohne die Szene zu ändern.']
+      },
+      promptHelp:{
+        'comic-portrait':'Verwandle ein Porträt in eine hochwertige Comic-Illustration. Präzise Prompts erhalten Gesicht und Stil besser.',
+        art:'Wähle einen realistischen Porträtstil. Präzise Prompts stabilisieren Identität, Hintergrund und Stimmung.',
+        'change-background':'Beschreibe den neuen Hintergrund und erhalte das Hauptmotiv.',
+        'remove-object':'Beschreibe das eine zu entfernende Objekt. Andere Elemente bleiben unverändert.',
+        'scene-lighting':'Verbessere Licht, Farben und Atmosphäre ohne die Szene zu ändern.',
+        cartoon:'Erstelle einen klaren, freundlichen Cartoon und erhalte das Motiv.'
+      }
+    },
+    ar:{
+      creativeGroup:'🎮 أدوات إبداعية للاعبين وصناع المحتوى',
+      everydayGroup:'✦ أدوات الصور اليومية',
+      quickGroup:'✦ أدوات سريعة - مجانية وخاصة',
+      before:'قبل',
+      after:'بعد',
+      comparisonAria:'مقارنة صورة السفر قبل وبعد تحويلها إلى فن قصصي',
+      tools:{
+        'comic-portrait':['☷ صورة شخصية قصصية','حوّل الصورة الشخصية إلى رسم قصصي احترافي مع الحفاظ على قابلية التعرف على الشخص.'],
+        cartoon:['🧸 تحويل الصورة إلى كرتون','أنشئ نسخة كرتونية لطيفة مع الحفاظ على ملامح الموضوع.'],
+        art:['📸 جلسة تصوير بالذكاء الاصطناعي','اختر أسلوباً سينمائياً أو تحريرياً أو مزاجياً أو شارعياً أو يابانياً.'],
+        'change-background':['🏞️ تغيير الخلفية','حافظ على الموضوع وأنشئ مشهداً جديداً حوله.'],
+        'remove-object':['🧹 إزالة عنصر','أزل عنصراً غير مرغوب فيه مع الحفاظ على بقية الصورة.'],
+        'scene-lighting':['💡 تحسين الإضاءة','حسّن الإضاءة والألوان والأجواء من دون تغيير المشهد.']
+      },
+      promptHelp:{
+        'comic-portrait':'حوّل الصورة الشخصية إلى رسم قصصي احترافي. تساعد التعليمات التفصيلية على الحفاظ على الوجه والأسلوب.',
+        art:'اختر أسلوباً واقعياً للصورة الشخصية. تساعد التعليمات التفصيلية على تثبيت الهوية والخلفية والأجواء.',
+        'change-background':'صف الخلفية الجديدة مع الحفاظ على الموضوع الرئيسي.',
+        'remove-object':'صف العنصر الوحيد الذي تريد حذفه. ستبقى العناصر الأخرى كما هي.',
+        'scene-lighting':'حسّن الإضاءة والألوان والأجواء مع إبقاء المشهد كما هو.',
+        cartoon:'أنشئ نسخة كرتونية لطيفة مع الحفاظ على ملامح الموضوع.'
+      }
     }
   };
   function storedLanguage(name){
     try { return localStorage.getItem(name) || ''; } catch (_) { return ''; }
   }
   function languageKey(){
-    const raw=[storedLanguage('pict-lang'),storedLanguage('language'),storedLanguage('lang'),document.documentElement.lang,navigator.language].filter(Boolean).join(' ').toLowerCase();
+    const selector=document.querySelector('select');
+    const selected=selector && selector.value;
+    if(selected && locales[selected]) return selected;
+    const raw=[document.documentElement.lang,navigator.language].filter(Boolean).join(' ').toLowerCase();
     if(raw.includes('zh')) return 'zh';
     if(raw.includes('ja')) return 'ja';
     if(raw.includes('ko')) return 'ko';
@@ -515,6 +753,7 @@ function enhanceIndexHtml(html) {
     if(raw.includes('fr')) return 'fr';
     if(raw.includes('de')) return 'de';
     if(raw.includes('pt')) return 'pt';
+    if(raw.includes('ar')) return 'ar';
     return 'en';
   }
   function copy(){
@@ -523,12 +762,36 @@ function enhanceIndexHtml(html) {
   let selectedArtStyle='cinematic';
   let lastArtStyle='cinematic';
   function applyLocalizedCopy(){
+    const key=languageKey();
     const c=copy();
+    const ui=uiText[key] || uiText.en;
+    document.documentElement.dir=key==='ar'?'rtl':'ltr';
     document.querySelectorAll('[data-i18n="example.title"]').forEach(node=>{ node.textContent=c.exampleTitle; });
     document.querySelectorAll('[data-i18n="example.subtitle"]').forEach(node=>{ node.textContent=c.exampleSubtitle; });
     document.querySelectorAll('[data-i18n="example.note"]').forEach(node=>{ node.textContent=c.exampleNote; });
+    document.querySelectorAll('[data-i18n="group.creative"]').forEach(node=>{ node.textContent=ui.creativeGroup; });
+    document.querySelectorAll('[data-i18n="group.everyday"]').forEach(node=>{ node.textContent=ui.everydayGroup; });
+    document.querySelectorAll('[data-i18n="group.quick"]').forEach(node=>{ node.textContent=ui.quickGroup; });
     document.querySelectorAll('img[src*="homepage-travel-comic-before"]').forEach(img=>{ img.alt=c.beforeAlt; });
     document.querySelectorAll('img[src*="homepage-travel-comic-after"]').forEach(img=>{ img.alt=c.afterAlt; });
+    const comparison=document.querySelector('[aria-label*="travel photo comic-art comparison"], [aria-label*="旅行照片漫画效果前后对比"], [aria-label*="Comparación antes"], [aria-label*="Comparaison avant"], [aria-label*="Comparação antes"], [aria-label*="旅行写真"], [aria-label*="여행 사진"], [aria-label*="Vorher-Nachher"], [aria-label*="مقارنة صورة"]');
+    if(comparison){
+      comparison.setAttribute('aria-label', ui.comparisonAria);
+      comparison.querySelectorAll('*').forEach(node=>{
+        if(node.children.length) return;
+        const text=node.textContent.trim();
+        if(['Before','处理前','Antes','Avant','Antes','変換前','변환 전','Vorher','قبل'].includes(text)) node.textContent=ui.before;
+        if(['After','处理后','Después','Après','Depois','変換後','변환 후','Nachher','بعد'].includes(text)) node.textContent=ui.after;
+      });
+    }
+    document.querySelectorAll('.tool-card[data-tool]').forEach(card=>{
+      const entry=ui.tools[card.dataset.tool];
+      if(!entry) return;
+      const title=card.querySelector('h3');
+      const description=card.querySelector('p');
+      if(title) title.textContent=entry[0];
+      if(description) description.textContent=entry[1];
+    });
     const note=document.getElementById('artStyleNote');
     if(note) note.textContent=c.note;
     const wrap=document.getElementById('artStyleOptions');
@@ -541,6 +804,13 @@ function enhanceIndexHtml(html) {
       });
     }
     const currentTool=document.querySelector('.tool-card.active')?.dataset.tool;
+    const promptLabel=document.querySelector('label[for="creativePrompt"]');
+    if(promptLabel && ui.tools[currentTool]) promptLabel.textContent=ui.tools[currentTool][0];
+    const help=document.getElementById('creativeHelp');
+    if(help && ui.promptHelp[currentTool]){
+      const helpText=help.querySelector('p') || help;
+      helpText.textContent=ui.promptHelp[currentTool];
+    }
     const prompt=document.getElementById('creativePrompt');
     if(prompt){
       if(currentTool==='comic-portrait') prompt.placeholder=c.comicPlaceholder;
@@ -639,6 +909,11 @@ function enhanceIndexHtml(html) {
     return originalFetch.apply(this, arguments);
   };
   document.addEventListener('DOMContentLoaded', ()=>{ syncArtStyles(); applyLocalizedCopy(); });
+  const languageSelector=document.querySelector('select');
+  if(languageSelector && !languageSelector.dataset.pictI18nBound){
+    languageSelector.dataset.pictI18nBound='1';
+    languageSelector.addEventListener('change', ()=>setTimeout(applyLocalizedCopy, 80));
+  }
   document.addEventListener('click', event=>{
     const target=event.target instanceof Element ? event.target : null;
     if(target && target.closest('[data-lang],[data-language],.language-switcher,.lang-switcher')) setTimeout(applyLocalizedCopy, 120);
