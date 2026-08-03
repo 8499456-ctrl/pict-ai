@@ -538,7 +538,14 @@ function enhanceIndexHtml(html) {
         "  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');",
         "  creativePrompt.placeholder=tool==='remove-object'\n    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')\n    : tool==='comic-portrait'\n      ? 'professional founder portrait, clean ink outlines, natural skin tones, keep the same face'\n      : tool==='art'\n        ? 'soft side light, muted colors, realistic skin texture, keep the same face'\n        : tool==='scene-lighting'\n          ? 'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'\n          : (zh?'例如：月光森林':'For example: a moonlit forest');"
       )
-      .replace("selectTool('game-avatar');", "selectTool('comic-portrait');");
+      .replace(
+        "selectTool('game-avatar');",
+        "function initialToolFromUrl(){\n  const tool = new URLSearchParams(location.search).get('tool') || '';\n  const allowed = ['comic-portrait','cartoon','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert'];\n  return allowed.includes(tool) ? tool : 'comic-portrait';\n}\nselectTool(initialToolFromUrl());"
+      )
+      .replace(
+        "const allowed = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert'];\n  return allowed.includes(tool) ? tool : 'game-avatar';",
+        "const allowed = ['comic-portrait','cartoon','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert'];\n  return allowed.includes(tool) ? tool : 'comic-portrait';"
+      );
   }
 
   html = html
