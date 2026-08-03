@@ -1063,7 +1063,12 @@ async function copyPictToolLink(){
 }
 function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
-selectTool('game-avatar');
+function initialToolFromUrl(){
+  const tool = new URLSearchParams(location.search).get('tool') || '';
+  const allowed = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert'];
+  return allowed.includes(tool) ? tool : 'game-avatar';
+}
+selectTool(initialToolFromUrl());
 refreshQuota();
 </script>
 
