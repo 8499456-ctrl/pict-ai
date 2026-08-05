@@ -293,43 +293,17 @@
   </div>
 </section>
 
-<section class="container guide-section" id="guides">
-  <div class="guide-label" data-i18n="guides.label">Popular guides</div>
-  <h2 class="guide-title" data-i18n="guides.title">Explore PictTool by task</h2>
-  <p class="guide-intro" data-i18n="guides.intro">Open a focused page for the tool you need, then jump straight into the editor when you are ready.</p>
-  <div class="guide-grid">
-    <a class="guide-card" href="photo-to-comic/">
-      <div><strong data-i18n="guides.comic.title">Photo to Comic</strong><p data-i18n="guides.comic.desc">Turn portraits, pets, and travel photos into colorful comic-style illustrations.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-    <a class="guide-card" href="remove-background/">
-      <div><strong data-i18n="guides.remove.title">Remove Background</strong><p data-i18n="guides.remove.desc">Create clean cutouts for products, people, profile images, and social posts.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-    <a class="guide-card" href="travel-photo-to-art/">
-      <div><strong data-i18n="guides.travel.title">Travel Photo to Art</strong><p data-i18n="guides.travel.desc">Transform travel snapshots into watercolor-style art for Pinterest and memories.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-    <a class="guide-card" href="image-compressor/">
-      <div><strong data-i18n="guides.compress.title">Image Compressor</strong><p data-i18n="guides.compress.desc">Reduce image file size and convert JPG, PNG, or WebP before sharing.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-    <a class="guide-card" href="resize-crop-image/">
-      <div><strong data-i18n="guides.resize.title">Resize &amp; Crop Image</strong><p data-i18n="guides.resize.desc">Crop images for Pinterest, Instagram, YouTube, and other social formats.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-    <a class="guide-card" href="product-poster/">
-      <div><strong data-i18n="guides.poster.title">Product Poster</strong><p data-i18n="guides.poster.desc">Make a clean 4:5 product poster with headline, subtitle, and price.</p></div>
-      <span data-i18n="guides.open">Open guide →</span>
-    </a>
-  </div>
-</section>
-
 <section class="container" id="tools">
   <div class="section-label">🧰 AI Tools</div>
   <h2 class="section-title"><span class="title-3d">Everything you need,</span> <span class="grad">one click away</span></h2>
-  <p class="tool-group-title">🎮 Creative tools for gamers &amp; creators</p>
+  <p class="tool-group-title">✦ Featured tools</p>
   <div class="tool-grid">
+    <a href="#upload" class="tool-card" data-tool="product-poster" onclick="selectTool('product-poster')">
+      <span class="icon neon-icon" data-mark="$" aria-hidden="true"></span>
+      <h3>AI Product Poster</h3>
+      <p>Turn a product photo into a polished poster-style image for shops, Pinterest, and social posts.</p>
+      <span class="badge">✨ New</span><span class="arrow">→</span>
+    </a>
     <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon neon-icon" data-mark="☺" aria-hidden="true"></span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="travel-art" onclick="selectTool('travel-art')"><span class="icon neon-icon" data-mark="◎" aria-hidden="true"></span><h3>Travel Photo to Art</h3><p>Turn landmarks, streets, buildings, and scenery into illustrated travel art.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
@@ -386,11 +360,37 @@
       <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
     </a>
-    <a href="#upload" class="tool-card" data-tool="product-poster" onclick="selectTool('product-poster')">
-      <span class="icon neon-icon" data-mark="$" aria-hidden="true"></span>
-      <h3>Product Poster</h3>
-      <p>Create a clean product poster with headline, price, and a ready-to-share layout.</p>
-      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+  </div>
+</section>
+
+<section class="container guide-section" id="guides">
+  <div class="guide-label" data-i18n="guides.label">Detailed guides</div>
+  <h2 class="guide-title" data-i18n="guides.title">Learn more by task</h2>
+  <p class="guide-intro" data-i18n="guides.intro">These pages explain use cases, examples, and tips. Use the tool cards above when you are ready to edit.</p>
+  <div class="guide-grid">
+    <a class="guide-card" href="photo-to-comic/">
+      <div><strong data-i18n="guides.comic.title">Photo to Comic</strong><p data-i18n="guides.comic.desc">Turn portraits, pets, and travel photos into colorful comic-style illustrations.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="remove-background/">
+      <div><strong data-i18n="guides.remove.title">Remove Background</strong><p data-i18n="guides.remove.desc">Create clean cutouts for products, people, profile images, and social posts.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="travel-photo-to-art/">
+      <div><strong data-i18n="guides.travel.title">Travel Photo to Art</strong><p data-i18n="guides.travel.desc">Transform travel snapshots into watercolor-style art for Pinterest and memories.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="image-compressor/">
+      <div><strong data-i18n="guides.compress.title">Image Compressor</strong><p data-i18n="guides.compress.desc">Reduce image file size and convert JPG, PNG, or WebP before sharing.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="resize-crop-image/">
+      <div><strong data-i18n="guides.resize.title">Resize &amp; Crop Image</strong><p data-i18n="guides.resize.desc">Crop images for Pinterest, Instagram, YouTube, and other social formats.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="product-poster/">
+      <div><strong data-i18n="guides.poster.title">AI Product Poster</strong><p data-i18n="guides.poster.desc">Turn a product photo into a polished poster-style image for shops and social posts.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
     </a>
   </div>
 </section>
@@ -561,9 +561,9 @@ const i18n = {
     'example.title': 'See the difference instantly',
     'example.subtitle': 'AI background removal example',
     'example.note': 'A real example — upload your own image to create your result.',
-    'guides.label': 'Popular guides',
-    'guides.title': 'Explore PictTool by task',
-    'guides.intro': 'Open a focused page for the tool you need, then jump straight into the editor when you are ready.',
+    'guides.label': 'Detailed guides',
+    'guides.title': 'Learn more by task',
+    'guides.intro': 'These pages explain use cases, examples, and tips. Use the tool cards above when you are ready to edit.',
     'guides.comic.title': 'Photo to Comic',
     'guides.comic.desc': 'Turn portraits, pets, and travel photos into colorful comic-style illustrations.',
     'guides.remove.title': 'Remove Background',
@@ -575,7 +575,7 @@ const i18n = {
     'guides.resize.title': 'Resize & Crop Image',
     'guides.resize.desc': 'Crop images for Pinterest, Instagram, YouTube, and other social formats.',
     'guides.poster.title': 'Product Poster',
-    'guides.poster.desc': 'Make a clean 4:5 product poster with headline, subtitle, and price.',
+    'guides.poster.desc': 'Turn a product photo into a polished poster-style image for shops and social posts.',
     'guides.open': 'Open guide →',
     'section.tools.label': '🧰 AI Tools',
     'section.tools.title': 'Everything you need, one click away',
@@ -585,10 +585,10 @@ const i18n = {
     'tool.upscale': '🔍 AI Upscale 4x',
     'tool.colorize': '🎨 Colorize Photo',
     'tool.generate': '✨ Text to Image',
-    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.product-poster': '🛍️ Product Poster',
+    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.product-poster': '🛍️ AI Product Poster',
     'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.travel-art': '🌄 Travel Photo to Art', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
     'tool.travel-art.desc': 'Turn landmarks, streets, buildings, and scenery into illustrated travel art.',
-    'tool.product-poster.desc': 'Create a clean product poster with headline, price, and a ready-to-share layout.',
+    'tool.product-poster.desc': 'Turn a product photo into a polished poster-style image for shops, Pinterest, and social posts.',
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
@@ -633,9 +633,9 @@ const i18n = {
     'example.title': '一眼看见变化',
     'example.subtitle': 'AI 去背景效果示例',
     'example.note': '真实示例 — 上传自己的图片即可开始处理。',
-    'guides.label': '常用入口',
-    'guides.title': '按任务打开 PictTool',
-    'guides.intro': '进入更详细的工具页面，了解用途和示例，准备好后可直接跳到编辑器。',
+    'guides.label': '详细指南',
+    'guides.title': '按任务了解更多',
+    'guides.intro': '这些页面用于说明用途、示例和技巧；真正开始处理图片时，请使用上方工具卡片。',
     'guides.comic.title': '照片转漫画',
     'guides.comic.desc': '把头像、宠物和旅行照片变成彩色漫画风插画。',
     'guides.remove.title': '去除背景',
@@ -647,7 +647,7 @@ const i18n = {
     'guides.resize.title': '图片改尺寸与裁剪',
     'guides.resize.desc': '裁剪成 Pinterest、Instagram、YouTube 等平台常用比例。',
     'guides.poster.title': '商品海报',
-    'guides.poster.desc': '制作 4:5 商品海报，可添加标题、副标题和价格。',
+    'guides.poster.desc': '把商品照片变成更适合店铺、Pinterest 和社交发布的海报风图片。',
     'guides.open': '打开页面 →',
     'section.tools.label': '🧰 AI 工具',
     'section.tools.title': '一站式搞定，一键完成',
@@ -657,10 +657,10 @@ const i18n = {
     'tool.upscale': '🔍 AI 高清化',
     'tool.colorize': '🎨 照片上色',
     'tool.generate': '✨ 文字生图',
-    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.product-poster': '🛍️ 商品海报',
+    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.product-poster': '🛍️ AI 商品海报',
     'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.travel-art': '🌄 旅行照片转艺术', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
     'tool.travel-art.desc': '把建筑、街景、风景和旅行照片变成插画风旅行艺术图。',
-    'tool.product-poster.desc': '用标题、价格和模板快速制作可分享的商品海报。',
+    'tool.product-poster.desc': '把商品照片变成更适合店铺、Pinterest 和社交发布的海报风图片。',
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
@@ -701,12 +701,29 @@ Object.assign(i18n, {
   de: {'nav.tools':'Werkzeuge','nav.examples':'Beispiele','nav.privacy':'Datenschutz','nav.try':'Jetzt testen','badge':'Kostenlose KI-Bildtools — keine Anmeldung nötig','hero.title1':'KI-Bildwerkzeuge','hero.title2':'Schnell und kostenlos','hero.title3':'schön','hero.desc':'Entferne Hintergründe, verbessere und kolorisiere Fotos oder erstelle Bilder mit KI direkt im Browser.','hero.cta':'✨ Jetzt testen','hero.view':'Alle Werkzeuge ansehen →','example.title':'Sieh den Unterschied sofort','example.subtitle':'Beispiel für KI-Hintergrundentfernung','example.note':'Ein echtes Beispiel — lade dein Bild hoch und erstelle dein Ergebnis.','section.tools.label':'🧰 KI-Werkzeuge','section.tools.title':'Alles, was du brauchst, mit einem Klick','section.upload.label':'🚀 Loslegen','section.upload.title':'Hochladen & verwandeln','tool.remove-bg':'✂️ Hintergrund entfernen','tool.upscale':'🔍 Bild 4× verbessern','tool.colorize':'🎨 Foto kolorieren','tool.generate':'✨ Text zu Bild','drop.hint':'Bild hier ablegen oder zum Auswählen klicken','drop.desc':'JPG, PNG, WEBP — bis zu 20 MB','privacy.title':'Deine Bilder verdienen Sorgfalt','privacy.body':'Pict benötigt kein Konto. Uploads werden nur zur Bearbeitung deiner Anfrage verwendet. Bitte lade keine sensiblen, persönlichen oder vertraulichen Inhalte hoch.','generate.label':'Beschreibe das Bild, das du erstellen möchtest','generate.placeholder':'Zum Beispiel: eine gemütliche Leseecke im warmen Nachmittagslicht, Editorial-Foto','generate.create':'✨ Bild erstellen','style.photo':'Foto','style.cartoon':'Cartoon','style.art':'Kunst','footer.sister':'Freunde und Partner'}
 });
 
+Object.assign(i18n.es, {'nav.guides':'Guías','guides.label':'Guías detalladas','guides.title':'Aprende por tarea','guides.intro':'Estas páginas explican usos, ejemplos y consejos. Usa las tarjetas de herramientas de arriba cuando quieras editar.','guides.comic.title':'Foto a comic','guides.comic.desc':'Convierte retratos, mascotas y fotos de viaje en ilustraciones estilo comic.','guides.remove.title':'Quitar fondo','guides.remove.desc':'Crea recortes limpios para productos, personas, perfiles y publicaciones.','guides.travel.title':'Foto de viaje a arte','guides.travel.desc':'Transforma recuerdos de viaje en arte tipo postal para Pinterest.','guides.compress.title':'Compresor de imagen','guides.compress.desc':'Reduce el tamaño o convierte JPG, PNG y WebP antes de compartir.','guides.resize.title':'Redimensionar y recortar','guides.resize.desc':'Recorta para Pinterest, Instagram, YouTube y otros formatos.','guides.poster.title':'Poster de producto IA','guides.poster.desc':'Convierte una foto de producto en una imagen tipo poster para tiendas y redes.','guides.open':'Abrir guía →'});
+Object.assign(i18n.fr, {'nav.guides':'Guides','guides.label':'Guides détaillés','guides.title':'Approfondir par tâche','guides.intro':'Ces pages expliquent usages, exemples et conseils. Utilisez les cartes d’outils ci-dessus pour modifier.','guides.comic.title':'Photo en BD','guides.comic.desc':'Transformez portraits, animaux et voyages en illustrations style BD.','guides.remove.title':'Supprimer le fond','guides.remove.desc':'Créez des découpes propres pour produits, personnes, profils et posts.','guides.travel.title':'Photo de voyage en art','guides.travel.desc':'Transformez vos souvenirs de voyage en art type carte postale.','guides.compress.title':'Compresseur d’image','guides.compress.desc':'Réduisez la taille ou convertissez JPG, PNG et WebP avant partage.','guides.resize.title':'Redimensionner et recadrer','guides.resize.desc':'Recadrez pour Pinterest, Instagram, YouTube et autres formats.','guides.poster.title':'Affiche produit IA','guides.poster.desc':'Transformez une photo produit en visuel type affiche pour boutiques et réseaux.','guides.open':'Ouvrir le guide →'});
+Object.assign(i18n.pt, {'nav.guides':'Guias','guides.label':'Guias detalhados','guides.title':'Aprenda por tarefa','guides.intro':'Estas páginas explicam usos, exemplos e dicas. Use os cartões de ferramentas acima para editar.','guides.comic.title':'Foto para HQ','guides.comic.desc':'Transforme retratos, pets e viagens em ilustrações estilo quadrinhos.','guides.remove.title':'Remover fundo','guides.remove.desc':'Crie recortes limpos para produtos, pessoas, perfis e posts.','guides.travel.title':'Foto de viagem em arte','guides.travel.desc':'Transforme lembranças de viagem em arte estilo postal para Pinterest.','guides.compress.title':'Compressor de imagem','guides.compress.desc':'Reduza o tamanho ou converta JPG, PNG e WebP antes de compartilhar.','guides.resize.title':'Redimensionar e cortar','guides.resize.desc':'Corte para Pinterest, Instagram, YouTube e outros formatos.','guides.poster.title':'Poster de produto IA','guides.poster.desc':'Transforme uma foto de produto em imagem estilo poster para lojas e redes.','guides.open':'Abrir guia →'});
+Object.assign(i18n.ja, {'nav.guides':'ガイド','guides.label':'詳しいガイド','guides.title':'目的別に詳しく見る','guides.intro':'用途、作例、コツを紹介するページです。編集するときは上のツールカードを使ってください。','guides.comic.title':'写真をコミックに','guides.comic.desc':'人物、ペット、旅行写真をカラフルなコミック風イラストにします。','guides.remove.title':'背景削除','guides.remove.desc':'商品、人物、プロフィール、投稿向けのきれいな切り抜きを作ります。','guides.travel.title':'旅行写真をアートに','guides.travel.desc':'旅行の思い出をPinterest向けのポストカード風アートにします。','guides.compress.title':'画像圧縮','guides.compress.desc':'共有前にJPG、PNG、WebPのサイズ削減や変換をします。','guides.resize.title':'リサイズ・切り抜き','guides.resize.desc':'Pinterest、Instagram、YouTubeなどの比率に切り抜きます。','guides.poster.title':'AI商品ポスター','guides.poster.desc':'商品写真をショップやSNS向けのポスター風画像にします。','guides.open':'ガイドを開く →'});
+Object.assign(i18n.ko, {'nav.guides':'가이드','guides.label':'상세 가이드','guides.title':'작업별로 자세히 보기','guides.intro':'용도, 예시, 팁을 설명하는 페이지입니다. 편집할 때는 위의 도구 카드를 사용하세요.','guides.comic.title':'사진을 만화로','guides.comic.desc':'인물, 반려동물, 여행 사진을 컬러 코믹 일러스트로 바꿉니다.','guides.remove.title':'배경 제거','guides.remove.desc':'상품, 인물, 프로필, 게시물용 깔끔한 누끼 이미지를 만듭니다.','guides.travel.title':'여행 사진 아트','guides.travel.desc':'여행 추억을 Pinterest용 엽서 스타일 아트로 바꿉니다.','guides.compress.title':'이미지 압축','guides.compress.desc':'공유 전에 JPG, PNG, WebP를 압축하거나 변환합니다.','guides.resize.title':'크기 조정 및 자르기','guides.resize.desc':'Pinterest, Instagram, YouTube 등 비율에 맞게 자릅니다.','guides.poster.title':'AI 상품 포스터','guides.poster.desc':'상품 사진을 쇼핑몰과 소셜 게시물용 포스터 이미지로 바꿉니다.','guides.open':'가이드 열기 →'});
+Object.assign(i18n.ar, {'nav.guides':'الأدلة','guides.label':'أدلة مفصلة','guides.title':'تعلّم حسب المهمة','guides.intro':'تشرح هذه الصفحات الاستخدامات والأمثلة والنصائح. استخدم بطاقات الأدوات أعلاه عند التحرير.','guides.comic.title':'صورة إلى كوميكس','guides.comic.desc':'حوّل الصور الشخصية والحيوانات وصور السفر إلى رسوم كوميكس ملونة.','guides.remove.title':'إزالة الخلفية','guides.remove.desc':'أنشئ قصاصات نظيفة للمنتجات والأشخاص والملفات والمنشورات.','guides.travel.title':'صورة السفر إلى فن','guides.travel.desc':'حوّل ذكريات السفر إلى فن بطاقة بريدية مناسب لـ Pinterest.','guides.compress.title':'ضغط الصور','guides.compress.desc':'قلّل الحجم أو حوّل JPG وPNG وWebP قبل المشاركة.','guides.resize.title':'تغيير الحجم والقص','guides.resize.desc':'قص الصور لـ Pinterest وInstagram وYouTube وغيرها.','guides.poster.title':'ملصق منتج بالذكاء الاصطناعي','guides.poster.desc':'حوّل صورة منتج إلى ملصق مناسب للمتاجر والمنشورات.','guides.open':'افتح الدليل ←'});
+Object.assign(i18n.de, {'nav.guides':'Leitfäden','guides.label':'Detaillierte Leitfäden','guides.title':'Nach Aufgabe lernen','guides.intro':'Diese Seiten erklären Einsatzzwecke, Beispiele und Tipps. Nutze zum Bearbeiten die Werkzeugkarten oben.','guides.comic.title':'Foto zu Comic','guides.comic.desc':'Verwandle Porträts, Haustiere und Reisefotos in farbige Comic-Illustrationen.','guides.remove.title':'Hintergrund entfernen','guides.remove.desc':'Erstelle saubere Freisteller für Produkte, Menschen, Profile und Posts.','guides.travel.title':'Reisefoto zu Kunst','guides.travel.desc':'Verwandle Reiseerinnerungen in Postkartenkunst für Pinterest.','guides.compress.title':'Bildkompressor','guides.compress.desc':'Reduziere Dateigröße oder konvertiere JPG, PNG und WebP vor dem Teilen.','guides.resize.title':'Größe ändern & zuschneiden','guides.resize.desc':'Schneide für Pinterest, Instagram, YouTube und andere Formate zu.','guides.poster.title':'KI-Produktposter','guides.poster.desc':'Verwandle ein Produktfoto in ein Posterbild für Shops und Social Posts.','guides.open':'Leitfaden öffnen →'});
+
+Object.assign(i18n.es, {'tool.product-poster':'🛍️ Poster de producto IA','tool.product-poster.desc':'Convierte una foto de producto en una imagen tipo poster para tiendas, Pinterest y redes.'});
+Object.assign(i18n.fr, {'tool.product-poster':'🛍️ Affiche produit IA','tool.product-poster.desc':'Transformez une photo produit en visuel type affiche pour boutiques, Pinterest et réseaux.'});
+Object.assign(i18n.pt, {'tool.product-poster':'🛍️ Poster de produto IA','tool.product-poster.desc':'Transforme uma foto de produto em imagem estilo poster para lojas, Pinterest e redes sociais.'});
+Object.assign(i18n.ja, {'tool.product-poster':'🛍️ AI商品ポスター','tool.product-poster.desc':'商品写真をショップ、Pinterest、SNS向けのポスター風画像にします。'});
+Object.assign(i18n.ko, {'tool.product-poster':'🛍️ AI 상품 포스터','tool.product-poster.desc':'상품 사진을 쇼핑몰, Pinterest, 소셜 게시물용 포스터 이미지로 바꿉니다.'});
+Object.assign(i18n.ar, {'tool.product-poster':'🛍️ ملصق منتج بالذكاء الاصطناعي','tool.product-poster.desc':'حوّل صورة منتج إلى ملصق مناسب للمتاجر وPinterest والمنشورات.'});
+Object.assign(i18n.de, {'tool.product-poster':'🛍️ KI-Produktposter','tool.product-poster.desc':'Verwandle ein Produktfoto in ein Posterbild für Shops, Pinterest und Social Posts.'});
+
 function isTouchUpload(){
   return window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
 
 function setLanguage(lang) {
   currentLang = i18n[lang] ? lang : 'en';
+  try { localStorage.setItem('pict-language', currentLang); } catch (_) {}
   const copy = i18n[currentLang];
   const translate = key => copy[key] || i18n.en[key] || key;
   document.documentElement.lang = currentLang;
@@ -745,13 +762,15 @@ function setLanguage(lang) {
   document.querySelectorAll('.tool-card').forEach(card => {
     const tool = card.dataset.tool;
     const title = card.querySelector('h3');
+    const desc = card.querySelector('p');
     if (title) title.textContent = translate(`tool.${tool}`);
+    if (desc) desc.textContent = translate(`tool.${tool}.desc`);
   });
   // Upload zone
   document.querySelector('.upload-zone h3').textContent = isTouchUpload()
     ? (currentLang==='zh' ? '点击选择图片' : 'Tap to choose an image')
     : translate('drop.hint');
-  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert','product-poster'].includes(currentTool)
+  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert'].includes(currentTool)
     ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
     : translate('drop.desc');
   // Result labels
@@ -797,7 +816,7 @@ function processRequestOptions(form) {
 }
 
 function quotaGroupForTool(tool) {
-  if (['add-text','resize-crop','compress-convert','product-poster'].includes(tool)) return 'local';
+  if (['add-text','resize-crop','compress-convert'].includes(tool)) return 'local';
   if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
   if (tool === 'generate') return 'generate';
   return 'creative';
@@ -852,8 +871,8 @@ function selectTool(tool) {
     card.setAttribute('aria-current', selected ? 'true' : 'false');
   });
   const isGenerate = tool === 'generate';
-  const isCreative = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting'].includes(tool);
-  const isLocal = ['add-text','resize-crop','compress-convert','product-poster'].includes(tool);
+  const isCreative = ['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(tool);
+  const isLocal = ['add-text','resize-crop','compress-convert'].includes(tool);
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
   creativeOptions.hidden = !isCreative;
@@ -913,8 +932,7 @@ function setLocalEditorCopy(tool){
   const copy={
     'add-text': zh?['图片加文字','图片仅在本机浏览器中处理。添加标题、说明和简单样式后即可下载。']:['Add Text to Image','Your image stays in this browser. Add a headline, caption, and simple style, then download.'],
     'resize-crop': zh?['改尺寸与裁剪','按常见社交媒体比例裁剪图片。裁剪只在本机完成。']:['Resize & Crop','Crop your image to popular social-media sizes. Nothing is uploaded.'],
-    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.'],
-    'product-poster': zh?['商品海报模板','制作 4:5 商品海报，可添加标题、副标题和价格。图片只在本机处理。']:['Product Poster Template','Create a 4:5 product poster with headline, subtitle, and price. Processed only in this browser.']
+    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.']
   }[tool];
   localEditorTitle.textContent=copy[0];localEditorHelp.textContent=copy[1];
   textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';productPosterControls.hidden=tool!=='product-poster';
@@ -1041,7 +1059,7 @@ async function shareLocalImage(){
 
 function handleFile(file){
   if(!file)return;
-  const isLocal=['add-text','resize-crop','compress-convert','product-poster'].includes(currentTool),maxSize=isLocal?50:20;
+  const isLocal=['add-text','resize-crop','compress-convert'].includes(currentTool),maxSize=isLocal?50:20;
   if(file.size>maxSize*1024*1024){alert(`File too large (max ${maxSize}MB)`);return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
@@ -1053,7 +1071,7 @@ function handleFile(file){
 }
 
 async function prepareAndProcess(file){
-  const creative=['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting'].includes(currentTool);
+  const creative=['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(currentTool);
   const prepared=creative ? await resizeCreativeImage(file) : file;
   processImage(prepared);
 }
@@ -1115,6 +1133,7 @@ function setCreativeCopy(tool){
     'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],
     cartoon: zh?['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。']:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],
     'travel-art': zh?['旅行照片转艺术','适合建筑、风景、街景和旅行照片。会尽量保留原始地点、构图和透视，不生成新人物。']:['Travel photo to art','For architecture, landscapes, streets, and travel photos. Preserves the place, composition, and perspective without creating new people.'],
+    'product-poster': zh?['AI 商品海报','适合商品图、实物照片和展示图。会尽量保留商品主体，生成更适合店铺、Pinterest 和社交发布的海报风画面。']:['AI product poster','For product photos, objects, and listing images. Preserves the product while creating a poster-style image for shops, Pinterest, and social posts.'],
     art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],
     'change-background': zh?['新背景描述（可选）','只更换背景，人物、姿势、衣服和前景会尽量保持不变。例如：阳光花园。']:['New background (optional)','Only the background changes; the subject, pose, clothing, and foreground stay intact. Example: a sunny flower garden.'],
     'remove-object': zh?['要删除什么？','只描述一个具体物体，并写明位置。例如：the red bag on the table。不会去除整张图片的背景。']:['What should be removed?','Describe one specific item and its location, for example: the red bag on the table. This keeps the rest of the photo intact.'],
@@ -1126,6 +1145,8 @@ function setCreativeCopy(tool){
     ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
     : tool==='travel-art'
       ? 'watercolor travel postcard, clean ink lines, preserve the building, no people'
+      : tool==='product-poster'
+        ? 'premium ecommerce poster, clean studio background, soft shadow, leave room for headline text'
       : (zh?'例如：月光森林':'For example: a moonlit forest');
   creativePrompt.value='';
 }
