@@ -109,6 +109,7 @@
   /* Each tool gets its own Soft 3D Toy color while keeping one shared visual system. */
   .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}
   .tool-card[data-tool="cartoon"] .neon-icon{background:linear-gradient(145deg,#ffbedc 0%,#ed76b3 52%,#c64a91 100%)}
+  .tool-card[data-tool="travel-art"] .neon-icon{background:linear-gradient(145deg,#a7f3d0 0%,#38bdf8 52%,#6366f1 100%)}
   .tool-card[data-tool="art"] .neon-icon{background:linear-gradient(145deg,#ffd89a 0%,#f49a68 52%,#cf5c77 100%)}
   .tool-card[data-tool="change-background"] .neon-icon{background:linear-gradient(145deg,#8fe7cf 0%,#51bfa8 52%,#4088a4 100%)}
   .tool-card[data-tool="remove-object"] .neon-icon{background:linear-gradient(145deg,#c1d7ff 0%,#789ce8 52%,#6c68c8 100%)}
@@ -120,6 +121,7 @@
   .tool-card[data-tool="add-text"] .neon-icon{background:linear-gradient(145deg,#ffc4de 0%,#f678b1 52%,#be5bba 100%)}
   .tool-card[data-tool="resize-crop"] .neon-icon{background:linear-gradient(145deg,#a8f2df 0%,#54c8c3 52%,#588ce1 100%)}
   .tool-card[data-tool="compress-convert"] .neon-icon{background:linear-gradient(145deg,#e5c4ff 0%,#a77ce9 52%,#618ddd 100%)}
+  .tool-card[data-tool="product-poster"] .neon-icon{background:linear-gradient(145deg,#fef3c7 0%,#fb7185 52%,#8b5cf6 100%)}
   .tool-card h3,.section-title,.privacy-card h2{letter-spacing:-.25px;text-shadow:0 2px 0 rgba(9,5,27,.55),0 5px 13px rgba(0,0,0,.18)}
   .tool-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
   .tool-card p{font-size:12.5px;color:var(--text-dim);line-height:1.6}
@@ -316,6 +318,10 @@
       <div><strong data-i18n="guides.resize.title">Resize &amp; Crop Image</strong><p data-i18n="guides.resize.desc">Crop images for Pinterest, Instagram, YouTube, and other social formats.</p></div>
       <span data-i18n="guides.open">Open guide →</span>
     </a>
+    <a class="guide-card" href="product-poster/">
+      <div><strong data-i18n="guides.poster.title">Product Poster</strong><p data-i18n="guides.poster.desc">Make a clean 4:5 product poster with headline, subtitle, and price.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
   </div>
 </section>
 
@@ -326,6 +332,7 @@
   <div class="tool-grid">
     <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon neon-icon" data-mark="☺" aria-hidden="true"></span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="travel-art" onclick="selectTool('travel-art')"><span class="icon neon-icon" data-mark="◎" aria-hidden="true"></span><h3>Travel Photo to Art</h3><p>Turn landmarks, streets, buildings, and scenery into illustrated travel art.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon neon-icon" data-mark="◈" aria-hidden="true"></span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
     <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon neon-icon" data-mark="⊘" aria-hidden="true"></span><h3>Remove Object</h3><p>Remove one unwanted item while keeping the rest of your photo intact.</p><span class="arrow">→</span></a>
@@ -379,6 +386,12 @@
       <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
     </a>
+    <a href="#upload" class="tool-card" data-tool="product-poster" onclick="selectTool('product-poster')">
+      <span class="icon neon-icon" data-mark="$" aria-hidden="true"></span>
+      <h3>Product Poster</h3>
+      <p>Create a clean product poster with headline, price, and a ready-to-share layout.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
   </div>
 </section>
 
@@ -430,6 +443,13 @@
           <label>Download format<select id="compressFormat"><option value="image/jpeg">JPG — smaller files</option><option value="image/webp">WebP — smallest for web</option><option value="image/png">PNG — highest quality</option></select></label>
           <label>Quality <span id="qualityValue">82%</span><input id="compressQuality" type="range" min="50" max="95" value="82"></label>
           <p class="editor-help">JPG and WebP reduce file size. PNG keeps more detail but may be larger.</p>
+        </div>
+        <div id="productPosterControls" hidden>
+          <label>Poster headline<input id="posterHeadline" maxlength="44" placeholder="New Arrival"></label>
+          <label>Subtitle<input id="posterSubtitle" maxlength="64" placeholder="Clean product poster template"></label>
+          <label>Price<input id="posterPrice" maxlength="24" placeholder="$19.99"></label>
+          <label>Template<div class="preset-row" id="posterTemplate"><button class="preset-chip active" type="button" data-value="clean">Clean</button><button class="preset-chip" type="button" data-value="bold">Bold</button><button class="preset-chip" type="button" data-value="warm">Warm</button></div></label>
+          <p class="editor-help">Tip: use a product image with a simple background or remove the background first.</p>
         </div>
         <button class="btn btn-primary" type="button" id="localDownload" data-i18n="local.download">⬇ Download image</button>
         <button class="btn btn-ghost" type="button" id="localShare" data-i18n="local.share">↗ Share image</button>
@@ -554,6 +574,8 @@ const i18n = {
     'guides.compress.desc': 'Reduce image file size and convert JPG, PNG, or WebP before sharing.',
     'guides.resize.title': 'Resize & Crop Image',
     'guides.resize.desc': 'Crop images for Pinterest, Instagram, YouTube, and other social formats.',
+    'guides.poster.title': 'Product Poster',
+    'guides.poster.desc': 'Make a clean 4:5 product poster with headline, subtitle, and price.',
     'guides.open': 'Open guide →',
     'section.tools.label': '🧰 AI Tools',
     'section.tools.title': 'Everything you need, one click away',
@@ -563,8 +585,10 @@ const i18n = {
     'tool.upscale': '🔍 AI Upscale 4x',
     'tool.colorize': '🎨 Colorize Photo',
     'tool.generate': '✨ Text to Image',
-    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert',
-    'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
+    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.product-poster': '🛍️ Product Poster',
+    'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.travel-art': '🌄 Travel Photo to Art', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
+    'tool.travel-art.desc': 'Turn landmarks, streets, buildings, and scenery into illustrated travel art.',
+    'tool.product-poster.desc': 'Create a clean product poster with headline, price, and a ready-to-share layout.',
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
@@ -622,6 +646,8 @@ const i18n = {
     'guides.compress.desc': '分享前压缩图片体积，或在 JPG、PNG、WebP 之间转换。',
     'guides.resize.title': '图片改尺寸与裁剪',
     'guides.resize.desc': '裁剪成 Pinterest、Instagram、YouTube 等平台常用比例。',
+    'guides.poster.title': '商品海报',
+    'guides.poster.desc': '制作 4:5 商品海报，可添加标题、副标题和价格。',
     'guides.open': '打开页面 →',
     'section.tools.label': '🧰 AI 工具',
     'section.tools.title': '一站式搞定，一键完成',
@@ -631,8 +657,10 @@ const i18n = {
     'tool.upscale': '🔍 AI 高清化',
     'tool.colorize': '🎨 照片上色',
     'tool.generate': '✨ 文字生图',
-    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换',
-    'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
+    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.product-poster': '🛍️ 商品海报',
+    'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.travel-art': '🌄 旅行照片转艺术', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
+    'tool.travel-art.desc': '把建筑、街景、风景和旅行照片变成插画风旅行艺术图。',
+    'tool.product-poster.desc': '用标题、价格和模板快速制作可分享的商品海报。',
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
@@ -723,7 +751,7 @@ function setLanguage(lang) {
   document.querySelector('.upload-zone h3').textContent = isTouchUpload()
     ? (currentLang==='zh' ? '点击选择图片' : 'Tap to choose an image')
     : translate('drop.hint');
-  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert'].includes(currentTool)
+  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert','product-poster'].includes(currentTool)
     ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
     : translate('drop.desc');
   // Result labels
@@ -769,7 +797,7 @@ function processRequestOptions(form) {
 }
 
 function quotaGroupForTool(tool) {
-  if (['add-text','resize-crop','compress-convert'].includes(tool)) return 'local';
+  if (['add-text','resize-crop','compress-convert','product-poster'].includes(tool)) return 'local';
   if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
   if (tool === 'generate') return 'generate';
   return 'creative';
@@ -824,8 +852,8 @@ function selectTool(tool) {
     card.setAttribute('aria-current', selected ? 'true' : 'false');
   });
   const isGenerate = tool === 'generate';
-  const isCreative = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting'].includes(tool);
-  const isLocal = ['add-text','resize-crop','compress-convert'].includes(tool);
+  const isCreative = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting'].includes(tool);
+  const isLocal = ['add-text','resize-crop','compress-convert','product-poster'].includes(tool);
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
   creativeOptions.hidden = !isCreative;
@@ -851,10 +879,11 @@ const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
 const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
 const localEditorTitle=document.getElementById('localEditorTitle'),localEditorHelp=document.getElementById('localEditorHelp');
-const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls');
+const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls'),productPosterControls=document.getElementById('productPosterControls');
 const textHeadline=document.getElementById('textHeadline'),textCaption=document.getElementById('textCaption'),textFont=document.getElementById('textFont'),textColor=document.getElementById('textColor');
 const compressFormat=document.getElementById('compressFormat'),compressQuality=document.getElementById('compressQuality'),qualityValue=document.getElementById('qualityValue');
-let localImage=null,localFile=null,localTextPosition='center',localResizePreset='original';
+const posterHeadline=document.getElementById('posterHeadline'),posterSubtitle=document.getElementById('posterSubtitle'),posterPrice=document.getElementById('posterPrice');
+let localImage=null,localFile=null,localTextPosition='center',localResizePreset='original',posterTemplate='clean';
 
 dropZone.addEventListener('click',()=>fileInput.click());
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
@@ -884,10 +913,11 @@ function setLocalEditorCopy(tool){
   const copy={
     'add-text': zh?['图片加文字','图片仅在本机浏览器中处理。添加标题、说明和简单样式后即可下载。']:['Add Text to Image','Your image stays in this browser. Add a headline, caption, and simple style, then download.'],
     'resize-crop': zh?['改尺寸与裁剪','按常见社交媒体比例裁剪图片。裁剪只在本机完成。']:['Resize & Crop','Crop your image to popular social-media sizes. Nothing is uploaded.'],
-    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.']
+    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.'],
+    'product-poster': zh?['商品海报模板','制作 4:5 商品海报，可添加标题、副标题和价格。图片只在本机处理。']:['Product Poster Template','Create a 4:5 product poster with headline, subtitle, and price. Processed only in this browser.']
   }[tool];
   localEditorTitle.textContent=copy[0];localEditorHelp.textContent=copy[1];
-  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';
+  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';productPosterControls.hidden=tool!=='product-poster';
 }
 
 function setActiveChip(container,value){
@@ -901,13 +931,18 @@ document.getElementById('resizePreset').addEventListener('click',event=>{
   const button=event.target.closest('button[data-value]');if(!button)return;
   localResizePreset=button.dataset.value;setActiveChip(event.currentTarget,localResizePreset);renderLocalPreview();
 });
-[textHeadline,textCaption,textFont,textColor,compressFormat,compressQuality].forEach(control=>control.addEventListener('input',()=>{
+document.getElementById('posterTemplate').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  posterTemplate=button.dataset.value;setActiveChip(event.currentTarget,posterTemplate);renderLocalPreview();
+});
+[textHeadline,textCaption,textFont,textColor,compressFormat,compressQuality,posterHeadline,posterSubtitle,posterPrice].forEach(control=>control.addEventListener('input',()=>{
   qualityValue.textContent=`${compressQuality.value}%`;renderLocalPreview();
 }));
 document.getElementById('localDownload').addEventListener('click',downloadLocalImage);
 document.getElementById('localShare').addEventListener('click',shareLocalImage);
 
 function localCanvasSize(image){
+  if(currentTool==='product-poster')return [1080,1350];
   if(currentTool==='resize-crop'){
     return {original:[image.naturalWidth,image.naturalHeight],square:[1080,1080],portrait:[1080,1350],landscape:[1920,1080],story:[1080,1920]}[localResizePreset];
   }
@@ -937,10 +972,37 @@ function drawTextOverlay(width,height){
   if(captionLines.length){top+=titleHeight+captionSize*.7;localContext.font=`600 ${captionSize}px ${textFont.value}`;drawCenteredLines(captionLines,width/2,top+captionSize,captionSize*1.35);}
   localContext.shadowColor='transparent';
 }
+function drawProductPoster(width,height){
+  const palettes={
+    clean:['#f8fafc','#e0f2fe','#111827','#2563eb'],
+    bold:['#111827','#312e81','#ffffff','#f59e0b'],
+    warm:['#fff7ed','#fed7aa','#1f2937','#e11d48']
+  };
+  const [top,bottom,text,accent]=palettes[posterTemplate]||palettes.clean;
+  const gradient=localContext.createLinearGradient(0,0,width,height);
+  gradient.addColorStop(0,top);gradient.addColorStop(1,bottom);
+  localContext.fillStyle=gradient;localContext.fillRect(0,0,width,height);
+  localContext.fillStyle=accent;localContext.globalAlpha=.14;localContext.beginPath();localContext.arc(width*.88,height*.12,width*.36,0,Math.PI*2);localContext.fill();localContext.globalAlpha=1;
+  const productBox={x:Math.round(width*.09),y:Math.round(height*.19),w:Math.round(width*.82),h:Math.round(height*.54)};
+  localContext.save();localContext.shadowColor='rgba(15,23,42,.22)';localContext.shadowBlur=28;localContext.fillStyle='rgba(255,255,255,.68)';localContext.roundRect(productBox.x,productBox.y,productBox.w,productBox.h,34);localContext.fill();localContext.restore();
+  const scale=Math.min(productBox.w/localImage.naturalWidth,productBox.h/localImage.naturalHeight);
+  const dw=localImage.naturalWidth*scale,dh=localImage.naturalHeight*scale;
+  localContext.drawImage(localImage,productBox.x+(productBox.w-dw)/2,productBox.y+(productBox.h-dh)/2,dw,dh);
+  localContext.fillStyle=text;localContext.textAlign='center';localContext.shadowColor='transparent';
+  localContext.font='900 70px Inter, Arial, sans-serif';
+  drawCenteredLines(wrapCanvasText(posterHeadline.value.trim()||'New Arrival',width*.78),width/2,height*.82,76);
+  localContext.font='600 30px Inter, Arial, sans-serif';localContext.fillStyle=posterTemplate==='bold'?'rgba(255,255,255,.78)':'rgba(31,41,55,.72)';
+  drawCenteredLines(wrapCanvasText(posterSubtitle.value.trim()||'Made with PictTool',width*.72),width/2,height*.89,36);
+  const price=posterPrice.value.trim()||'$19.99';
+  localContext.font='900 44px Inter, Arial, sans-serif';localContext.fillStyle=accent;
+  localContext.fillText(price,width/2,height*.955);
+}
 function renderLocalPreview(){
   if(!localImage)return;
   const [width,height]=localCanvasSize(localImage);localCanvas.width=width;localCanvas.height=height;localContext.clearRect(0,0,width,height);
-  if(currentTool==='resize-crop')drawCover(localImage,width,height);else localContext.drawImage(localImage,0,0,width,height);
+  if(currentTool==='product-poster')drawProductPoster(width,height);
+  else if(currentTool==='resize-crop')drawCover(localImage,width,height);
+  else localContext.drawImage(localImage,0,0,width,height);
   if(currentTool==='add-text')drawTextOverlay(width,height);
 }
 function loadLocalFile(file,dataUrl){
@@ -979,7 +1041,7 @@ async function shareLocalImage(){
 
 function handleFile(file){
   if(!file)return;
-  const isLocal=['add-text','resize-crop','compress-convert'].includes(currentTool),maxSize=isLocal?50:20;
+  const isLocal=['add-text','resize-crop','compress-convert','product-poster'].includes(currentTool),maxSize=isLocal?50:20;
   if(file.size>maxSize*1024*1024){alert(`File too large (max ${maxSize}MB)`);return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
@@ -991,7 +1053,7 @@ function handleFile(file){
 }
 
 async function prepareAndProcess(file){
-  const creative=['game-avatar','cartoon','art','change-background','remove-object','scene-lighting'].includes(currentTool);
+  const creative=['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting'].includes(currentTool);
   const prepared=creative ? await resizeCreativeImage(file) : file;
   processImage(prepared);
 }
@@ -1052,6 +1114,7 @@ function setCreativeCopy(tool){
   const copy={
     'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],
     cartoon: zh?['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。']:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],
+    'travel-art': zh?['旅行照片转艺术','适合建筑、风景、街景和旅行照片。会尽量保留原始地点、构图和透视，不生成新人物。']:['Travel photo to art','For architecture, landscapes, streets, and travel photos. Preserves the place, composition, and perspective without creating new people.'],
     art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],
     'change-background': zh?['新背景描述（可选）','只更换背景，人物、姿势、衣服和前景会尽量保持不变。例如：阳光花园。']:['New background (optional)','Only the background changes; the subject, pose, clothing, and foreground stay intact. Example: a sunny flower garden.'],
     'remove-object': zh?['要删除什么？','只描述一个具体物体，并写明位置。例如：the red bag on the table。不会去除整张图片的背景。']:['What should be removed?','Describe one specific item and its location, for example: the red bag on the table. This keeps the rest of the photo intact.'],
@@ -1059,7 +1122,11 @@ function setCreativeCopy(tool){
   }[tool];
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
   creativePrompt.required=tool==='remove-object';
-  creativePrompt.placeholder=tool==='remove-object'?(zh?'例如：桌子上的红色包':'For example: the red bag on the table'):(zh?'例如：月光森林':'For example: a moonlit forest');
+  creativePrompt.placeholder=tool==='remove-object'
+    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
+    : tool==='travel-art'
+      ? 'watercolor travel postcard, clean ink lines, preserve the building, no people'
+      : (zh?'例如：月光森林':'For example: a moonlit forest');
   creativePrompt.value='';
 }
 
@@ -1138,7 +1205,7 @@ function resetUpload(){resultArea.classList.remove('show','generate-mode');fileI
 
 function initialToolFromUrl(){
   const tool = new URLSearchParams(location.search).get('tool') || '';
-  const allowed = ['game-avatar','cartoon','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert'];
+  const allowed = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert','product-poster'];
   return allowed.includes(tool) ? tool : 'game-avatar';
 }
 selectTool(initialToolFromUrl());
