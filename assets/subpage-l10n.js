@@ -21,41 +21,41 @@
     'image-compressor':{title:'在线免费图片压缩 | PictTool',description:'在浏览器中压缩 JPG、PNG、WebP，或转换图片格式。',eyebrow:'图片压缩',h1:'分享前在线压缩图片',lead:'在浏览器里压缩 JPG、PNG 和 WebP，让图片更容易上传、发送、发布和发到 Pinterest。',primary:'压缩图片',secondary:'查看步骤',footer:'PictTool · 免费 AI 图片工具',metrics:['原始文件','示例压缩后','下载前选择格式'],sections:[['适合网站、邮件和社交媒体的小文件','大图片会拖慢上传速度，也会让网页更重。PictTool 压缩工具适合在分享前做一个更轻的版本。',[['博客和网站图片','发布文章或页面前先减小图片体积。'],['社交帖子','为 Pinterest、Instagram、Facebook 等平台准备图片。'],['格式转换','按需要下载为 JPG、PNG 或 WebP。']]],['如何压缩图片','',null,[['上传图片','从设备选择 JPG、PNG 或 WebP。'],['选择格式和质量','质量越低文件越小，质量越高细节越多。'],['下载结果','保存压缩后的图片，用在需要小文件的地方。']],'试试图片压缩'],['图片压缩常见问题','',null,null,null,[['图片会上传到服务器吗？','快速压缩工具在浏览器本地运行，图片留在你的设备上。'],['应该选择哪种格式？','照片适合 JPG；需要透明背景可用 PNG；网页通常 WebP 更小。'],['压缩会降低画质吗？','会。文件越小通常细节越少，建议选择能满足用途的最高质量。']]]]},
     'resize-crop-image':{title:'在线免费改尺寸与裁剪图片 | PictTool',description:'为 Pinterest、Instagram、YouTube 等平台裁剪图片尺寸。',eyebrow:'改尺寸与裁剪',h1:'为社交媒体裁剪图片尺寸',lead:'制作适合 Pinterest、Instagram、YouTube 等平台的图片比例。在浏览器里裁剪并下载可分享版本。',primary:'裁剪图片',secondary:'常用尺寸',footer:'PictTool · 免费 AI 图片工具',tags:['Pinterest 2:3','方图 1:1'],sections:[['一张图片，多种常用比例','不同平台需要不同尺寸。干净裁剪能让主体保持可见，避免上传后被平台裁掉。',[['Pinterest Pin','适合搜索和收藏板的竖版图片。'],['方形帖子','适合头像、商品预览和信息流。'],['横版缩略图','适合 YouTube 封面、博客头图和预览图。']]],['如何改尺寸和裁剪','',null,[['上传照片','从设备选择 JPG、PNG 或 WebP。'],['选择裁剪比例','选择常用社交尺寸，或使用原图比例。'],['下载裁剪结果','保存成可用于帖子、Pin 或缩略图的图片。']],'试试改尺寸与裁剪'],['改尺寸与裁剪常见问题','',null,null,null,[['裁剪会上传图片吗？','不会。快速裁剪工具在浏览器本地运行，图片留在你的设备上。'],['Pinterest 用什么尺寸？','竖版 2:3 是常用起点。'],['可以裁剪 Instagram 吗？','可以。方形和竖版比例适合很多 Instagram 内容。']]]]},
     'product-poster':{
-      title:'免费商品海报模板 | PictTool',
-      description:'上传商品图片，制作 4:5 商品海报，添加标题、副标题和价格。',
-      eyebrow:'商品海报模板',
-      h1:'快速制作可分享的商品海报',
-      lead:'上传商品图，添加标题、副标题和价格，直接生成适合 Pinterest、网店和社交平台的 4:5 海报。',
-      primary:'制作商品海报',
+      title:'AI 商品海报在线制作 | PictTool',
+      description:'上传商品照片，生成适合店铺、Pinterest 和社交平台的海报风商品图片。',
+      eyebrow:'AI 商品海报',
+      h1:'把商品照片变成海报风展示图',
+      lead:'上传商品或实物照片，生成更适合 Pinterest、店铺和社交发布的商业展示图。',
+      primary:'生成 AI 商品海报',
       secondary:'使用建议',
       footer:'PictTool · 免费 AI 图片工具',
       sections:[
-        ['适合小商品、课程、下载资源和促销图片','商品海报工具在浏览器本地运行，不消耗 AI 次数。它适合快速做清爽的分享图，而不是复杂设计稿。',[
-          ['4:5 海报比例','适合 Pinterest、Instagram 竖版帖子和商品展示。'],
-          ['本地处理','图片留在浏览器里，不上传服务器。'],
-          ['可先去背景','先用去背景工具处理商品，再做海报会更干净。']
+        ['适合商品展示、上新图片和社交发布','AI 商品海报会尽量保留商品主体，同时优化背景、灯光和海报构图。它适合做商品展示图，而不是让 AI 直接生成精确价格文字。',[
+          ['海报风画面','适合 Pinterest、Instagram 竖版帖子、店铺预览和上新图片。'],
+          ['保留商品主体','提示词会尽量保留商品形状、颜色、材质和包装特征。'],
+          ['可补充方向','可以填写 luxury studio、clean skincare、tech launch 等简短风格方向。']
         ]],
-        ['如何制作商品海报','',null,[
+        ['如何生成 AI 商品海报','',null,[
           ['上传商品图片','最好选择背景简单、主体清楚的图片。'],
-          ['填写文字和价格','输入标题、副标题和价格，选择模板风格。'],
-          ['下载海报','保存 JPG，用于帖子、商品图或 Pinterest。']
-        ],'开始制作商品海报'],
+          ['补充海报方向','描述背景、氛围或目标人群，不建议让 AI 生成精确价格或长文字。'],
+          ['下载结果','保存海报风图片，如需精确文字可再用加文字工具补上。']
+        ],'开始生成商品海报'],
         ['商品海报常见问题','',null,null,null,[
-          ['这个工具收费吗？','当前建议免费开放，因为它是本地工具，不消耗 AI 成本。'],
-          ['适合什么图片？','商品主体清晰、背景简单的图片效果最好。'],
-          ['可以先去背景吗？','可以，先去背景再做海报，画面会更干净。']
+          ['AI 能写准确价格吗？','不建议。AI 更适合生成视觉海报和背景构图，精确价格和品牌文案最好后期用加文字工具添加。'],
+          ['适合什么图片？','商品主体清晰、背景简单、形状明确的图片效果最好。'],
+          ['会消耗次数吗？','会。这是 AI 创意工具，会使用高级创意编辑额度。']
         ]]
       ]
     }
   };
   const topOnly={
-    es:{'travel-photo-to-art':{eyebrow:'Arte de viaje',h1:'Convierte fotos de viaje en arte ilustrado',lead:'Haz que monumentos, calles y recuerdos parezcan postales ilustradas.',primary:'Crear arte de viaje',secondary:'Ideas creativas'},'product-poster':{eyebrow:'Poster de producto',h1:'Crea un poster de producto listo para compartir',lead:'Sube una imagen de producto, añade titulo, subtitulo y precio, y descarga un poster 4:5.',primary:'Crear poster',secondary:'Consejos'},'photo-to-comic':{eyebrow:'Efecto comic IA',h1:'Convierte tu foto en una ilustracion comic',lead:'Sube una foto y crea un resultado colorido manteniendo el sujeto reconocible.',primary:'Probar foto a comic',secondary:'Como funciona'},'remove-background':{eyebrow:'Quitar fondo',h1:'Quita fondos de imagen gratis online',lead:'Crea un recorte limpio para productos, retratos o publicaciones.',primary:'Quitar fondo',secondary:'Mejores usos'},'image-compressor':{eyebrow:'Compresor de imagen',h1:'Comprime imagenes antes de compartir',lead:'Reduce JPG, PNG y WebP directamente en tu navegador.',primary:'Comprimir imagen',secondary:'Como funciona'},'resize-crop-image':{eyebrow:'Redimensionar y cortar',h1:'Recorta imagenes para redes sociales',lead:'Prepara tamanos para Pinterest, Instagram, YouTube y mas.',primary:'Redimensionar imagen',secondary:'Tamanos populares'}},
-    fr:{'travel-photo-to-art':{eyebrow:'Art de voyage',h1:'Transformez vos photos de voyage en art illustre',lead:'Donnez a vos monuments, rues et souvenirs un style de carte postale.',primary:'Creer une image de voyage',secondary:'Idees'},'product-poster':{eyebrow:'Affiche produit',h1:'Creez une affiche produit prete a partager',lead:'Ajoutez titre, sous-titre et prix puis telechargez une affiche 4:5.',primary:'Creer une affiche',secondary:'Conseils'}},
-    pt:{'travel-photo-to-art':{eyebrow:'Arte de viagem',h1:'Transforme fotos de viagem em arte ilustrada',lead:'Deixe monumentos, ruas e memorias com estilo de postal ilustrado.',primary:'Criar arte de viagem',secondary:'Ideias'},'product-poster':{eyebrow:'Poster de produto',h1:'Crie um poster de produto pronto para compartilhar',lead:'Adicione titulo, subtitulo e preco e baixe um poster 4:5.',primary:'Criar poster',secondary:'Dicas'}},
-    ja:{'travel-photo-to-art':{eyebrow:'旅行写真アート',h1:'旅行写真をイラスト風アートに',lead:'名所、街並み、旅の思い出をポストカードのような雰囲気にします。',primary:'旅行アートを作成',secondary:'アイデア'},'product-poster':{eyebrow:'商品ポスター',h1:'共有しやすい商品ポスターを作成',lead:'商品画像に見出し、説明、価格を追加して4:5ポスターを作れます。',primary:'ポスターを作成',secondary:'ヒント'}},
-    ko:{'travel-photo-to-art':{eyebrow:'여행 사진 아트',h1:'여행 사진을 일러스트 아트로 바꾸기',lead:'랜드마크와 거리, 여행 추억을 엽서 같은 이미지로 만듭니다.',primary:'여행 아트 만들기',secondary:'아이디어'},'product-poster':{eyebrow:'상품 포스터',h1:'공유하기 좋은 상품 포스터 만들기',lead:'상품 이미지에 제목, 설명, 가격을 넣어 4:5 포스터를 만듭니다.',primary:'포스터 만들기',secondary:'팁'}},
-    ar:{'travel-photo-to-art':{eyebrow:'فن صور السفر',h1:'حوّل صور السفر إلى فن مرسوم',lead:'اجعل المعالم والشوارع والذكريات تبدو كبطاقات سفر مرسومة.',primary:'إنشاء فن سفر',secondary:'أفكار'},'product-poster':{eyebrow:'ملصق منتج',h1:'أنشئ ملصق منتج جاهزاً للمشاركة',lead:'ارفع صورة منتج وأضف عنواناً ووصفاً وسعراً ثم حمّل ملصقاً بنسبة 4:5.',primary:'إنشاء ملصق',secondary:'نصائح'}},
-    de:{'travel-photo-to-art':{eyebrow:'Reisekunst',h1:'Verwandle Reisefotos in illustrierte Kunst',lead:'Mache Sehenswuerdigkeiten, Strassen und Erinnerungen zu Postkartenbildern.',primary:'Reisekunst erstellen',secondary:'Ideen'},'product-poster':{eyebrow:'Produktposter',h1:'Erstelle ein teilbares Produktposter',lead:'Lade ein Produktbild hoch, ergaenze Titel, Untertitel und Preis und speichere ein 4:5 Poster.',primary:'Poster erstellen',secondary:'Tipps'}}
+    es:{'travel-photo-to-art':{eyebrow:'Arte de viaje',h1:'Convierte fotos de viaje en arte ilustrado',lead:'Haz que monumentos, calles y recuerdos parezcan postales ilustradas.',primary:'Crear arte de viaje',secondary:'Ideas creativas'},'product-poster':{eyebrow:'Poster de producto IA',h1:'Convierte una foto de producto en una imagen tipo poster',lead:'Sube una foto de producto u objeto y crea un visual comercial para Pinterest, tiendas y redes.',primary:'Crear poster IA',secondary:'Consejos'},'photo-to-comic':{eyebrow:'Efecto comic IA',h1:'Convierte tu foto en una ilustracion comic',lead:'Sube una foto y crea un resultado colorido manteniendo el sujeto reconocible.',primary:'Probar foto a comic',secondary:'Como funciona'},'remove-background':{eyebrow:'Quitar fondo',h1:'Quita fondos de imagen gratis online',lead:'Crea un recorte limpio para productos, retratos o publicaciones.',primary:'Quitar fondo',secondary:'Mejores usos'},'image-compressor':{eyebrow:'Compresor de imagen',h1:'Comprime imagenes antes de compartir',lead:'Reduce JPG, PNG y WebP directamente en tu navegador.',primary:'Comprimir imagen',secondary:'Como funciona'},'resize-crop-image':{eyebrow:'Redimensionar y cortar',h1:'Recorta imagenes para redes sociales',lead:'Prepara tamanos para Pinterest, Instagram, YouTube y mas.',primary:'Redimensionar imagen',secondary:'Tamanos populares'}},
+    fr:{'travel-photo-to-art':{eyebrow:'Art de voyage',h1:'Transformez vos photos de voyage en art illustre',lead:'Donnez a vos monuments, rues et souvenirs un style de carte postale.',primary:'Creer une image de voyage',secondary:'Idees'},'product-poster':{eyebrow:'Affiche produit IA',h1:'Transformez une photo produit en visuel type affiche',lead:'Importez un produit ou un objet et creez un visuel commercial pour Pinterest, boutiques et reseaux.',primary:'Creer une affiche IA',secondary:'Conseils'}},
+    pt:{'travel-photo-to-art':{eyebrow:'Arte de viagem',h1:'Transforme fotos de viagem em arte ilustrada',lead:'Deixe monumentos, ruas e memorias com estilo de postal ilustrado.',primary:'Criar arte de viagem',secondary:'Ideias'},'product-poster':{eyebrow:'Poster de produto IA',h1:'Transforme uma foto de produto em imagem estilo poster',lead:'Envie uma foto de produto ou objeto e crie um visual comercial para Pinterest, lojas e redes sociais.',primary:'Criar poster IA',secondary:'Dicas'}},
+    ja:{'travel-photo-to-art':{eyebrow:'旅行写真アート',h1:'旅行写真をイラスト風アートに',lead:'名所、街並み、旅の思い出をポストカードのような雰囲気にします。',primary:'旅行アートを作成',secondary:'アイデア'},'product-poster':{eyebrow:'AI商品ポスター',h1:'商品写真をポスター風画像に変換',lead:'商品や物の写真をアップロードして、Pinterest、ショップ、SNS向けの商用ビジュアルを作成します。',primary:'AIポスターを作成',secondary:'ヒント'}},
+    ko:{'travel-photo-to-art':{eyebrow:'여행 사진 아트',h1:'여행 사진을 일러스트 아트로 바꾸기',lead:'랜드마크와 거리, 여행 추억을 엽서 같은 이미지로 만듭니다.',primary:'여행 아트 만들기',secondary:'아이디어'},'product-poster':{eyebrow:'AI 상품 포스터',h1:'상품 사진을 포스터 이미지로 바꾸기',lead:'상품이나 물건 사진을 업로드해 Pinterest, 쇼핑몰, 소셜 게시물용 상업 비주얼을 만듭니다.',primary:'AI 포스터 만들기',secondary:'팁'}},
+    ar:{'travel-photo-to-art':{eyebrow:'فن صور السفر',h1:'حوّل صور السفر إلى فن مرسوم',lead:'اجعل المعالم والشوارع والذكريات تبدو كبطاقات سفر مرسومة.',primary:'إنشاء فن سفر',secondary:'أفكار'},'product-poster':{eyebrow:'ملصق منتج بالذكاء الاصطناعي',h1:'حوّل صورة منتج إلى ملصق بصري',lead:'ارفع صورة منتج أو عنصر وأنشئ صورة تجارية مناسبة لـ Pinterest والمتاجر والمنشورات.',primary:'إنشاء ملصق بالذكاء الاصطناعي',secondary:'نصائح'}},
+    de:{'travel-photo-to-art':{eyebrow:'Reisekunst',h1:'Verwandle Reisefotos in illustrierte Kunst',lead:'Mache Sehenswuerdigkeiten, Strassen und Erinnerungen zu Postkartenbildern.',primary:'Reisekunst erstellen',secondary:'Ideen'},'product-poster':{eyebrow:'KI-Produktposter',h1:'Verwandle ein Produktfoto in ein Posterbild',lead:'Lade ein Produkt- oder Objektfoto hoch und erstelle ein kommerzielles Visual fur Pinterest, Shops und Social Posts.',primary:'KI-Poster erstellen',secondary:'Tipps'}}
   };
   const enDefaults={before:'Before',after:'After',footer:'PictTool · Free AI image tools'};
   function key(){return location.pathname.split('/').filter(Boolean)[0]||'photo-to-comic'}
@@ -101,6 +101,11 @@
     localStorage.setItem('pict-language',lang);
     document.querySelectorAll('.subpage-language').forEach(select=>{select.value=lang});
   }
+  function initialLang(){
+    const saved=localStorage.getItem('pict-language')||localStorage.getItem('pict-lang')||'';
+    const browser=(navigator.language||'').slice(0,2);
+    return nav[saved]?saved:nav[browser]?browser:document.documentElement.lang||'en';
+  }
   function mount(){
     if(!document.querySelector('.subpage-l10n-style')){
       const style=document.createElement('style');style.className='subpage-l10n-style';
@@ -112,7 +117,7 @@
       languages.forEach(([value,label])=>{const option=document.createElement('option');option.value=value;option.textContent=label;select.appendChild(option)});
       select.addEventListener('change',()=>apply(select.value));navInner.appendChild(select);
     }
-    apply(localStorage.getItem('pict-language')||document.documentElement.lang||'en');
+    apply(initialLang());
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
