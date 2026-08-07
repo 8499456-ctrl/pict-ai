@@ -540,11 +540,11 @@ function enhanceIndexHtml(html) {
     .replaceAll('一眼看见变化', '旅行照片也能变漫画')
     .replaceAll('AI 去背景效果示例', 'AI 漫画风旅行照片示例')
     .replaceAll('真实示例 — 上传自己的图片即可开始处理。', '真实示例 — 上传自己的旅行照片即可开始处理。')
-    .replace('aria-label="Before and after product image comparison"', 'aria-label="Before and after travel photo comic-art comparison"')
+    .replace('aria-label="Before and after product image comparison"', 'aria-label="Before and after beach travel photo comic-art comparison"')
     .replace('assets/bouquet-before.jpg', 'assets/homepage-travel-comic-before.jpg')
     .replace('assets/bouquet-after.png', 'assets/homepage-travel-comic-after.jpg')
-    .replace('alt="Bouquet in a room before background removal"', 'alt="Tree-lined travel photo before AI comic transformation"')
-    .replace('alt="Bouquet isolated on a purple background after AI background removal"', 'alt="Tree-lined travel photo after AI comic transformation"')
+    .replace('alt="Bouquet in a room before background removal"', 'alt="Beach travel photo before AI comic transformation"')
+    .replace('alt="Bouquet isolated on a purple background after AI background removal"', 'alt="Beach travel photo after AI comic transformation"')
     .replace('<p>🎮 Creative tools for gamers & creators</p>', '<p data-i18n="group.creative">🎮 Creative tools for gamers & creators</p>')
     .replace('<p>✦ Everyday image tools</p>', '<p data-i18n="group.everyday">✦ Everyday image tools</p>')
     .replace('<p>✦ Quick tools — free & private in your browser</p>', '<p data-i18n="group.quick">✦ Quick tools — free & private in your browser</p>')
@@ -660,8 +660,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'Turn travel photos into comic art',
       exampleSubtitle:'AI comic-style travel example',
       exampleNote:'A real example from PictTool - upload a travel photo and create your own result.',
-      beforeAlt:'Tree-lined travel photo before AI comic transformation',
-      afterAlt:'Tree-lined travel photo after AI comic transformation',
+      beforeAlt:'Beach travel photo before AI comic transformation',
+      afterAlt:'Beach travel photo after AI comic transformation',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -673,8 +673,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'旅行照片也能变漫画',
       exampleSubtitle:'AI 漫画风旅行照片示例',
       exampleNote:'真实示例 - 上传自己的旅行照片即可开始处理。',
-      beforeAlt:'AI 漫画转换前的林荫道旅行照片',
-      afterAlt:'AI 漫画转换后的林荫道旅行照片',
+      beforeAlt:'AI 漫画转换前的海滩旅行照片',
+      afterAlt:'AI 漫画转换后的海滩旅行照片',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -686,8 +686,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'旅行写真をコミック風アートに',
       exampleSubtitle:'AI コミック風旅行写真の例',
       exampleNote:'PictTool の実例 - 旅行写真をアップロードして自分の結果を作れます。',
-      beforeAlt:'AI コミック変換前の並木道の旅行写真',
-      afterAlt:'AI コミック変換後の並木道の旅行写真',
+      beforeAlt:'AI コミック変換前のビーチ旅行写真',
+      afterAlt:'AI コミック変換後のビーチ旅行写真',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -699,8 +699,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'여행 사진을 코믹 아트로',
       exampleSubtitle:'AI 코믹 스타일 여행 사진 예시',
       exampleNote:'PictTool 실제 예시 - 여행 사진을 업로드해 직접 만들어 보세요.',
-      beforeAlt:'AI 코믹 변환 전 나무길 여행 사진',
-      afterAlt:'AI 코믹 변환 후 나무길 여행 사진',
+      beforeAlt:'AI 코믹 변환 전 해변 여행 사진',
+      afterAlt:'AI 코믹 변환 후 해변 여행 사진',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -712,8 +712,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'Convierte fotos de viaje en comic art',
       exampleSubtitle:'Ejemplo de viaje con estilo comic AI',
       exampleNote:'Ejemplo real de PictTool - sube una foto de viaje y crea tu propio resultado.',
-      beforeAlt:'Foto de viaje arbolada antes de la transformacion comic AI',
-      afterAlt:'Foto de viaje arbolada despues de la transformacion comic AI',
+      beforeAlt:'Foto de playa antes de la transformacion comic AI',
+      afterAlt:'Foto de playa despues de la transformacion comic AI',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -725,8 +725,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'Transformez vos photos de voyage en comic art',
       exampleSubtitle:'Exemple de voyage en style comic IA',
       exampleNote:'Exemple reel de PictTool - importez une photo de voyage et creez votre resultat.',
-      beforeAlt:'Photo de voyage sous les arbres avant transformation comic IA',
-      afterAlt:'Photo de voyage sous les arbres apres transformation comic IA',
+      beforeAlt:'Photo de plage avant transformation comic IA',
+      afterAlt:'Photo de plage apres transformation comic IA',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -738,8 +738,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'Reisefotos in Comic Art verwandeln',
       exampleSubtitle:'AI Comic-Stil Beispiel fur Reisefotos',
       exampleNote:'Ein echtes PictTool Beispiel - lade ein Reisefoto hoch und erstelle dein Ergebnis.',
-      beforeAlt:'Reisefoto einer Baumallee vor der AI Comic-Umwandlung',
-      afterAlt:'Reisefoto einer Baumallee nach der AI Comic-Umwandlung',
+      beforeAlt:'Strand-Reisefoto vor der AI Comic-Umwandlung',
+      afterAlt:'Strand-Reisefoto nach der AI Comic-Umwandlung',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -751,8 +751,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'Transforme fotos de viagem em comic art',
       exampleSubtitle:'Exemplo de viagem em estilo comic com IA',
       exampleNote:'Exemplo real do PictTool - envie uma foto de viagem e crie seu resultado.',
-      beforeAlt:'Foto de viagem arborizada antes da transformacao comic por IA',
-      afterAlt:'Foto de viagem arborizada depois da transformacao comic por IA',
+      beforeAlt:'Foto de praia antes da transformacao comic por IA',
+      afterAlt:'Foto de praia depois da transformacao comic por IA',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -764,8 +764,8 @@ function enhanceIndexHtml(html) {
       exampleTitle:'حوّل صور السفر إلى فن قصصي',
       exampleSubtitle:'مثال لصورة سفر بأسلوب القصص المصورة بالذكاء الاصطناعي',
       exampleNote:'مثال حقيقي من PictTool - ارفع صورة سفر وأنشئ نتيجتك الخاصة.',
-      beforeAlt:'صورة سفر بين الأشجار قبل تحويلها إلى فن قصصي',
-      afterAlt:'صورة سفر بين الأشجار بعد تحويلها إلى فن قصصي',
+      beforeAlt:'صورة سفر على الشاطئ قبل تحويلها إلى فن قصصي',
+      afterAlt:'صورة سفر على الشاطئ بعد تحويلها إلى فن قصصي',
       comicPlaceholder:'professional founder portrait, clean ink outlines, natural skin tones, keep the same face',
       artPlaceholder:'soft side light, muted colors, realistic skin texture, keep the same face',
       lightingPlaceholder:'Enhance this night photo naturally. Keep the night atmosphere and avoid overexposed lights.'
@@ -1025,7 +1025,7 @@ function enhanceIndexHtml(html) {
     document.querySelectorAll('[data-i18n="group.quick"]').forEach(node=>{ node.textContent=ui.quickGroup; });
     document.querySelectorAll('img[src*="homepage-travel-comic-before"]').forEach(img=>{ img.alt=c.beforeAlt; });
     document.querySelectorAll('img[src*="homepage-travel-comic-after"]').forEach(img=>{ img.alt=c.afterAlt; });
-    const comparison=document.querySelector('[aria-label*="travel photo comic-art comparison"], [aria-label*="旅行照片漫画效果前后对比"], [aria-label*="Comparación antes"], [aria-label*="Comparaison avant"], [aria-label*="Comparação antes"], [aria-label*="旅行写真"], [aria-label*="여행 사진"], [aria-label*="Vorher-Nachher"], [aria-label*="مقارنة صورة"]');
+    const comparison=document.querySelector('[aria-label*="beach travel photo comic-art comparison"], [aria-label*="travel photo comic-art comparison"], [aria-label*="旅行照片漫画效果前后对比"], [aria-label*="Comparación antes"], [aria-label*="Comparaison avant"], [aria-label*="Comparação antes"], [aria-label*="旅行写真"], [aria-label*="여행 사진"], [aria-label*="Vorher-Nachher"], [aria-label*="مقارنة صورة"]');
     if(comparison){
       comparison.setAttribute('aria-label', ui.comparisonAria);
       comparison.querySelectorAll('*').forEach(node=>{
