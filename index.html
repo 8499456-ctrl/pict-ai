@@ -121,6 +121,7 @@
   .tool-card[data-tool="add-text"] .neon-icon{background:linear-gradient(145deg,#ffc4de 0%,#f678b1 52%,#be5bba 100%)}
   .tool-card[data-tool="resize-crop"] .neon-icon{background:linear-gradient(145deg,#a8f2df 0%,#54c8c3 52%,#588ce1 100%)}
   .tool-card[data-tool="compress-convert"] .neon-icon{background:linear-gradient(145deg,#e5c4ff 0%,#a77ce9 52%,#618ddd 100%)}
+  .tool-card[data-tool="pin-before-after"] .neon-icon{background:linear-gradient(145deg,#d9f99d 0%,#38bdf8 52%,#8b5cf6 100%)}
   .tool-card[data-tool="product-poster"] .neon-icon{background:linear-gradient(145deg,#fef3c7 0%,#fb7185 52%,#8b5cf6 100%)}
   .tool-card h3,.section-title,.privacy-card h2{letter-spacing:-.25px;text-shadow:0 2px 0 rgba(9,5,27,.55),0 5px 13px rgba(0,0,0,.18)}
   .tool-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
@@ -182,6 +183,8 @@
   .editor-controls{display:grid;gap:12px}.editor-controls label{display:grid;gap:5px;font-size:12px;font-weight:700}.editor-controls input,.editor-controls select{width:100%;border:1px solid var(--border);border-radius:10px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:9px}
   .editor-controls input[type="color"]{height:40px;padding:4px}.editor-controls input[type="range"]{padding:0}.editor-controls .btn{justify-content:center;width:100%;padding:10px 16px}
   .preset-row{display:flex;gap:6px;flex-wrap:wrap}.preset-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:6px 9px;cursor:pointer;font:inherit;font-size:11px}.preset-chip.active,.preset-chip:hover{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
+  .secondary-upload{border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:12px;background:rgba(255,255,255,.035)}
+  .secondary-upload input{padding:0;border:0;background:transparent;color:var(--text-dim)}
   .tool-indicator{display:inline-block;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
     background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
   .quota-status{margin:-7px 0 18px;font-size:12px;color:var(--text-dim)}
@@ -360,6 +363,12 @@
       <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
       <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
     </a>
+    <a href="#upload" class="tool-card" data-tool="pin-before-after" onclick="selectTool('pin-before-after')">
+      <span class="icon neon-icon" data-mark="P" aria-hidden="true"></span>
+      <h3>Pinterest Before/After</h3>
+      <p>Combine an original and edited image into a vertical Pinterest before/after pin.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
   </div>
 </section>
 
@@ -443,6 +452,18 @@
           <label>Download format<select id="compressFormat"><option value="image/jpeg">JPG — smaller files</option><option value="image/webp">WebP — smallest for web</option><option value="image/png">PNG — highest quality</option></select></label>
           <label>Quality <span id="qualityValue">82%</span><input id="compressQuality" type="range" min="50" max="95" value="82"></label>
           <p class="editor-help">JPG and WebP reduce file size. PNG keeps more detail but may be larger.</p>
+        </div>
+        <div id="pinPosterControls" hidden>
+          <label class="secondary-upload">Edited result image
+            <input id="pinAfterFile" type="file" accept="image/jpeg,image/png,image/webp">
+          </label>
+          <label>Before thumbnail position
+            <div class="preset-row" id="pinInsetPosition">
+              <button class="preset-chip active" type="button" data-value="left">Left</button>
+              <button class="preset-chip" type="button" data-value="right">Right</button>
+            </div>
+          </label>
+          <p class="editor-help">Use the original photo as the first upload, then choose the edited image here. Output is Pinterest 2:3.</p>
         </div>
         <div id="productPosterControls" hidden>
           <label>Poster headline<input id="posterHeadline" maxlength="44" placeholder="New Arrival"></label>
@@ -585,10 +606,11 @@ const i18n = {
     'tool.upscale': '🔍 AI Upscale 4x',
     'tool.colorize': '🎨 Colorize Photo',
     'tool.generate': '✨ Text to Image',
-    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.product-poster': '🛍️ AI Product Poster',
+    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.pin-before-after': '📌 Pinterest Before/After', 'tool.product-poster': '🛍️ AI Product Poster',
     'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.travel-art': '🌄 Travel Photo to Art', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
     'tool.travel-art.desc': 'Turn landmarks, streets, buildings, and scenery into illustrated travel art.',
     'tool.product-poster.desc': 'Turn a product photo into a polished poster-style image for shops, Pinterest, and social posts.',
+    'tool.pin-before-after.desc': 'Combine an original and edited image into a vertical Pinterest before/after pin.',
     'tool.remove-object': '🧹 Remove Object',
     'drop.hint': 'Drop image here or click to browse',
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
@@ -616,6 +638,7 @@ const i18n = {
     'generate.create': '✨ Create image',
     'style.photo': 'Photo', 'style.cartoon': 'Cartoon', 'style.art': 'Art',
     'local.download': '⬇ Download image', 'local.share': '↗ Share image',
+    'local.pin-before-after.help': 'Upload the original first, then add the edited result below. Pict creates a 2:3 Pinterest pin locally in your browser.',
   },
   zh: {
     'nav.tools': '工具',
@@ -657,10 +680,11 @@ const i18n = {
     'tool.upscale': '🔍 AI 高清化',
     'tool.colorize': '🎨 照片上色',
     'tool.generate': '✨ 文字生图',
-    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.product-poster': '🛍️ AI 商品海报',
+    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.pin-before-after': '📌 Pinterest 前后对比', 'tool.product-poster': '🛍️ AI 商品海报',
     'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.travel-art': '🌄 旅行照片转艺术', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
     'tool.travel-art.desc': '把建筑、街景、风景和旅行照片变成插画风旅行艺术图。',
     'tool.product-poster.desc': '把商品照片变成更适合店铺、Pinterest 和社交发布的海报风图片。',
+    'tool.pin-before-after.desc': '把原图和处理结果合成一张 Pinterest 竖版前后对比图。',
     'tool.remove-object': '🧹 去除物体',
     'drop.hint': '拖拽图片到此处或点击上传',
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
@@ -688,6 +712,7 @@ const i18n = {
     'generate.create': '✨ 生成图片',
     'style.photo': '写实', 'style.cartoon': '卡通', 'style.art': '艺术',
     'local.download': '⬇ 下载图片', 'local.share': '↗ 分享图片',
+    'local.pin-before-after.help': '先上传原图，再在下方选择处理后的图片。Pict 会在浏览器本地生成 2:3 Pinterest 图片。',
   }
 };
 
@@ -716,6 +741,13 @@ Object.assign(i18n.ja, {'tool.product-poster':'🛍️ AI商品ポスター','to
 Object.assign(i18n.ko, {'tool.product-poster':'🛍️ AI 상품 포스터','tool.product-poster.desc':'상품 사진을 쇼핑몰, Pinterest, 소셜 게시물용 포스터 이미지로 바꿉니다.'});
 Object.assign(i18n.ar, {'tool.product-poster':'🛍️ ملصق منتج بالذكاء الاصطناعي','tool.product-poster.desc':'حوّل صورة منتج إلى ملصق مناسب للمتاجر وPinterest والمنشورات.'});
 Object.assign(i18n.de, {'tool.product-poster':'🛍️ KI-Produktposter','tool.product-poster.desc':'Verwandle ein Produktfoto in ein Posterbild für Shops, Pinterest und Social Posts.'});
+Object.assign(i18n.es, {'tool.pin-before-after':'📌 Antes/después para Pinterest','tool.pin-before-after.desc':'Combina la foto original y la editada en un pin vertical para Pinterest.','local.pin-before-after.help':'Sube primero la original y luego la imagen editada abajo. Pict crea un pin 2:3 localmente en tu navegador.'});
+Object.assign(i18n.fr, {'tool.pin-before-after':'📌 Avant/après Pinterest','tool.pin-before-after.desc':'Combinez l’original et l’image modifiée dans un pin vertical Pinterest.','local.pin-before-after.help':'Importez d’abord l’original, puis l’image modifiée ci-dessous. Pict crée un pin 2:3 localement dans le navigateur.'});
+Object.assign(i18n.pt, {'tool.pin-before-after':'📌 Antes/depois Pinterest','tool.pin-before-after.desc':'Combine a imagem original e editada em um pin vertical para Pinterest.','local.pin-before-after.help':'Envie primeiro a original e depois a imagem editada abaixo. O Pict cria um pin 2:3 localmente no navegador.'});
+Object.assign(i18n.ja, {'tool.pin-before-after':'📌 Pinterestビフォー/アフター','tool.pin-before-after.desc':'元画像と編集後画像をPinterest向けの縦長ピンに合成します。','local.pin-before-after.help':'先に元画像をアップロードし、下で編集後画像を選択します。Pictはブラウザ内で2:3ピンを作成します。'});
+Object.assign(i18n.ko, {'tool.pin-before-after':'📌 Pinterest 전후 비교','tool.pin-before-after.desc':'원본과 편집 결과를 세로형 Pinterest 핀으로 합칩니다.','local.pin-before-after.help':'먼저 원본을 업로드한 뒤 아래에서 편집 결과를 선택하세요. Pict가 브라우저에서 2:3 핀을 만듭니다.'});
+Object.assign(i18n.ar, {'tool.pin-before-after':'📌 قبل/بعد لـ Pinterest','tool.pin-before-after.desc':'اجمع الصورة الأصلية والمعدلة في منشور عمودي لـ Pinterest.','local.pin-before-after.help':'ارفع الصورة الأصلية أولاً، ثم اختر الصورة المعدلة في الأسفل. ينشئ Pict صورة 2:3 محليًا داخل المتصفح.'});
+Object.assign(i18n.de, {'tool.pin-before-after':'📌 Pinterest Vorher/Nachher','tool.pin-before-after.desc':'Kombiniere Original und bearbeitetes Bild zu einem vertikalen Pinterest-Pin.','local.pin-before-after.help':'Lade zuerst das Original hoch und wähle unten das bearbeitete Bild. Pict erstellt lokal im Browser einen 2:3-Pin.'});
 
 function isTouchUpload(){
   return window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
@@ -770,7 +802,7 @@ function setLanguage(lang) {
   document.querySelector('.upload-zone h3').textContent = isTouchUpload()
     ? (currentLang==='zh' ? '点击选择图片' : 'Tap to choose an image')
     : translate('drop.hint');
-  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert'].includes(currentTool)
+  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert','pin-before-after'].includes(currentTool)
     ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
     : translate('drop.desc');
   // Result labels
@@ -816,7 +848,7 @@ function processRequestOptions(form) {
 }
 
 function quotaGroupForTool(tool) {
-  if (['add-text','resize-crop','compress-convert'].includes(tool)) return 'local';
+  if (['add-text','resize-crop','compress-convert','pin-before-after'].includes(tool)) return 'local';
   if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
   if (tool === 'generate') return 'generate';
   return 'creative';
@@ -872,7 +904,7 @@ function selectTool(tool) {
   });
   const isGenerate = tool === 'generate';
   const isCreative = ['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(tool);
-  const isLocal = ['add-text','resize-crop','compress-convert'].includes(tool);
+  const isLocal = ['add-text','resize-crop','compress-convert','pin-before-after'].includes(tool);
   dropZone.hidden = isGenerate;
   generationZone.hidden = !isGenerate;
   creativeOptions.hidden = !isCreative;
@@ -898,11 +930,12 @@ const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
 const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
 const localEditorTitle=document.getElementById('localEditorTitle'),localEditorHelp=document.getElementById('localEditorHelp');
-const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls'),productPosterControls=document.getElementById('productPosterControls');
+const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls'),pinPosterControls=document.getElementById('pinPosterControls'),productPosterControls=document.getElementById('productPosterControls');
 const textHeadline=document.getElementById('textHeadline'),textCaption=document.getElementById('textCaption'),textFont=document.getElementById('textFont'),textColor=document.getElementById('textColor');
 const compressFormat=document.getElementById('compressFormat'),compressQuality=document.getElementById('compressQuality'),qualityValue=document.getElementById('qualityValue');
 const posterHeadline=document.getElementById('posterHeadline'),posterSubtitle=document.getElementById('posterSubtitle'),posterPrice=document.getElementById('posterPrice');
-let localImage=null,localFile=null,localTextPosition='center',localResizePreset='original',posterTemplate='clean';
+const pinAfterFile=document.getElementById('pinAfterFile');
+let localImage=null,localFile=null,pinAfterImage=null,localTextPosition='center',localResizePreset='original',posterTemplate='clean',pinInsetPosition='left';
 
 dropZone.addEventListener('click',()=>fileInput.click());
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
@@ -932,10 +965,15 @@ function setLocalEditorCopy(tool){
   const copy={
     'add-text': zh?['图片加文字','图片仅在本机浏览器中处理。添加标题、说明和简单样式后即可下载。']:['Add Text to Image','Your image stays in this browser. Add a headline, caption, and simple style, then download.'],
     'resize-crop': zh?['改尺寸与裁剪','按常见社交媒体比例裁剪图片。裁剪只在本机完成。']:['Resize & Crop','Crop your image to popular social-media sizes. Nothing is uploaded.'],
-    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.']
+    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.'],
+    'pin-before-after': zh?['Pinterest 前后对比','先上传原图，再选择处理后的图片。Pict 会在浏览器本地生成 2:3 Pinterest 竖版图。']:['Pinterest Before/After','Upload the original first, then add the edited image. Pict creates a 2:3 Pinterest pin locally in your browser.']
   }[tool];
+  const translatedTitle=i18n[currentLang]&&i18n[currentLang][`tool.${tool}`];
+  const translatedHelp=i18n[currentLang]&&i18n[currentLang][`local.${tool}.help`];
+  if(translatedTitle)copy[0]=translatedTitle;
+  if(translatedHelp)copy[1]=translatedHelp;
   localEditorTitle.textContent=copy[0];localEditorHelp.textContent=copy[1];
-  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';productPosterControls.hidden=tool!=='product-poster';
+  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';pinPosterControls.hidden=tool!=='pin-before-after';productPosterControls.hidden=tool!=='product-poster';
 }
 
 function setActiveChip(container,value){
@@ -953,14 +991,30 @@ document.getElementById('posterTemplate').addEventListener('click',event=>{
   const button=event.target.closest('button[data-value]');if(!button)return;
   posterTemplate=button.dataset.value;setActiveChip(event.currentTarget,posterTemplate);renderLocalPreview();
 });
+document.getElementById('pinInsetPosition').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  pinInsetPosition=button.dataset.value;setActiveChip(event.currentTarget,pinInsetPosition);renderLocalPreview();
+});
 [textHeadline,textCaption,textFont,textColor,compressFormat,compressQuality,posterHeadline,posterSubtitle,posterPrice].forEach(control=>control.addEventListener('input',()=>{
   qualityValue.textContent=`${compressQuality.value}%`;renderLocalPreview();
 }));
+pinAfterFile.addEventListener('change',event=>{
+  const file=event.target.files&&event.target.files[0];if(!file)return;
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。':'Please use a JPG, PNG, or WEBP image.');return}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pinAfterImage=new Image();
+    pinAfterImage.onload=renderLocalPreview;
+    pinAfterImage.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+});
 document.getElementById('localDownload').addEventListener('click',downloadLocalImage);
 document.getElementById('localShare').addEventListener('click',shareLocalImage);
 
 function localCanvasSize(image){
   if(currentTool==='product-poster')return [1080,1350];
+  if(currentTool==='pin-before-after')return [1000,1500];
   if(currentTool==='resize-crop'){
     return {original:[image.naturalWidth,image.naturalHeight],square:[1080,1080],portrait:[1080,1350],landscape:[1920,1080],story:[1080,1920]}[localResizePreset];
   }
@@ -971,6 +1025,18 @@ function localCanvasSize(image){
 function drawCover(image,width,height){
   const scale=Math.max(width/image.naturalWidth,height/image.naturalHeight),drawWidth=image.naturalWidth*scale,drawHeight=image.naturalHeight*scale;
   localContext.drawImage(image,(width-drawWidth)/2,(height-drawHeight)/2,drawWidth,drawHeight);
+}
+function drawCoverRect(image,x,y,width,height){
+  const scale=Math.max(width/image.naturalWidth,height/image.naturalHeight),drawWidth=image.naturalWidth*scale,drawHeight=image.naturalHeight*scale;
+  localContext.drawImage(image,x+(width-drawWidth)/2,y+(height-drawHeight)/2,drawWidth,drawHeight);
+}
+function drawRoundedImage(image,x,y,width,height,radius){
+  localContext.save();
+  localContext.beginPath();
+  localContext.roundRect(x,y,width,height,radius);
+  localContext.clip();
+  drawCoverRect(image,x,y,width,height);
+  localContext.restore();
 }
 function wrapCanvasText(text,maxWidth){
   const words=text.split(/\s+/);const lines=[];let line='';
@@ -1015,19 +1081,57 @@ function drawProductPoster(width,height){
   localContext.font='900 44px Inter, Arial, sans-serif';localContext.fillStyle=accent;
   localContext.fillText(price,width/2,height*.955);
 }
+function drawPinterestBeforeAfter(width,height){
+  const mainImage=pinAfterImage||localImage;
+  drawCoverRect(mainImage,0,0,width,height);
+  const insetWidth=Math.round(width*.34),insetHeight=Math.round(insetWidth*1.22);
+  const margin=Math.round(width*.045),radius=Math.round(width*.025);
+  const x=pinInsetPosition==='right'?width-margin-insetWidth:margin;
+  const y=height-margin-insetHeight;
+  localContext.save();
+  localContext.fillStyle='rgba(4,2,18,.28)';
+  localContext.shadowColor='rgba(0,0,0,.34)';
+  localContext.shadowBlur=Math.round(width*.022);
+  localContext.shadowOffsetY=Math.round(width*.012);
+  localContext.roundRect(x-7,y-7,insetWidth+14,insetHeight+14,radius+8);
+  localContext.fill();
+  localContext.restore();
+  localContext.save();
+  localContext.fillStyle='#fff';
+  localContext.roundRect(x-5,y-5,insetWidth+10,insetHeight+10,radius+7);
+  localContext.fill();
+  localContext.restore();
+  drawRoundedImage(localImage,x,y,insetWidth,insetHeight,radius);
+  if(!pinAfterImage){
+    localContext.save();
+    localContext.fillStyle='rgba(10,10,26,.72)';
+    localContext.fillRect(0,0,width,height);
+    localContext.fillStyle='#fff';
+    localContext.textAlign='center';
+    localContext.font='700 42px Inter, Arial, sans-serif';
+    localContext.fillText(currentLang==='zh'?'请选择处理后的图片':'Choose the edited image',width/2,height/2);
+    localContext.font='500 24px Inter, Arial, sans-serif';
+    localContext.fillStyle='rgba(255,255,255,.72)';
+    localContext.fillText(currentLang==='zh'?'下方上传第二张图后自动生成':'Upload the second image below to create the pin',width/2,height/2+48);
+    localContext.restore();
+  }
+}
 function renderLocalPreview(){
   if(!localImage)return;
   const [width,height]=localCanvasSize(localImage);localCanvas.width=width;localCanvas.height=height;localContext.clearRect(0,0,width,height);
   if(currentTool==='product-poster')drawProductPoster(width,height);
+  else if(currentTool==='pin-before-after')drawPinterestBeforeAfter(width,height);
   else if(currentTool==='resize-crop')drawCover(localImage,width,height);
   else localContext.drawImage(localImage,0,0,width,height);
   if(currentTool==='add-text')drawTextOverlay(width,height);
 }
 function loadLocalFile(file,dataUrl){
+  if(currentTool==='pin-before-after'){pinAfterImage=null;if(pinAfterFile)pinAfterFile.value='';}
   localFile=file;localImage=new Image();localImage.onload=()=>{renderLocalPreview();localEditor.scrollIntoView({behavior:'smooth',block:'center'});};localImage.src=dataUrl;
 }
 async function createLocalResultBlob(){
   if(!localImage){alert(currentLang==='zh'?'请先上传图片。':'Please upload an image first.');return;}
+  if(currentTool==='pin-before-after'&&!pinAfterImage){alert(currentLang==='zh'?'请再选择一张处理后的图片。':'Please choose the edited result image.');return;}
   const mime=currentTool==='compress-convert'?compressFormat.value:'image/jpeg';
   const quality=currentTool==='compress-convert'?Number(compressQuality.value)/100:.92;
   const blob=await new Promise(resolve=>localCanvas.toBlob(value=>resolve(value),mime,quality));
@@ -1059,7 +1163,7 @@ async function shareLocalImage(){
 
 function handleFile(file){
   if(!file)return;
-  const isLocal=['add-text','resize-crop','compress-convert'].includes(currentTool),maxSize=isLocal?50:20;
+  const isLocal=['add-text','resize-crop','compress-convert','pin-before-after'].includes(currentTool),maxSize=isLocal?50:20;
   if(file.size>maxSize*1024*1024){alert(`File too large (max ${maxSize}MB)`);return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
   const reader=new FileReader();
@@ -1146,7 +1250,7 @@ function setCreativeCopy(tool){
     : tool==='travel-art'
       ? 'watercolor travel postcard, clean ink lines, preserve the building, no people'
       : tool==='product-poster'
-        ? 'premium ecommerce poster, clean studio background, soft shadow, leave room for headline text'
+        ? 'clean poster background, soft shadow, no text, preserve the subject'
       : (zh?'例如：月光森林':'For example: a moonlit forest');
   creativePrompt.value='';
 }
@@ -1222,11 +1326,11 @@ async function copyPictToolLink(){
   await copyText(window.location.origin+window.location.pathname+'#upload');
   alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
 }
-function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
+function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';if(pinAfterFile)pinAfterFile.value='';pinAfterImage=null;spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
 function initialToolFromUrl(){
   const tool = new URLSearchParams(location.search).get('tool') || '';
-  const allowed = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert','product-poster'];
+  const allowed = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert','pin-before-after','product-poster'];
   return allowed.includes(tool) ? tool : 'game-avatar';
 }
 selectTool(initialToolFromUrl());
