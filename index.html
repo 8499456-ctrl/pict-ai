@@ -215,6 +215,20 @@
   .privacy-card h2{font-size:18px;margin-bottom:8px}
   .privacy-card p{font-size:13px;color:var(--text-dim)}
 
+  /* Email subscription */
+  .subscribe-section{padding:8px 0 18px}
+  .subscribe-card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:center;padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(145deg,rgba(124,58,237,.16),rgba(34,25,76,.38));box-shadow:10px 12px 26px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08);text-align:left}
+  .subscribe-kicker{display:inline-block;margin-bottom:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-light)}
+  .subscribe-card h2{font-size:22px;line-height:1.25;margin-bottom:7px;text-shadow:0 2px 0 rgba(9,5,27,.55),0 5px 13px rgba(0,0,0,.18)}
+  .subscribe-card p{font-size:13px;color:var(--text-dim);line-height:1.65}
+  .subscribe-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+  .subscribe-form input{min-height:44px;width:100%;border:1px solid var(--border);border-radius:14px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:10px 13px;outline:none}
+  .subscribe-form input:focus{border-color:var(--accent-light);box-shadow:0 0 0 3px rgba(124,58,237,.16)}
+  .subscribe-form .btn{min-height:44px;justify-content:center;white-space:nowrap}
+  .subscribe-status{grid-column:1/-1;min-height:18px;color:var(--text-dim);font-size:12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  html[dir="rtl"] .subscribe-card{text-align:right}
+
   /* Footer */
   footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--text-dim)}
   footer a{color:var(--accent-light);text-decoration:none;transition:color .2s}
@@ -224,6 +238,7 @@
 
 	  @media(max-width:768px){
     .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:36px 16px}.generation-zone{padding:16px;margin-bottom:16px}.generation-zone textarea{min-height:150px}.editor-layout{grid-template-columns:1fr}.editor-preview canvas{max-height:360px}
+    .subscribe-card{grid-template-columns:1fr;padding:20px}.subscribe-form{grid-template-columns:1fr}.subscribe-form .btn{width:100%}
     .guide-grid{grid-template-columns:1fr}.guide-title{font-size:23px}.guide-card{min-height:132px}
     nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,#langSelect{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
 	    .nav-secondary a{color:var(--text-dim);font-size:13px;text-decoration:none;padding:8px 10px;border-radius:8px}.nav-secondary a:hover{background:rgba(255,255,255,.06);color:var(--text)}.comparison{gap:10px;padding:10px}.before-after-head{padding:13px 15px;align-items:flex-start;gap:8px;flex-direction:column}.privacy-card{padding:20px}
@@ -532,6 +547,22 @@
   </div>
 </section>
 
+<section class="container subscribe-section" id="subscribe">
+  <div class="subscribe-card">
+    <div>
+      <span class="subscribe-kicker" data-i18n="subscribe.kicker">PictTool updates</span>
+      <h2 data-i18n="subscribe.title">Get new AI image tools in your inbox</h2>
+      <p data-i18n="subscribe.desc">Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.</p>
+    </div>
+    <form class="subscribe-form" id="subscribeForm">
+      <label class="sr-only" for="subscribeEmail" data-i18n="subscribe.emailLabel">Email address</label>
+      <input id="subscribeEmail" name="email" type="email" maxlength="254" autocomplete="email" required data-i18n-placeholder="subscribe.placeholder" placeholder="you@example.com" />
+      <button class="btn btn-primary btn-sm" type="submit" data-i18n="subscribe.button">Subscribe</button>
+      <p class="subscribe-status" id="subscribeStatus" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
 <footer>
   <p>Built with ❤️ — <a href="https://pict-ai.pages.dev">Pict</a> · AI Image Tools · Free for everyone</p>
   <button class="feedback-link" id="feedbackButton" type="button" data-i18n="feedback.button">💬 Feedback</button>
@@ -618,6 +649,7 @@ const i18n = {
     'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
     'camera.take': '📷 Take a photo',
     'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
+    'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -692,6 +724,7 @@ const i18n = {
     'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
     'camera.take': '📷 拍照上传',
     'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
+    'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -727,6 +760,14 @@ Object.assign(i18n, {
   ar: {'nav.tools':'الأدوات','nav.examples':'أمثلة','nav.privacy':'الخصوصية','nav.try':'جرّبه الآن','badge':'أدوات صور بالذكاء الاصطناعي مجانًا — بلا تسجيل','hero.title1':'أدوات صور بالذكاء الاصطناعي','hero.title2':'سريعة ومجانية','hero.title3':'جميلة','hero.desc':'أزل الخلفيات وحسّن الصور ولوّنها وأنشئ صورًا بالذكاء الاصطناعي مباشرة في متصفحك.','hero.cta':'✨ جرّبه الآن','hero.view':'عرض جميع الأدوات ←','example.title':'شاهد الفرق فورًا','example.subtitle':'مثال على إزالة الخلفية بالذكاء الاصطناعي','example.note':'مثال حقيقي — حمّل صورتك لإنشاء النتيجة.','section.tools.label':'🧰 أدوات الذكاء الاصطناعي','section.tools.title':'كل ما تحتاجه، بنقرة واحدة','section.upload.label':'🚀 ابدأ الآن','section.upload.title':'رفع & تحويل','tool.remove-bg':'✂️ إزالة الخلفية','tool.upscale':'🔍 تحسين الصورة 4×','tool.colorize':'🎨 تلوين الصورة','tool.generate':'✨ نص إلى صورة','drop.hint':'أفلت الصورة هنا أو انقر للاختيار','drop.desc':'JPG وPNG وWEBP — حتى 20 ميجابايت','privacy.title':'صورك تستحق العناية','privacy.body':'لا يتطلب Pict حسابًا. تُستخدم الصور المرفوعة لمعالجة طلبك فقط. يرجى عدم رفع محتوى حساس أو شخصي أو سري.','generate.label':'صف الصورة التي تريد إنشاءها','generate.placeholder':'مثلًا: زاوية قراءة دافئة بضوء شمس العصر، صورة تحريرية','generate.create':'✨ إنشاء صورة','style.photo':'صورة','style.cartoon':'كرتون','style.art':'فن','footer.sister':'الأصدقاء والشركاء'},
   de: {'nav.tools':'Werkzeuge','nav.examples':'Beispiele','nav.privacy':'Datenschutz','nav.try':'Jetzt testen','badge':'Kostenlose KI-Bildtools — keine Anmeldung nötig','hero.title1':'KI-Bildwerkzeuge','hero.title2':'Schnell und kostenlos','hero.title3':'schön','hero.desc':'Entferne Hintergründe, verbessere und kolorisiere Fotos oder erstelle Bilder mit KI direkt im Browser.','hero.cta':'✨ Jetzt testen','hero.view':'Alle Werkzeuge ansehen →','example.title':'Sieh den Unterschied sofort','example.subtitle':'Beispiel für KI-Hintergrundentfernung','example.note':'Ein echtes Beispiel — lade dein Bild hoch und erstelle dein Ergebnis.','section.tools.label':'🧰 KI-Werkzeuge','section.tools.title':'Alles, was du brauchst, mit einem Klick','section.upload.label':'🚀 Loslegen','section.upload.title':'Hochladen & verwandeln','tool.remove-bg':'✂️ Hintergrund entfernen','tool.upscale':'🔍 Bild 4× verbessern','tool.colorize':'🎨 Foto kolorieren','tool.generate':'✨ Text zu Bild','drop.hint':'Bild hier ablegen oder zum Auswählen klicken','drop.desc':'JPG, PNG, WEBP — bis zu 20 MB','privacy.title':'Deine Bilder verdienen Sorgfalt','privacy.body':'Pict benötigt kein Konto. Uploads werden nur zur Bearbeitung deiner Anfrage verwendet. Bitte lade keine sensiblen, persönlichen oder vertraulichen Inhalte hoch.','generate.label':'Beschreibe das Bild, das du erstellen möchtest','generate.placeholder':'Zum Beispiel: eine gemütliche Leseecke im warmen Nachmittagslicht, Editorial-Foto','generate.create':'✨ Bild erstellen','style.photo':'Foto','style.cartoon':'Cartoon','style.art':'Kunst','footer.sister':'Freunde und Partner'}
 });
+
+Object.assign(i18n.es, {'subscribe.kicker':'Actualizaciones de PictTool','subscribe.title':'Recibe nuevas herramientas de imagen IA','subscribe.desc':'Suscríbete para novedades, ideas para Pinterest y noticias tempranas de Pro. Sin spam.','subscribe.emailLabel':'Correo electrónico','subscribe.placeholder':'tu@email.com','subscribe.button':'Suscribirse','subscribe.sending':'Suscribiendo...','subscribe.success':'Ya estás suscrito. Solo enviaremos actualizaciones útiles de PictTool.','subscribe.error':'No se pudo suscribir. Inténtalo de nuevo.'});
+Object.assign(i18n.fr, {'subscribe.kicker':'Actualités PictTool','subscribe.title':'Recevez les nouveaux outils IA','subscribe.desc':'Abonnez-vous pour les nouveautés, idées Pinterest et infos Pro. Pas de spam.','subscribe.emailLabel':'Adresse e-mail','subscribe.placeholder':'vous@example.com','subscribe.button':'S’abonner','subscribe.sending':'Inscription...','subscribe.success':'Vous êtes abonné. Nous enverrons seulement des nouvelles utiles de PictTool.','subscribe.error':'Impossible de vous abonner. Réessayez.'});
+Object.assign(i18n.pt, {'subscribe.kicker':'Atualizações do PictTool','subscribe.title':'Receba novas ferramentas de imagem IA','subscribe.desc':'Assine para novidades, ideias para Pinterest e notícias do Pro. Sem spam.','subscribe.emailLabel':'Email','subscribe.placeholder':'voce@example.com','subscribe.button':'Assinar','subscribe.sending':'Assinando...','subscribe.success':'Você assinou. Enviaremos apenas atualizações úteis do PictTool.','subscribe.error':'Não foi possível assinar. Tente novamente.'});
+Object.assign(i18n.ja, {'subscribe.kicker':'PictTool更新情報','subscribe.title':'新しいAI画像ツールを受け取る','subscribe.desc':'新機能、Pinterestのアイデア、Proの早期情報をお届けします。迷惑メールは送りません。','subscribe.emailLabel':'メールアドレス','subscribe.placeholder':'you@example.com','subscribe.button':'登録','subscribe.sending':'登録中...','subscribe.success':'登録しました。PictToolの役立つ更新だけをお送りします。','subscribe.error':'登録できませんでした。もう一度お試しください。'});
+Object.assign(i18n.ko, {'subscribe.kicker':'PictTool 업데이트','subscribe.title':'새 AI 이미지 도구 소식 받기','subscribe.desc':'새 기능, Pinterest 아이디어, Pro 소식을 받아보세요. 스팸은 보내지 않습니다.','subscribe.emailLabel':'이메일 주소','subscribe.placeholder':'you@example.com','subscribe.button':'구독','subscribe.sending':'구독 중...','subscribe.success':'구독되었습니다. 유용한 PictTool 업데이트만 보내겠습니다.','subscribe.error':'구독할 수 없습니다. 다시 시도해 주세요.'});
+Object.assign(i18n.ar, {'subscribe.kicker':'تحديثات PictTool','subscribe.title':'استقبل أدوات صور جديدة بالذكاء الاصطناعي','subscribe.desc':'اشترك لتصلك تحديثات الأدوات وأفكار Pinterest وأخبار Pro المبكرة. بلا رسائل مزعجة.','subscribe.emailLabel':'البريد الإلكتروني','subscribe.placeholder':'you@example.com','subscribe.button':'اشتراك','subscribe.sending':'جار الاشتراك...','subscribe.success':'تم الاشتراك. سنرسل تحديثات مفيدة فقط من PictTool.','subscribe.error':'تعذر الاشتراك. حاول مرة أخرى.'});
+Object.assign(i18n.de, {'subscribe.kicker':'PictTool Updates','subscribe.title':'Neue KI-Bildwerkzeuge per E-Mail','subscribe.desc':'Abonniere Updates, Pinterest-Ideen und frühe Pro-Neuigkeiten. Kein Spam.','subscribe.emailLabel':'E-Mail-Adresse','subscribe.placeholder':'du@example.com','subscribe.button':'Abonnieren','subscribe.sending':'Abonniere...','subscribe.success':'Du bist abonniert. Wir senden nur nützliche PictTool-Updates.','subscribe.error':'Abo konnte nicht gespeichert werden. Bitte erneut versuchen.'});
 
 Object.assign(i18n.es, {'nav.guides':'Guías','guides.label':'Guías detalladas','guides.title':'Aprende por tarea','guides.intro':'Estas páginas explican usos, ejemplos y consejos. Usa las tarjetas de herramientas de arriba cuando quieras editar.','guides.comic.title':'Foto a comic','guides.comic.desc':'Convierte retratos, mascotas y fotos de viaje en ilustraciones estilo comic.','guides.remove.title':'Quitar fondo','guides.remove.desc':'Crea recortes limpios para productos, personas, perfiles y publicaciones.','guides.travel.title':'Foto de viaje a arte','guides.travel.desc':'Transforma recuerdos de viaje en arte tipo postal para Pinterest.','guides.compress.title':'Compresor de imagen','guides.compress.desc':'Reduce el tamaño o convierte JPG, PNG y WebP antes de compartir.','guides.resize.title':'Redimensionar y recortar','guides.resize.desc':'Recorta para Pinterest, Instagram, YouTube y otros formatos.','guides.poster.title':'Poster de producto IA','guides.poster.desc':'Convierte una foto de producto en una imagen tipo poster para tiendas y redes.','guides.open':'Abrir guía →'});
 Object.assign(i18n.fr, {'nav.guides':'Guides','guides.label':'Guides détaillés','guides.title':'Approfondir par tâche','guides.intro':'Ces pages expliquent usages, exemples et conseils. Utilisez les cartes d’outils ci-dessus pour modifier.','guides.comic.title':'Photo en BD','guides.comic.desc':'Transformez portraits, animaux et voyages en illustrations style BD.','guides.remove.title':'Supprimer le fond','guides.remove.desc':'Créez des découpes propres pour produits, personnes, profils et posts.','guides.travel.title':'Photo de voyage en art','guides.travel.desc':'Transformez vos souvenirs de voyage en art type carte postale.','guides.compress.title':'Compresseur d’image','guides.compress.desc':'Réduisez la taille ou convertissez JPG, PNG et WebP avant partage.','guides.resize.title':'Redimensionner et recadrer','guides.resize.desc':'Recadrez pour Pinterest, Instagram, YouTube et autres formats.','guides.poster.title':'Affiche produit IA','guides.poster.desc':'Transformez une photo produit en visuel type affiche pour boutiques et réseaux.','guides.open':'Ouvrir le guide →'});
@@ -896,6 +937,11 @@ async function apiError(response, fallback) {
   } catch (_) { return fallback; }
 }
 
+function textFor(key) {
+  const copy = i18n[currentLang] || i18n.en;
+  return copy[key] || i18n.en[key] || key;
+}
+
 function selectTool(tool) {
   currentTool = tool;
   document.getElementById('toolIndicator').textContent = i18n[currentLang][`tool.${tool}`] || i18n[currentLang]['tool.remove-bg'];
@@ -930,6 +976,7 @@ const resultActions=document.getElementById('resultActions'),resultContent=docum
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
 const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=document.getElementById('creativePrompt'),creativePromptLabel=document.getElementById('creativePromptLabel'),creativeHelp=document.getElementById('creativeHelp');
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
+const subscribeForm=document.getElementById('subscribeForm'),subscribeEmail=document.getElementById('subscribeEmail'),subscribeStatus=document.getElementById('subscribeStatus');
 const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
 const localEditorTitle=document.getElementById('localEditorTitle'),localEditorHelp=document.getElementById('localEditorHelp');
 const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls'),pinPosterControls=document.getElementById('pinPosterControls'),productPosterControls=document.getElementById('productPosterControls');
@@ -960,6 +1007,20 @@ feedbackForm.addEventListener('submit',async event=>{
     feedbackForm.reset();
     setTimeout(()=>feedbackDialog.close(),1200);
   }catch(error){feedbackStatus.textContent=error.message||'Could not send feedback.'}
+});
+subscribeForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const email=subscribeEmail.value.trim();
+  if(!email)return;
+  subscribeStatus.textContent=textFor('subscribe.sending');
+  try{
+    const response=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,lang:currentLang,source:'homepage'})});
+    if(!response.ok)throw new Error(await apiError(response,textFor('subscribe.error')));
+    subscribeStatus.textContent=textFor('subscribe.success');
+    subscribeForm.reset();
+  }catch(error){
+    subscribeStatus.textContent=error.message||textFor('subscribe.error');
+  }
 });
 
 function setLocalEditorCopy(tool){
