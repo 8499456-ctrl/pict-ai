@@ -40,7 +40,7 @@ function corsHeaders(request) {
   return {
     'Access-Control-Allow-Origin': ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.picttool.com',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, X-Pict-Test-Token',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Pict-Test-Token, X-Pict-Admin-Token',
     'Access-Control-Expose-Headers': 'X-Pict-Quota-Limit, X-Pict-Quota-Remaining, X-Pict-Quota-Group, X-Pict-Test-Mode',
     'Vary': 'Origin',
   };
@@ -60,6 +60,10 @@ function isAllowedRequest(request) {
   // the request to come from the same host that is serving this Worker.
   if (!origin || origin === 'null') return true;
   return origin === new URL(request.url).origin || ALLOWED_ORIGINS.has(origin);
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
 function isTestRequest(request, env) {
@@ -336,6 +340,46 @@ async function listFeedback(request, env) {
   }
 }
 
+async function submitSubscription(request, env) {
+  if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
+  if (!isAllowedRequest(request)) return json(request, { error: 'This request is not allowed.' }, 403);
+
+  try {
+    const { email, lang, source } = await request.json();
+    const safeEmail = String(email || '').trim().toLowerCase();
+    const safeLang = String(lang || '').trim().slice(0, 8);
+    const safeSource = String(source || 'homepage').trim().slice(0, 40);
+    if (!isValidEmail(safeEmail)) return json(request, { error: 'Please enter a valid email address.' }, 400);
+
+    const saved = await feedbackInbox(env, 'subscribe-submit', {
+      email: safeEmail,
+      lang: safeLang,
+      source: safeSource,
+      createdAt: new Date().toISOString(),
+    });
+    if (!saved.ok) throw new Error('Could not save subscription.');
+    return json(request, { ok: true, id: saved.data.id });
+  } catch (error) {
+    return json(request, { error: error.message || 'Could not subscribe.' }, 500);
+  }
+}
+
+async function listSubscriptions(request, env) {
+  if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
+  if (request.method !== 'GET') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
+  const token = request.headers.get('X-Pict-Admin-Token') || new URL(request.url).searchParams.get('token');
+  if (!env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Subscription viewing is not configured yet.' }, 503);
+  if (!token || token !== env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Not authorized.' }, 401);
+  try {
+    const result = await feedbackInbox(env, 'subscribe-list');
+    const subscribers = result.data.subscribers || [];
+    return json(request, { count: subscribers.length, subscribers });
+  } catch (error) {
+    return json(request, { error: error.message || 'Could not load subscriptions.' }, 500);
+  }
+}
+
 function applyLocalizationFixes(html) {
   if (html.includes('id="pict-l10n-fix"')) return html;
 
@@ -343,7 +387,7 @@ function applyLocalizationFixes(html) {
 html[dir="rtl"] nav,html[dir="rtl"] .nav-inner,html[dir="rtl"] .nav-menu,html[dir="rtl"] .nav-secondary{direction:ltr}
 html[dir="rtl"] .nav-links a,html[dir="rtl"] .nav-secondary a,html[dir="rtl"] .nav-language{direction:rtl}
 html[dir="rtl"] .nav-language{justify-self:end}
-html[dir="rtl"] .privacy-card,html[dir="rtl"] .generation-zone,html[dir="rtl"] .local-editor,html[dir="rtl"] .feedback-form{text-align:right}
+html[dir="rtl"] .privacy-card,html[dir="rtl"] .generation-zone,html[dir="rtl"] .local-editor,html[dir="rtl"] .feedback-form,html[dir="rtl"] .subscribe-card{text-align:right}
 html[dir="rtl"] .tool-card .arrow{right:auto;left:24px}
 html[dir="rtl"] .tool-card:hover .arrow{transform:translateX(-3px)}
 @media(max-width:768px){html[dir="rtl"] .nav-secondary{right:0;left:auto}}
@@ -1223,6 +1267,25 @@ export class RateLimiter {
     if (action === 'feedback-list') {
       return Response.json({ feedback: (await this.state.storage.get('feedbacks')) || [] });
     }
+    if (action === 'subscribe-submit') {
+      const subscribers = (await this.state.storage.get('subscribers')) || [];
+      const existing = subscribers.find(item => item.email === payload.email);
+      const id = existing ? existing.id : crypto.randomUUID();
+      const now = payload.createdAt;
+      const entry = {
+        id,
+        email: payload.email,
+        lang: payload.lang || '',
+        source: payload.source || 'homepage',
+        createdAt: existing ? existing.createdAt : now,
+        updatedAt: now,
+      };
+      await this.state.storage.put('subscribers', [entry, ...subscribers.filter(item => item.email !== payload.email)].slice(0, 1000));
+      return Response.json({ id });
+    }
+    if (action === 'subscribe-list') {
+      return Response.json({ subscribers: (await this.state.storage.get('subscribers')) || [] });
+    }
     const now = Date.now();
     const data = (await this.state.storage.get('quota')) || { day, count: 0, pending: {} };
     if (data.day !== day) {
@@ -1261,6 +1324,7 @@ export default {
     if (pathname === '/api/process') return processImage(request, env);
     if (pathname === '/api/quota') return quotaStatus(request, env);
     if (pathname === '/api/feedback') return request.method === 'GET' ? listFeedback(request, env) : submitFeedback(request, env);
+    if (pathname === '/api/subscribe') return request.method === 'GET' ? listSubscriptions(request, env) : submitSubscription(request, env);
     return assetResponse(request, env);
   },
 };
