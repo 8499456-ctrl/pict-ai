@@ -437,6 +437,24 @@
   <div class="generation-zone" id="creativeOptions" hidden>
     <label for="creativePrompt" id="creativePromptLabel">Optional scene description</label>
     <textarea id="creativePrompt" maxlength="500" placeholder="For example: a moonlit forest with soft blue light"></textarea>
+    <div id="cartoonControls" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 14px;">
+      <label for="cartoonStyle" id="cartoonStyleLabel">Cartoon style
+        <select id="cartoonStyle">
+          <option value="soft hand-painted animation">Soft animation</option>
+          <option value="clean Japanese anime illustration">Japanese anime</option>
+          <option value="storybook watercolor illustration">Storybook watercolor</option>
+          <option value="bright 3D cartoon character art">3D cartoon</option>
+          <option value="clean ink comic illustration">Comic ink</option>
+        </select>
+      </label>
+      <label for="cartoonPreserve" id="cartoonPreserveLabel">Original preservation
+        <select id="cartoonPreserve">
+          <option value="strictly preserve the original photo">High</option>
+          <option value="preserve the original while improving the illustration">Balanced</option>
+          <option value="allow creative redesign while keeping the subject recognizable">Creative</option>
+        </select>
+      </label>
+    </div>
     <p id="creativeHelp" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
   </div>
   <div class="upload-zone" id="dropZone">
@@ -975,6 +993,7 @@ let spinner=document.getElementById('spinner'),resultPlaceholder=document.getEle
 const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
 const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
 const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=document.getElementById('creativePrompt'),creativePromptLabel=document.getElementById('creativePromptLabel'),creativeHelp=document.getElementById('creativeHelp');
+const cartoonControls=document.getElementById('cartoonControls'),cartoonStyle=document.getElementById('cartoonStyle'),cartoonPreserve=document.getElementById('cartoonPreserve');
 const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
 const subscribeForm=document.getElementById('subscribeForm'),subscribeEmail=document.getElementById('subscribeEmail'),subscribeStatus=document.getElementById('subscribeStatus');
 const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
@@ -1261,7 +1280,11 @@ async function processImage(file){
   isProcessing=true;
   spinner.classList.add('show');resultPlaceholder.textContent='';
   const fd=new FormData();fd.append('image',file);fd.append('tool',currentTool);
-  if (creativePrompt && !creativeOptions.hidden) fd.append('prompt',creativePrompt.value.trim());
+  if (creativePrompt && !creativeOptions.hidden) {
+    let userPrompt=creativePrompt.value.trim();
+    if(currentTool==='cartoon') userPrompt=[`Style: ${cartoonStyle.value}`,`Preservation: ${cartoonPreserve.value}`,userPrompt].filter(Boolean).join('. ');
+    fd.append('prompt',userPrompt);
+  }
   try{
     const res=await fetch('/api/process',processRequestOptions(fd));
     if(!res.ok)throw new Error(await apiError(res,'Could not process the image. Please try again shortly.'));
@@ -1307,6 +1330,17 @@ function setCreativeCopy(tool){
     'scene-lighting': zh?['灯光优化','只改善曝光、白平衡和自然色彩；不会故意压暗背景或改变场景。']:['Lighting enhance','Improves exposure, white balance, and natural color only—without darkening or redesigning the scene.']
   }[tool];
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
+  cartoonControls.hidden=tool!=='cartoon';
+  cartoonControls.style.display=tool==='cartoon'?'grid':'none';
+  document.getElementById('cartoonStyleLabel').firstChild.textContent=zh?'卡通风格':'Cartoon style';
+  document.getElementById('cartoonPreserveLabel').firstChild.textContent=zh?'原图保持程度':'Original preservation';
+  if(zh){
+    cartoonStyle.options[0].text='柔和动画';cartoonStyle.options[1].text='日系动漫';cartoonStyle.options[2].text='绘本水彩';cartoonStyle.options[3].text='3D卡通';cartoonStyle.options[4].text='漫画线稿';
+    cartoonPreserve.options[0].text='高';cartoonPreserve.options[1].text='平衡';cartoonPreserve.options[2].text='创作';
+  }else{
+    cartoonStyle.options[0].text='Soft animation';cartoonStyle.options[1].text='Japanese anime';cartoonStyle.options[2].text='Storybook watercolor';cartoonStyle.options[3].text='3D cartoon';cartoonStyle.options[4].text='Comic ink';
+    cartoonPreserve.options[0].text='High';cartoonPreserve.options[1].text='Balanced';cartoonPreserve.options[2].text='Creative';
+  }
   creativePrompt.required=tool==='remove-object';
   creativePrompt.placeholder=tool==='remove-object'
     ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
