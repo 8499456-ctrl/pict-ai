@@ -449,7 +449,13 @@
           <button class="style-chip" type="button" data-value="bright 3D cartoon character art">3D cartoon</button>
           <button class="style-chip" type="button" data-value="clean ink comic illustration">Comic ink</button>
         </div>
-        <select id="cartoonStyle" aria-hidden="true" tabindex="-1" style="display:none"><option value="soft hand-painted animation" selected>Soft animation</option></select>
+        <select id="cartoonStyle" aria-hidden="true" tabindex="-1" style="display:none">
+          <option value="soft hand-painted animation" selected>Soft animation</option>
+          <option value="clean Japanese anime illustration">Japanese anime</option>
+          <option value="storybook watercolor illustration">Storybook watercolor</option>
+          <option value="bright 3D cartoon character art">3D cartoon</option>
+          <option value="clean ink comic illustration">Comic ink</option>
+        </select>
       </div>
       <div class="cartoon-setting">
         <span id="cartoonPreserveLabel" class="cartoon-setting-label">Original preservation</span>
@@ -458,7 +464,11 @@
           <button class="style-chip" type="button" data-value="preserve the original while improving the illustration">Balanced</button>
           <button class="style-chip" type="button" data-value="allow creative redesign while keeping the subject recognizable">Creative</button>
         </div>
-        <select id="cartoonPreserve" aria-hidden="true" tabindex="-1" style="display:none"><option value="strictly preserve the original photo" selected>High</option></select>
+        <select id="cartoonPreserve" aria-hidden="true" tabindex="-1" style="display:none">
+          <option value="strictly preserve the original photo" selected>High</option>
+          <option value="preserve the original while improving the illustration">Balanced</option>
+          <option value="allow creative redesign while keeping the subject recognizable">Creative</option>
+        </select>
       </div>
     </div>
     <p id="creativeHelp" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
