@@ -175,6 +175,8 @@
   .style-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
   .style-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:7px 12px;cursor:pointer;font:inherit;font-size:12px;transition:all .2s}
   .style-chip:hover,.style-chip.active{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
+  .cartoon-setting{min-width:0}.cartoon-setting-label{display:block;font-size:12px;font-weight:800;margin-bottom:8px;color:var(--text)}
+  .cartoon-setting .style-row{margin:0;gap:7px}.cartoon-setting .style-chip{flex:1 1 105px;min-height:40px;padding:7px 10px;font-size:11px;line-height:1.25}
   .generation-zone .btn{width:100%;justify-content:center}
   .local-editor{max-width:760px;margin:18px auto 0;padding:24px;border:1px solid var(--border);border-radius:24px;background:linear-gradient(145deg,rgba(105,75,164,.13),rgba(255,255,255,.025));text-align:left;box-shadow:10px 13px 28px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08),inset -4px -5px 14px rgba(0,0,0,.09)}
   .local-editor[hidden]{display:none}
@@ -437,23 +439,27 @@
   <div class="generation-zone" id="creativeOptions" hidden>
     <label for="creativePrompt" id="creativePromptLabel">Optional scene description</label>
     <textarea id="creativePrompt" maxlength="500" placeholder="For example: a moonlit forest with soft blue light"></textarea>
-    <div id="cartoonControls" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 14px;">
-      <label for="cartoonStyle" id="cartoonStyleLabel">Cartoon style
-        <select id="cartoonStyle">
-          <option value="soft hand-painted animation">Soft animation</option>
-          <option value="clean Japanese anime illustration">Japanese anime</option>
-          <option value="storybook watercolor illustration">Storybook watercolor</option>
-          <option value="bright 3D cartoon character art">3D cartoon</option>
-          <option value="clean ink comic illustration">Comic ink</option>
-        </select>
-      </label>
-      <label for="cartoonPreserve" id="cartoonPreserveLabel">Original preservation
-        <select id="cartoonPreserve">
-          <option value="strictly preserve the original photo">High</option>
-          <option value="preserve the original while improving the illustration">Balanced</option>
-          <option value="allow creative redesign while keeping the subject recognizable">Creative</option>
-        </select>
-      </label>
+    <div id="cartoonControls" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:0 0 14px;">
+      <div class="cartoon-setting">
+        <span id="cartoonStyleLabel" class="cartoon-setting-label">Cartoon style</span>
+        <div class="style-row cartoon-style-row" id="cartoonStyleButtons">
+          <button class="style-chip active" type="button" data-value="soft hand-painted animation">Soft animation</button>
+          <button class="style-chip" type="button" data-value="clean Japanese anime illustration">Japanese anime</button>
+          <button class="style-chip" type="button" data-value="storybook watercolor illustration">Storybook watercolor</button>
+          <button class="style-chip" type="button" data-value="bright 3D cartoon character art">3D cartoon</button>
+          <button class="style-chip" type="button" data-value="clean ink comic illustration">Comic ink</button>
+        </div>
+        <select id="cartoonStyle" aria-hidden="true" tabindex="-1" style="display:none"><option value="soft hand-painted animation" selected>Soft animation</option></select>
+      </div>
+      <div class="cartoon-setting">
+        <span id="cartoonPreserveLabel" class="cartoon-setting-label">Original preservation</span>
+        <div class="style-row cartoon-preserve-row" id="cartoonPreserveButtons">
+          <button class="style-chip active" type="button" data-value="strictly preserve the original photo">High</button>
+          <button class="style-chip" type="button" data-value="preserve the original while improving the illustration">Balanced</button>
+          <button class="style-chip" type="button" data-value="allow creative redesign while keeping the subject recognizable">Creative</button>
+        </div>
+        <select id="cartoonPreserve" aria-hidden="true" tabindex="-1" style="display:none"><option value="strictly preserve the original photo" selected>High</option></select>
+      </div>
     </div>
     <p id="creativeHelp" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
   </div>
@@ -1314,8 +1320,24 @@ async function optimizeResultBlob(blob){
 
 function setGenerationStyle(button){
   selectedGenerationStyle=button.dataset.style;
-  document.querySelectorAll('.style-chip').forEach(chip=>chip.classList.toggle('active',chip===button));
+  button.parentElement.querySelectorAll('.style-chip').forEach(chip=>chip.classList.toggle('active',chip===button));
 }
+
+function setCartoonOption(group, value){
+  const select=group==='style'?cartoonStyle:cartoonPreserve;
+  const buttons=document.querySelectorAll(group==='style'?'#cartoonStyleButtons .style-chip':'#cartoonPreserveButtons .style-chip');
+  select.value=value;
+  buttons.forEach(button=>button.classList.toggle('active',button.dataset.value===value));
+}
+
+document.getElementById('cartoonStyleButtons').addEventListener('click',event=>{
+  const button=event.target.closest('.style-chip');
+  if(button)setCartoonOption('style',button.dataset.value);
+});
+document.getElementById('cartoonPreserveButtons').addEventListener('click',event=>{
+  const button=event.target.closest('.style-chip');
+  if(button)setCartoonOption('preserve',button.dataset.value);
+});
 
 function setCreativeCopy(tool){
   const zh=currentLang==='zh';
@@ -1332,15 +1354,12 @@ function setCreativeCopy(tool){
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
   cartoonControls.hidden=tool!=='cartoon';
   cartoonControls.style.display=tool==='cartoon'?'grid':'none';
-  document.getElementById('cartoonStyleLabel').firstChild.textContent=zh?'卡通风格':'Cartoon style';
-  document.getElementById('cartoonPreserveLabel').firstChild.textContent=zh?'原图保持程度':'Original preservation';
-  if(zh){
-    cartoonStyle.options[0].text='柔和动画';cartoonStyle.options[1].text='日系动漫';cartoonStyle.options[2].text='绘本水彩';cartoonStyle.options[3].text='3D卡通';cartoonStyle.options[4].text='漫画线稿';
-    cartoonPreserve.options[0].text='高';cartoonPreserve.options[1].text='平衡';cartoonPreserve.options[2].text='创作';
-  }else{
-    cartoonStyle.options[0].text='Soft animation';cartoonStyle.options[1].text='Japanese anime';cartoonStyle.options[2].text='Storybook watercolor';cartoonStyle.options[3].text='3D cartoon';cartoonStyle.options[4].text='Comic ink';
-    cartoonPreserve.options[0].text='High';cartoonPreserve.options[1].text='Balanced';cartoonPreserve.options[2].text='Creative';
-  }
+  document.getElementById('cartoonStyleLabel').textContent=zh?'卡通风格':'Cartoon style';
+  document.getElementById('cartoonPreserveLabel').textContent=zh?'原图保持程度':'Original preservation';
+  const styleLabels=zh?['柔和动画','日系动漫','绘本水彩','3D卡通','漫画线稿']:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'];
+  document.querySelectorAll('#cartoonStyleButtons .style-chip').forEach((button,index)=>button.textContent=styleLabels[index]);
+  const preserveLabels=zh?['高','平衡','创作']:['High','Balanced','Creative'];
+  document.querySelectorAll('#cartoonPreserveButtons .style-chip').forEach((button,index)=>button.textContent=preserveLabels[index]);
   creativePrompt.required=tool==='remove-object';
   creativePrompt.placeholder=tool==='remove-object'
     ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
