@@ -49,6 +49,8 @@
   .nav-secondary{display:none}
   .nav-menu{display:none}
   .nav-language{justify-self:end;color:var(--text-dim);font-size:12px;background:rgba(255,255,255,0.06);padding:4px 12px;border:1px solid var(--border);border-radius:20px;font:inherit;max-width:116px}
+  .nav-actions{display:flex;align-items:center;justify-self:end;gap:8px}.auth-button{padding:7px 14px;border:1px solid rgba(167,139,250,.45);border-radius:20px;background:rgba(124,58,237,.16);color:var(--text);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+  .auth-button:hover{background:rgba(124,58,237,.28)}
 
   /* Hero */
   .hero{text-align:center;padding:100px 24px 60px;position:relative}
@@ -203,6 +205,9 @@
   .result-panel .label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
   .result-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
   .btn-sm{padding:8px 16px;border-radius:20px;font-size:13px}
+  .auth-dialog{width:min(92vw,420px);border:1px solid var(--border);border-radius:18px;background:#15102a;color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+  .auth-dialog::backdrop{background:rgba(3,1,12,.72);backdrop-filter:blur(4px)}
+  .auth-panel{padding:26px}.auth-panel h3{margin:0 0 8px;font-size:22px}.auth-panel p{color:var(--text-dim);font-size:13px;line-height:1.6;margin:0 0 18px}.auth-panel input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;margin-bottom:12px}.auth-panel input:focus{outline:2px solid rgba(167,139,250,.5);outline-offset:1px}.auth-actions{display:flex;justify-content:flex-end;gap:8px}.auth-status{min-height:20px;margin:10px 0 0!important;color:var(--accent-light)!important;font-size:12px!important}
   .spinner{display:none;width:28px;height:28px;border:3px solid rgba(255,255,255,0.06);border-top-color:var(--accent-light);border-radius:50%;animation:spin .6s linear infinite;margin:24px auto}
   .spinner.show{display:block}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -213,6 +218,12 @@
   .feature .fi{font-size:24px;margin-bottom:8px}
   .feature h4{font-size:14px;font-weight:600;margin-bottom:4px}
   .feature p{font-size:12.5px;color:var(--text-dim);margin-left:auto;margin-right:auto}
+  .pricing-section{padding:8px 0 20px;scroll-margin-top:100px}
+  .pricing-card{max-width:760px;margin:0 auto;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid rgba(167,139,250,.35);border-radius:22px;background:linear-gradient(145deg,rgba(124,58,237,.16),rgba(255,255,255,.035));box-shadow:10px 13px 28px rgba(3,1,16,.24),inset 1px 1px 0 rgba(255,255,255,.08)}
+  .pricing-kicker{display:block;color:var(--accent-light);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
+  .pricing-card h2{font-size:24px;line-height:1.2;margin-bottom:8px}.pricing-card p{color:var(--text-dim);font-size:13px;line-height:1.65}.pricing-card strong{color:var(--text)}
+  .pricing-actions{flex:0 0 auto;text-align:center}.pricing-price{display:block;font-size:22px;font-weight:800;margin-bottom:10px}.pricing-price small{font-size:12px;font-weight:500;color:var(--text-dim)}
+  .pricing-note{display:block;margin-top:8px;font-size:11px;color:var(--text-dim)}
   .privacy-card{max-width:760px;margin:28px auto 28px;padding:24px 28px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(145deg,rgba(142,110,224,.16),rgba(34,25,76,.45));box-shadow:10px 12px 26px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08);text-align:left}
   .privacy-card h2{font-size:18px;margin-bottom:8px}
   .privacy-card p{font-size:13px;color:var(--text-dim)}
@@ -239,10 +250,10 @@
   footer .partner-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-top:10px;font-size:12px}
 
 	  @media(max-width:768px){
-    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 32px}.upload-zone{padding:36px 16px}.generation-zone{padding:16px;margin-bottom:16px}.generation-zone textarea{min-height:150px}.editor-layout{grid-template-columns:1fr}.editor-preview canvas{max-height:360px}
+    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.pricing-card{padding:24px 20px;display:block}.pricing-actions{margin-top:20px}.hero{padding:60px 16px 32px}.upload-zone{padding:36px 16px}.generation-zone{padding:16px;margin-bottom:16px}.generation-zone textarea{min-height:150px}.editor-layout{grid-template-columns:1fr}.editor-preview canvas{max-height:360px}
     .subscribe-card{grid-template-columns:1fr;padding:20px}.subscribe-form{grid-template-columns:1fr}.subscribe-form .btn{width:100%}
     .guide-grid{grid-template-columns:1fr}.guide-title{font-size:23px}.guide-card{min-height:132px}
-    nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,#langSelect{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
+    nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,.nav-actions{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
 	    .nav-secondary a{color:var(--text-dim);font-size:13px;text-decoration:none;padding:8px 10px;border-radius:8px}.nav-secondary a:hover{background:rgba(255,255,255,.06);color:var(--text)}.comparison{gap:10px;padding:10px}.before-after-head{padding:13px 15px;align-items:flex-start;gap:8px;flex-direction:column}.privacy-card{padding:20px}
 	  }
 </style>
@@ -263,17 +274,21 @@
       <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
       <a href="#upload" data-i18n="nav.try">Try Now</a>
     </div>
-    <select class="nav-language" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
-      <option value="en">English</option>
-      <option value="zh">中文</option>
-      <option value="es">Español</option>
-      <option value="fr">Français</option>
-      <option value="pt">Português</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="ar">العربية</option>
-      <option value="de">Deutsch</option>
-    </select>
+    <div class="nav-actions">
+      <select class="nav-language" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="pt">Português</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="ar">العربية</option>
+        <option value="de">Deutsch</option>
+      </select>
+      <button class="auth-button" id="authButton" type="button" onclick="openAuthDialog()" data-i18n="auth.login">Log in</button>
+      <button class="auth-button" type="button" onclick="openProCheckout(event)" data-i18n="pro.button">Upgrade</button>
+    </div>
     <details class="nav-menu">
       <summary>Menu</summary>
       <div class="nav-secondary">
@@ -285,6 +300,7 @@
         <select class="nav-language" id="mobileLangSelect" onchange="setMobileLanguage(this.value)" aria-label="Select language">
           <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="fr">Français</option><option value="pt">Português</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ar">العربية</option><option value="de">Deutsch</option>
         </select>
+        <button class="auth-button" type="button" onclick="openAuthDialog()" data-i18n="auth.login">Log in</button>
       </div>
     </details>
   </div>
@@ -581,6 +597,21 @@
   </div>
 </section>
 
+<section class="container pricing-section" id="pro">
+  <div class="pricing-card">
+    <div>
+      <span class="pricing-kicker" data-i18n="pro.kicker">Pict Pro</span>
+      <h2 data-i18n="pro.title">More credits for your best images</h2>
+      <p data-i18n="pro.desc">300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.</p>
+    </div>
+    <div class="pricing-actions">
+      <span class="pricing-price">US$9 <small data-i18n="pro.month">/ month</small></span>
+      <a class="btn btn-primary" href="https://buy.stripe.com/test_14AbJ13OxeWtayGb6j2kw02" target="_blank" rel="noopener" onclick="return openProCheckout(event)" data-i18n="pro.button">Upgrade to Pro</a>
+      <span class="pricing-note" data-i18n="pro.note">Secure checkout by Stripe</span>
+    </div>
+  </div>
+</section>
+
 <section class="container subscribe-section" id="subscribe">
   <div class="subscribe-card">
     <div>
@@ -630,7 +661,25 @@
   </form>
 </dialog>
 
+<dialog class="auth-dialog" id="authDialog">
+  <form class="auth-panel" onsubmit="submitAuth(event)">
+    <h3 data-i18n="auth.title">Log in to Pict</h3>
+    <p id="authIntro" data-i18n="auth.intro">Enter your email and we will send you a 6-digit code.</p>
+    <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="auth.email" />
+    <input id="authCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit code" data-i18n-placeholder="auth.code" hidden />
+    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send code</button></div>
+    <p class="auth-status" id="authStatus" role="status"></p>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+/* Replace these two public values after creating the Supabase project. */
+const SUPABASE_URL = window.PICT_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = window.PICT_SUPABASE_ANON_KEY || '';
+const supabaseClient = window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
 let currentLang = 'en';
 const i18n = {
   en: {
@@ -684,6 +733,8 @@ const i18n = {
     'camera.take': '📷 Take a photo',
     'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
     'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
+    'pro.kicker': 'Pict Pro', 'pro.title': 'More credits for your best images', 'pro.desc': '300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.', 'pro.month': '/ month', 'pro.button': 'Upgrade to Pro', 'pro.note': 'Secure checkout by Stripe',
+    'auth.login': 'Log in', 'auth.title': 'Log in to Pict', 'auth.intro': 'Enter your email and we will send you a 6-digit code.', 'auth.email': 'you@example.com', 'auth.code': '6-digit code', 'auth.send': 'Send code', 'auth.verify': 'Verify code', 'auth.sent': 'Code sent. Check your email.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That code is not valid. Please try again.', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -759,6 +810,8 @@ const i18n = {
     'camera.take': '📷 拍照上传',
     'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
     'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
+    'pro.kicker': 'Pict Pro', 'pro.title': '更多点数，制作更好的图片', 'pro.desc': '每月 300 点，用于 AI 生图和图片编辑。会员有效期为一个计费月，并会在你取消前每月自动续费。', 'pro.month': '/ 月', 'pro.button': '升级 Pro', 'pro.note': '由 Stripe 提供安全支付',
+    'auth.login': '登录', 'auth.title': '登录 Pict', 'auth.intro': '输入邮箱，我们会发送 6 位验证码。', 'auth.email': '你的邮箱', 'auth.code': '6 位验证码', 'auth.send': '发送验证码', 'auth.verify': '验证验证码', 'auth.sent': '验证码已发送，请检查邮箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '验证码不正确，请重试。', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -902,6 +955,7 @@ function setLanguage(lang) {
   const footerSister = document.querySelector('footer .sister');
   if (footerSister) footerSister.textContent = translate('footer.sister');
   document.getElementById('toolIndicator').textContent = translate(`tool.${currentTool}`);
+  if (['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(currentTool)) setCreativeCopy(currentTool, false);
   renderQuota();
 }
 
@@ -1349,11 +1403,24 @@ document.getElementById('cartoonPreserveButtons').addEventListener('click',event
   if(button)setCartoonOption('preserve',button.dataset.value);
 });
 
-function setCreativeCopy(tool){
+function setCreativeCopy(tool, resetPrompt=true){
   const zh=currentLang==='zh';
+  const cartoonLocale={
+    en:{copy:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],style:'Cartoon style',preserve:'Original preservation',styles:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'],preserves:['High','Balanced','Creative'],placeholder:'For example: a moonlit forest'},
+    zh:{copy:['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。'],style:'卡通风格',preserve:'原图保持程度',styles:['柔和动画','日系动漫','绘本水彩','3D 卡通','漫画线稿'],preserves:['高','平衡','创作'],placeholder:'例如：月光下的森林'},
+    es:{copy:['Efecto de caricatura','De forma predeterminada, Pict conserva el sujeto, los objetos, la composición y los colores, y convierte la imagen en una ilustración.'],style:'Estilo de caricatura',preserve:'Conservación del original',styles:['Animación suave','Anime japonés','Acuarela de cuento','Caricatura 3D','Tinta de cómic'],preserves:['Alta','Equilibrada','Creativa'],placeholder:'Por ejemplo: un bosque iluminado por la luna'},
+    fr:{copy:['Effet cartoon','Par défaut, Pict conserve le sujet, les objets, la composition et les couleurs, puis transforme l’image en illustration.'],style:'Style cartoon',preserve:'Conservation de l’original',styles:['Animation douce','Anime japonais','Aquarelle conte','Cartoon 3D','Encre BD'],preserves:['Élevée','Équilibrée','Créative'],placeholder:'Par exemple : une forêt éclairée par la lune'},
+    pt:{copy:['Efeito cartoon','Por padrão, o Pict mantém o sujeito, os objetos, a composição e as cores, transformando a imagem em uma ilustração.'],style:'Estilo cartoon',preserve:'Preservação do original',styles:['Animação suave','Anime japonês','Aquarela de conto','Cartoon 3D','Tinta de quadrinhos'],preserves:['Alta','Equilibrada','Criativa'],placeholder:'Por exemplo: uma floresta iluminada pela lua'},
+    ja:{copy:['コミック風効果','Pictは通常、被写体、物、構図、色を保ちながら、同じ画像をイラスト風に変換します。'],style:'コミック風',preserve:'元画像の保持',styles:['やわらかいアニメ','日本のアニメ','絵本水彩','3Dカートゥーン','コミック線画'],preserves:['高い','バランス','クリエイティブ'],placeholder:'例：月明かりの森'},
+    ko:{copy:['만화 효과','기본적으로 Pict는 피사체, 사물, 구도와 색상을 유지하면서 같은 이미지를 일러스트로 변환합니다.'],style:'만화 스타일',preserve:'원본 보존 정도',styles:['부드러운 애니메이션','일본 애니메이션','동화 수채화','3D 만화','코믹 잉크'],preserves:['높음','균형','창의적'],placeholder:'예: 달빛이 비치는 숲'},
+    ar:{copy:['تأثير كرتوني','يحافظ Pict افتراضياً على الموضوع والعناصر والتكوين والألوان، ثم يحول الصورة نفسها إلى رسم توضيحي.'],style:'النمط الكرتوني',preserve:'الحفاظ على الأصل',styles:['رسوم ناعمة','أنمي ياباني','ألوان مائية قصصية','كرتون ثلاثي الأبعاد','حبر كوميكس'],preserves:['عالٍ','متوازن','إبداعي'],placeholder:'مثال: غابة مضاءة بضوء القمر'},
+    de:{copy:['Comic-Effekt','Pict behält standardmäßig Motiv, Objekte, Komposition und Farben bei und verwandelt dasselbe Bild in eine Illustration.'],style:'Comic-Stil',preserve:'Original erhalten',styles:['Sanfte Animation','Japanischer Anime','Märchen-Aquarell','3D-Comic','Comic-Tusche'],preserves:['Hoch','Ausgewogen','Kreativ'],placeholder:'Zum Beispiel: ein mondbeleuchteter Wald'}
+  }[currentLang] || {
+    copy:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],style:'Cartoon style',preserve:'Original preservation',styles:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'],preserves:['High','Balanced','Creative'],placeholder:'For example: a moonlit forest'
+  };
   const copy={
     'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],
-    cartoon: zh?['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。']:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],
+    cartoon: cartoonLocale.copy,
     'travel-art': zh?['旅行照片转艺术','适合建筑、风景、街景和旅行照片。会尽量保留原始地点、构图和透视，不生成新人物。']:['Travel photo to art','For architecture, landscapes, streets, and travel photos. Preserves the place, composition, and perspective without creating new people.'],
     'product-poster': zh?['AI 商品海报','适合商品图、实物照片和展示图。会尽量保留商品主体，生成更适合店铺、Pinterest 和社交发布的海报风画面。']:['AI product poster','For product photos, objects, and listing images. Preserves the product while creating a poster-style image for shops, Pinterest, and social posts.'],
     art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],
@@ -1364,11 +1431,11 @@ function setCreativeCopy(tool){
   creativePromptLabel.textContent=copy[0];creativeHelp.textContent=copy[1];
   cartoonControls.hidden=tool!=='cartoon';
   cartoonControls.style.display=tool==='cartoon'?'grid':'none';
-  document.getElementById('cartoonStyleLabel').textContent=zh?'卡通风格':'Cartoon style';
-  document.getElementById('cartoonPreserveLabel').textContent=zh?'原图保持程度':'Original preservation';
-  const styleLabels=zh?['柔和动画','日系动漫','绘本水彩','3D卡通','漫画线稿']:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'];
+  document.getElementById('cartoonStyleLabel').textContent=cartoonLocale.style;
+  document.getElementById('cartoonPreserveLabel').textContent=cartoonLocale.preserve;
+  const styleLabels=cartoonLocale.styles;
   document.querySelectorAll('#cartoonStyleButtons .style-chip').forEach((button,index)=>button.textContent=styleLabels[index]);
-  const preserveLabels=zh?['高','平衡','创作']:['High','Balanced','Creative'];
+  const preserveLabels=cartoonLocale.preserves;
   document.querySelectorAll('#cartoonPreserveButtons .style-chip').forEach((button,index)=>button.textContent=preserveLabels[index]);
   creativePrompt.required=tool==='remove-object';
   creativePrompt.placeholder=tool==='remove-object'
@@ -1377,8 +1444,8 @@ function setCreativeCopy(tool){
       ? 'watercolor travel postcard, clean ink lines, preserve the building, no people'
       : tool==='product-poster'
         ? 'clean poster background, soft shadow, no text, preserve the subject'
-      : (zh?'例如：月光森林':'For example: a moonlit forest');
-  creativePrompt.value='';
+      : cartoonLocale.placeholder;
+  if (resetPrompt) creativePrompt.value='';
 }
 
 async function generateImage(){
@@ -1452,6 +1519,52 @@ async function copyPictToolLink(){
   await copyText(window.location.origin+window.location.pathname+'#upload');
   alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
 }
+function authText(key){return (i18n[currentLang]&&i18n[currentLang][key])||i18n.en[key]||key}
+function openAuthDialog(){
+  const dialog=document.getElementById('authDialog');
+  if(dialog&&typeof dialog.showModal==='function')dialog.showModal();
+  document.getElementById('authEmail').focus();
+}
+function closeAuthDialog(){document.getElementById('authDialog').close()}
+function setAuthStatus(message,error=false){const status=document.getElementById('authStatus');status.textContent=message;status.style.color=error?'#F59E0B':'var(--accent-light)'}
+function updateAuthButton(user){
+  const button=document.getElementById('authButton');
+  if(!button)return;
+  button.textContent=user?(authText('auth.loggedIn')):authText('auth.login');
+  button.title=user?user.email:'';
+  button.onclick=user?async()=>{await supabaseClient.signOut();updateAuthButton(null)}:openAuthDialog;
+}
+async function submitAuth(event){
+  event.preventDefault();
+  const email=document.getElementById('authEmail').value.trim();
+  const codeInput=document.getElementById('authCode');
+  const submit=document.getElementById('authSubmit');
+  if(!supabaseClient){setAuthStatus(authText('auth.setup'),true);return}
+  submit.disabled=true;
+  try{
+    if(codeInput.hidden){
+      const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
+      if(error)throw error;
+      codeInput.hidden=false;codeInput.required=true;submit.textContent=authText('auth.verify');
+      document.getElementById('authIntro').textContent=authText('auth.sent');
+      setAuthStatus(authText('auth.sent'));codeInput.focus();
+    }else{
+      const {data,error}=await supabaseClient.auth.verifyOtp({email,token:codeInput.value.trim(),type:'email'});
+      if(error)throw error;
+      updateAuthButton(data.user);setAuthStatus('');setTimeout(closeAuthDialog,350);
+    }
+  }catch(error){setAuthStatus(error.message||authText('auth.invalid'),true)}
+  finally{submit.disabled=false}
+}
+async function openProCheckout(event){
+  if(event)event.preventDefault();
+  if(!supabaseClient){openAuthDialog();setAuthStatus(authText('auth.setup'),true);return false}
+  const {data}=await supabaseClient.auth.getSession();
+  if(!data.session){openAuthDialog();return false}
+  const checkoutUrl='https://buy.stripe.com/test_14AbJ13OxeWtayGb6j2kw02';
+  window.open(checkoutUrl,'_blank','noopener,noreferrer');
+  return false;
+}
 function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';if(pinAfterFile)pinAfterFile.value='';pinAfterImage=null;spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
 
 function initialToolFromUrl(){
@@ -1461,6 +1574,10 @@ function initialToolFromUrl(){
 }
 selectTool(initialToolFromUrl());
 refreshQuota();
+if(supabaseClient){
+  supabaseClient.auth.getSession().then(({data})=>updateAuthButton(data.session&&data.session.user));
+  supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthButton(session&&session.user));
+}else updateAuthButton(null);
 </script>
 
 </body>
