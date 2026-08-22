@@ -295,6 +295,118 @@ async function feedbackInbox(env, action, payload = {}) {
   return { ok: response.ok, data: await response.json() };
 }
 
+async function billingInbox(env, action, payload = {}) {
+  if (!env.RATE_LIMITER) throw new Error('Billing storage is not configured yet.');
+  const id = env.RATE_LIMITER.idFromName('pict-billing-inbox');
+  const response = await env.RATE_LIMITER.get(id).fetch('https://billing-inbox/', {
+    method: 'POST',
+    body: JSON.stringify({ action, ...payload }),
+  });
+  return { ok: response.ok, data: await response.json() };
+}
+
+function hex(buffer) {
+  return [...new Uint8Array(buffer)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function secureEqual(left, right) {
+  if (left.length !== right.length) return false;
+  let result = 0;
+  for (let index = 0; index < left.length; index += 1) result |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  return result === 0;
+}
+
+async function verifyStripeSignature(payload, signature, secret) {
+  if (!signature || !secret) return false;
+  const parts = Object.fromEntries(signature.split(',').map(part => part.split('=')));
+  const timestamp = Number(parts.t);
+  if (!Number.isFinite(timestamp) || Math.abs(Date.now() / 1000 - timestamp) > 300) return false;
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signed = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${timestamp}.${payload}`));
+  return secureEqual(hex(signed), parts.v1 || '');
+}
+
+async function verifyPaddleSignature(payload, signature, secret) {
+  if (!signature || !secret) return false;
+  const parts = Object.fromEntries(signature.split(';').map(part => part.split('=')));
+  const timestamp = Number(parts.ts);
+  if (!Number.isFinite(timestamp) || Math.abs(Date.now() / 1000 - timestamp) > 300) return false;
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signed = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${timestamp}:${payload}`));
+  return secureEqual(hex(signed), parts.h1 || '');
+}
+
+async function paddleWebhook(request, env) {
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+  if (!env.PADDLE_WEBHOOK_SECRET) return new Response('Paddle webhook is not configured.', { status: 503 });
+  const payload = await request.text();
+  const valid = await verifyPaddleSignature(payload, request.headers.get('Paddle-Signature'), env.PADDLE_WEBHOOK_SECRET);
+  if (!valid) return new Response('Invalid Paddle signature.', { status: 400 });
+
+  let event;
+  try { event = JSON.parse(payload); } catch (_) { return new Response('Invalid JSON.', { status: 400 }); }
+  const object = event.data || {};
+  const customData = object.custom_data || {};
+  const base = {
+    eventId: event.event_id || event.notification_id || crypto.randomUUID(),
+    eventType: event.event_type || '',
+    receivedAt: new Date().toISOString(),
+    customerId: object.customer_id || '',
+    subscriptionId: object.subscription_id || object.id || '',
+    email: customData.email || '',
+    userId: customData.supabase_user_id || '',
+  };
+
+  try {
+    const result = await billingInbox(env, 'paddle-event', { event: base, object });
+    if (!result.ok) throw new Error('Could not save Paddle event.');
+    return new Response(JSON.stringify({ received: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  } catch (error) {
+    return new Response(error.message || 'Could not process Paddle event.', { status: 500 });
+  }
+}
+
+async function stripeWebhook(request, env) {
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+  if (!env.STRIPE_WEBHOOK_SECRET) return new Response('Stripe webhook is not configured.', { status: 503 });
+  const payload = await request.text();
+  const valid = await verifyStripeSignature(payload, request.headers.get('Stripe-Signature'), env.STRIPE_WEBHOOK_SECRET);
+  if (!valid) return new Response('Invalid Stripe signature.', { status: 400 });
+
+  let event;
+  try { event = JSON.parse(payload); } catch (_) { return new Response('Invalid JSON.', { status: 400 }); }
+  const object = event.data && event.data.object ? event.data.object : {};
+  const base = {
+    eventId: event.id,
+    eventType: event.type,
+    receivedAt: new Date().toISOString(),
+    customerId: object.customer || '',
+    subscriptionId: object.subscription || object.id || '',
+    email: object.customer_email || (object.customer_details && object.customer_details.email) || '',
+  };
+
+  try {
+    const result = await billingInbox(env, 'stripe-event', { event: base, object });
+    if (!result.ok) throw new Error('Could not save Stripe event.');
+    return new Response(JSON.stringify({ received: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  } catch (error) {
+    return new Response(error.message || 'Could not process Stripe event.', { status: 500 });
+  }
+}
+
+async function listBilling(request, env) {
+  if (request.method !== 'GET') return new Response('Method not allowed', { status: 405 });
+  const token = request.headers.get('X-Pict-Admin-Token') || new URL(request.url).searchParams.get('token');
+  if (!env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Billing viewing is not configured yet.' }, 503);
+  if (!token || token !== env.FEEDBACK_ADMIN_TOKEN) return json(request, { error: 'Not authorized.' }, 401);
+  try {
+    const result = await billingInbox(env, 'billing-list');
+    return json(request, result.data);
+  } catch (error) {
+    return json(request, { error: error.message || 'Could not load billing records.' }, 500);
+  }
+}
+
 async function submitFeedback(request, env) {
   if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
   if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: corsHeaders(request) });
@@ -1235,7 +1347,8 @@ async function assetResponse(request, env) {
   headers.delete('Content-Encoding');
   headers.delete('ETag');
   headers.set('Content-Type', 'text/html; charset=UTF-8');
-  return new Response(enhanceIndexHtml(await response.text()), {
+  const paddleConfig = `<script>window.PICT_PADDLE_CLIENT_TOKEN=${JSON.stringify(env.PADDLE_CLIENT_TOKEN || '')};</script>`;
+  return new Response(enhanceIndexHtml((await response.text()).replace('</head>', `${paddleConfig}</head>`)), {
     status: response.status,
     statusText: response.statusText,
     headers,
@@ -1285,6 +1398,95 @@ export class RateLimiter {
     if (action === 'subscribe-list') {
       return Response.json({ subscribers: (await this.state.storage.get('subscribers')) || [] });
     }
+    if (action === 'stripe-event') {
+      const events = (await this.state.storage.get('stripeEvents')) || [];
+      if (events.some(item => item.eventId === payload.event.eventId)) return Response.json({ duplicate: true });
+      const subscriptions = (await this.state.storage.get('subscriptions')) || [];
+      const existing = subscriptions.find(item => (payload.event.customerId && item.customerId === payload.event.customerId) || (payload.event.email && item.email === payload.event.email));
+      const object = payload.object || {};
+      const email = payload.event.email || (existing && existing.email) || '';
+      const currentPeriodEnd = object.current_period_end ? new Date(object.current_period_end * 1000).toISOString() : (existing && existing.currentPeriodEnd) || '';
+      const entry = {
+        ...(existing || {}),
+        id: (existing && existing.id) || crypto.randomUUID(),
+        email,
+        customerId: payload.event.customerId || (existing && existing.customerId) || '',
+        subscriptionId: payload.event.subscriptionId || (existing && existing.subscriptionId) || '',
+        status: object.status || (existing && existing.status) || (payload.event.eventType === 'invoice.paid' ? 'active' : 'unknown'),
+        paymentFailed: payload.event.eventType === 'invoice.payment_failed' ? true : (existing && existing.paymentFailed) || false,
+        lastEventType: payload.event.eventType,
+        currentPeriodEnd,
+        updatedAt: payload.event.receivedAt,
+      };
+      const credits = (await this.state.storage.get('credits')) || [];
+      const creditEntry = credits.find(item => item.email === email || (entry.customerId && item.customerId === entry.customerId));
+      if (payload.event.eventType === 'invoice.paid' && email && (!creditEntry || creditEntry.lastInvoiceId !== object.id)) {
+        const nextCredits = {
+          id: (creditEntry && creditEntry.id) || crypto.randomUUID(),
+          email,
+          customerId: entry.customerId,
+          balance: (creditEntry && creditEntry.balance || 0) + 300,
+          lastInvoiceId: object.id || payload.event.eventId,
+          updatedAt: payload.event.receivedAt,
+        };
+        await this.state.storage.put('credits', [nextCredits, ...credits.filter(item => item.id !== nextCredits.id)]);
+      }
+      await this.state.storage.put('subscriptions', [entry, ...subscriptions.filter(item => item.id !== entry.id)].slice(0, 10000));
+      await this.state.storage.put('stripeEvents', [payload.event, ...events].slice(0, 10000));
+      return Response.json({ saved: true, eventId: payload.event.eventId });
+    }
+    if (action === 'paddle-event') {
+      const events = (await this.state.storage.get('paddleEvents')) || [];
+      if (events.some(item => item.eventId === payload.event.eventId)) return Response.json({ duplicate: true });
+      const subscriptions = (await this.state.storage.get('subscriptions')) || [];
+      const existing = subscriptions.find(item =>
+        (payload.event.userId && item.userId === payload.event.userId) ||
+        (payload.event.customerId && item.customerId === payload.event.customerId) ||
+        (payload.event.email && item.email === payload.event.email)
+      );
+      const object = payload.object || {};
+      const email = payload.event.email || (existing && existing.email) || '';
+      const userId = payload.event.userId || (existing && existing.userId) || '';
+      const currentPeriodEnd = object.next_billed_at || (object.current_billing_period && object.current_billing_period.ends_at) || (existing && existing.currentPeriodEnd) || '';
+      const isSubscriptionEvent = String(payload.event.eventType || '').startsWith('subscription.');
+      const entry = {
+        ...(existing || {}),
+        id: (existing && existing.id) || crypto.randomUUID(),
+        email,
+        userId,
+        customerId: payload.event.customerId || (existing && existing.customerId) || '',
+        subscriptionId: isSubscriptionEvent ? payload.event.subscriptionId || (existing && existing.subscriptionId) || '' : (object.subscription_id || (existing && existing.subscriptionId) || ''),
+        status: object.status || (existing && existing.status) || 'unknown',
+        paymentFailed: ['transaction.payment_failed', 'subscription.past_due'].includes(payload.event.eventType) ? true : (existing && existing.paymentFailed) || false,
+        lastEventType: payload.event.eventType,
+        currentPeriodEnd,
+        updatedAt: payload.event.receivedAt,
+      };
+      const credits = (await this.state.storage.get('credits')) || [];
+      const creditEntry = credits.find(item =>
+        (userId && item.userId === userId) ||
+        (email && item.email === email) ||
+        (entry.customerId && item.customerId === entry.customerId)
+      );
+      if (payload.event.eventType === 'transaction.completed' && (email || userId) && (!creditEntry || creditEntry.lastTransactionId !== object.id)) {
+        const nextCredits = {
+          id: (creditEntry && creditEntry.id) || crypto.randomUUID(),
+          email,
+          userId,
+          customerId: entry.customerId,
+          balance: (creditEntry && creditEntry.balance || 0) + 300,
+          lastTransactionId: object.id || payload.event.eventId,
+          updatedAt: payload.event.receivedAt,
+        };
+        await this.state.storage.put('credits', [nextCredits, ...credits.filter(item => item.id !== nextCredits.id)]);
+      }
+      await this.state.storage.put('subscriptions', [entry, ...subscriptions.filter(item => item.id !== entry.id)].slice(0, 10000));
+      await this.state.storage.put('paddleEvents', [payload.event, ...events].slice(0, 10000));
+      return Response.json({ saved: true, eventId: payload.event.eventId });
+    }
+    if (action === 'billing-list') {
+      return Response.json({ subscriptions: (await this.state.storage.get('subscriptions')) || [], credits: (await this.state.storage.get('credits')) || [], events: (await this.state.storage.get('paddleEvents')) || (await this.state.storage.get('stripeEvents')) || [] });
+    }
     const now = Date.now();
     const data = (await this.state.storage.get('quota')) || { day, count: 0, pending: {} };
     if (data.day !== day) {
@@ -1324,6 +1526,9 @@ export default {
     if (pathname === '/api/quota') return quotaStatus(request, env);
     if (pathname === '/api/feedback') return request.method === 'GET' ? listFeedback(request, env) : submitFeedback(request, env);
     if (pathname === '/api/subscribe') return request.method === 'GET' ? listSubscriptions(request, env) : submitSubscription(request, env);
+    if (pathname === '/api/paddle/webhook') return paddleWebhook(request, env);
+    if (pathname === '/api/stripe/webhook') return stripeWebhook(request, env);
+    if (pathname === '/api/billing') return listBilling(request, env);
     return assetResponse(request, env);
   },
 };
