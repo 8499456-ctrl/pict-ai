@@ -679,6 +679,7 @@
 const SUPABASE_URL = window.PICT_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = window.PICT_SUPABASE_ANON_KEY || '';
 const PADDLE_CLIENT_TOKEN = window.PICT_PADDLE_CLIENT_TOKEN || '';
+const AUTH_REDIRECT_URL = 'https://www.picttool.com/';
 const PADDLE_PRICE_ID = 'pri_01m0kr1wzwzgp45w082thzcyaz';
 const supabaseClient = window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -1555,7 +1556,7 @@ async function submitAuth(event){
   submit.disabled=true;
   try{
     if(codeInput.hidden){
-      const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
+      const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:AUTH_REDIRECT_URL}});
       if(error)throw error;
       codeInput.hidden=false;codeInput.required=true;submit.textContent=authText('auth.verify');
       document.getElementById('authIntro').textContent=authText('auth.sent');
