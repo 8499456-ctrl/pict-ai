@@ -1360,7 +1360,7 @@ async function assetResponse(request, env) {
 async function supabaseProxy(request) {
   if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
   const incoming = new URL(request.url);
-  const upstream = new URL(`https://aalmtehwrddrzbgrcnjs.supabase.co${incoming.pathname.replace(/^\/api\/supabase/, '')}${incoming.search}`);
+  const upstream = new URL(`https://aalmtehwrdlrzbgrcnjs.supabase.co${incoming.pathname.replace(/^\/api\/supabase/, '')}${incoming.search}`);
   const headers = new Headers(request.headers);
   headers.delete('Host');
   const response = await fetch(upstream, {
