@@ -664,15 +664,14 @@
 <dialog class="auth-dialog" id="authDialog">
   <form class="auth-panel" onsubmit="submitAuth(event)">
     <h3 data-i18n="auth.title">Log in to Pict</h3>
-    <p id="authIntro" data-i18n="auth.intro">Enter your email and we will send you a 6-digit code.</p>
+    <p id="authIntro" data-i18n="auth.intro">Enter your email and we will send you a sign-in link.</p>
     <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="auth.email" />
-    <input id="authCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit code" data-i18n-placeholder="auth.code" hidden />
-    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send code</button></div>
+    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send sign-in link</button></div>
     <p class="auth-status" id="authStatus" role="status"></p>
   </form>
 </dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2'"></script>
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
 /* Replace these two public values after creating the Supabase project. */
@@ -747,7 +746,7 @@ const i18n = {
     'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
     'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
     'pro.kicker': 'Pict Pro', 'pro.title': 'More credits for your best images', 'pro.desc': '300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.', 'pro.month': '/ month', 'pro.button': 'Upgrade to Pro', 'pro.note': 'Secure checkout by Paddle',
-    'auth.login': 'Log in', 'auth.title': 'Log in to Pict', 'auth.intro': 'Enter your email and we will send you a 6-digit code.', 'auth.email': 'you@example.com', 'auth.code': '6-digit code', 'auth.send': 'Send code', 'auth.verify': 'Verify code', 'auth.sent': 'Code sent. Check your email.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That code is not valid. Please try again.', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
+    'auth.login': 'Log in', 'auth.title': 'Log in to Pict', 'auth.intro': 'Enter your email and we will send you a sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send sign-in link', 'auth.sent': 'Sign-in link sent. Check your email.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -824,7 +823,7 @@ const i18n = {
     'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
     'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
     'pro.kicker': 'Pict Pro', 'pro.title': '更多点数，制作更好的图片', 'pro.desc': '每月 300 点，用于 AI 生图和图片编辑。会员有效期为一个计费月，并会在你取消前每月自动续费。', 'pro.month': '/ 月', 'pro.button': '升级 Pro', 'pro.note': '由 Paddle 提供安全支付',
-    'auth.login': '登录', 'auth.title': '登录 Pict', 'auth.intro': '输入邮箱，我们会发送 6 位验证码。', 'auth.email': '你的邮箱', 'auth.code': '6 位验证码', 'auth.send': '发送验证码', 'auth.verify': '验证验证码', 'auth.sent': '验证码已发送，请检查邮箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '验证码不正确，请重试。', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
+    'auth.login': '登录', 'auth.title': '登录 Pict', 'auth.intro': '输入邮箱，我们会发送登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送登录链接', 'auth.sent': '登录链接已发送，请检查邮箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -1550,22 +1549,14 @@ function updateAuthButton(user){
 async function submitAuth(event){
   event.preventDefault();
   const email=document.getElementById('authEmail').value.trim();
-  const codeInput=document.getElementById('authCode');
   const submit=document.getElementById('authSubmit');
   if(!supabaseClient){setAuthStatus(authText('auth.setup'),true);return}
   submit.disabled=true;
   try{
-    if(codeInput.hidden){
-      const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:AUTH_REDIRECT_URL}});
-      if(error)throw error;
-      codeInput.hidden=false;codeInput.required=true;submit.textContent=authText('auth.verify');
-      document.getElementById('authIntro').textContent=authText('auth.sent');
-      setAuthStatus(authText('auth.sent'));codeInput.focus();
-    }else{
-      const {data,error}=await supabaseClient.auth.verifyOtp({email,token:codeInput.value.trim(),type:'email'});
-      if(error)throw error;
-      updateAuthButton(data.user);setAuthStatus('');setTimeout(closeAuthDialog,350);
-    }
+    const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:AUTH_REDIRECT_URL}});
+    if(error)throw error;
+    document.getElementById('authIntro').textContent=authText('auth.sent');
+    setAuthStatus(authText('auth.sent'));
   }catch(error){setAuthStatus(error.message||authText('auth.invalid'),true)}
   finally{submit.disabled=false}
 }
