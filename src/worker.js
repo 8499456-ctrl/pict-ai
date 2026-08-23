@@ -40,7 +40,7 @@ function corsHeaders(request) {
   return {
     'Access-Control-Allow-Origin': ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.picttool.com',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, X-Pict-Test-Token, X-Pict-Admin-Token',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey, x-client-info, X-Pict-Test-Token, X-Pict-Admin-Token',
     'Access-Control-Expose-Headers': 'X-Pict-Quota-Limit, X-Pict-Quota-Remaining, X-Pict-Quota-Group, X-Pict-Test-Mode',
     'Vary': 'Origin',
   };
@@ -1347,7 +1347,7 @@ async function assetResponse(request, env) {
   headers.delete('Content-Encoding');
   headers.delete('ETag');
   headers.set('Content-Type', 'text/html; charset=UTF-8');
-  const supabaseUrl = env.SUPABASE_URL || 'https://aalmtehwrddrzbgrcnjs.supabase.co';
+  const supabaseUrl = env.SUPABASE_BROWSER_URL || 'https://www.picttool.com/api/supabase';
   const supabaseAnonKey = env.SUPABASE_ANON_KEY || 'sb_publishable_U9RxG71p8fnLYZFb2bHTwA_RpdRxTqF';
   const runtimeConfig = `<script>window.PICT_PADDLE_CLIENT_TOKEN=${JSON.stringify(env.PADDLE_CLIENT_TOKEN || '')};window.PICT_SUPABASE_URL=${JSON.stringify(supabaseUrl)};window.PICT_SUPABASE_ANON_KEY=${JSON.stringify(supabaseAnonKey)};</script>`;
   return new Response(enhanceIndexHtml((await response.text()).replace('</head>', `${runtimeConfig}</head>`)), {
@@ -1355,6 +1355,23 @@ async function assetResponse(request, env) {
     statusText: response.statusText,
     headers,
   });
+}
+
+async function supabaseProxy(request) {
+  if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders(request) });
+  const incoming = new URL(request.url);
+  const upstream = new URL(`https://aalmtehwrddrzbgrcnjs.supabase.co${incoming.pathname.replace(/^\/api\/supabase/, '')}${incoming.search}`);
+  const headers = new Headers(request.headers);
+  headers.delete('Host');
+  const response = await fetch(upstream, {
+    method: request.method,
+    headers,
+    body: request.method === 'GET' || request.method === 'HEAD' ? undefined : request.body,
+    redirect: 'manual',
+  });
+  const outputHeaders = new Headers(response.headers);
+  Object.entries(corsHeaders(request)).forEach(([key, value]) => outputHeaders.set(key, value));
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers: outputHeaders });
 }
 
 export class RateLimiter {
@@ -1524,6 +1541,7 @@ export class RateLimiter {
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
+    if (pathname.startsWith('/api/supabase/')) return supabaseProxy(request);
     if (pathname === '/api/process') return processImage(request, env);
     if (pathname === '/api/quota') return quotaStatus(request, env);
     if (pathname === '/api/feedback') return request.method === 'GET' ? listFeedback(request, env) : submitFeedback(request, env);
