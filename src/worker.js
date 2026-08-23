@@ -1347,8 +1347,10 @@ async function assetResponse(request, env) {
   headers.delete('Content-Encoding');
   headers.delete('ETag');
   headers.set('Content-Type', 'text/html; charset=UTF-8');
-  const paddleConfig = `<script>window.PICT_PADDLE_CLIENT_TOKEN=${JSON.stringify(env.PADDLE_CLIENT_TOKEN || '')};</script>`;
-  return new Response(enhanceIndexHtml((await response.text()).replace('</head>', `${paddleConfig}</head>`)), {
+  const supabaseUrl = env.SUPABASE_URL || 'https://aalmtehwrddrzbgrcnjs.supabase.co';
+  const supabaseAnonKey = env.SUPABASE_ANON_KEY || 'sb_publishable_U9RxG71p8fnLYZFb2bHTwA_RpdRxTqF';
+  const runtimeConfig = `<script>window.PICT_PADDLE_CLIENT_TOKEN=${JSON.stringify(env.PADDLE_CLIENT_TOKEN || '')};window.PICT_SUPABASE_URL=${JSON.stringify(supabaseUrl)};window.PICT_SUPABASE_ANON_KEY=${JSON.stringify(supabaseAnonKey)};</script>`;
+  return new Response(enhanceIndexHtml((await response.text()).replace('</head>', `${runtimeConfig}</head>`)), {
     status: response.status,
     statusText: response.statusText,
     headers,
