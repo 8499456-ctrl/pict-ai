@@ -669,10 +669,10 @@
 
 <dialog class="auth-dialog" id="accountDialog">
   <div class="auth-panel">
-    <h3>Account</h3>
-    <p>You are signed in with:</p>
+    <h3 data-i18n="auth.account">Account</h3>
+    <p data-i18n="auth.signedIn">You are signed in with:</p>
     <span class="account-email" id="accountEmail"></span>
-    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAccountDialog()">Close</button><button class="btn btn-primary btn-sm" type="button" onclick="signOutAccount()">Log out</button></div>
+    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAccountDialog()" data-i18n="auth.close">Close</button><button class="btn btn-primary btn-sm" type="button" onclick="signOutAccount()" data-i18n="auth.logout">Log out</button></div>
   </div>
 </dialog>
 
@@ -762,7 +762,7 @@ const i18n = {
     'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
     'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
     'pro.kicker': 'Pict Pro', 'pro.title': 'More credits for your best images', 'pro.desc': '300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.', 'pro.month': '/ month', 'pro.button': 'Upgrade to Pro', 'pro.note': 'Secure checkout by Paddle',
-    'auth.login': 'Log in', 'auth.title': 'Log in to Pict', 'auth.intro': 'Enter your email and we will send you a sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send sign-in link', 'auth.sending': 'Sending…', 'auth.sent': 'Sign-in link sent. Check your email.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
+    'auth.login': 'Log in', 'auth.title': 'Log in to Pict', 'auth.intro': 'Enter your email and we will send you a sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send sign-in link', 'auth.sending': 'Sending…', 'auth.sent': 'Sign-in link sent. Check your email.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.account': 'Account', 'auth.signedIn': 'You are signed in with:', 'auth.close': 'Close', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -839,7 +839,7 @@ const i18n = {
     'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
     'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
     'pro.kicker': 'Pict Pro', 'pro.title': '更多点数，制作更好的图片', 'pro.desc': '每月 300 点，用于 AI 生图和图片编辑。会员有效期为一个计费月，并会在你取消前每月自动续费。', 'pro.month': '/ 月', 'pro.button': '升级 Pro', 'pro.note': '由 Paddle 提供安全支付',
-    'auth.login': '登录', 'auth.title': '登录 Pict', 'auth.intro': '输入邮箱，我们会发送登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送登录链接', 'auth.sending': '正在发送…', 'auth.sent': '登录链接已发送，请检查邮箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
+    'auth.login': '登录', 'auth.title': '登录 Pict', 'auth.intro': '输入邮箱，我们会发送登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送登录链接', 'auth.sending': '正在发送…', 'auth.sent': '登录链接已发送，请检查邮箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.account': '账户', 'auth.signedIn': '当前登录账户：', 'auth.close': '关闭', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -891,6 +891,13 @@ Object.assign(i18n.ja, {'auth.login':'ログイン','auth.title':'Pictにログ�
 Object.assign(i18n.ko, {'auth.login':'로그인','auth.title':'Pict 로그인','auth.intro':'이메일을 입력하면 로그인 링크를 보내드립니다.','auth.email':'you@example.com','auth.send':'로그인 링크 보내기','auth.sending':'보내는 중…','auth.sent':'링크를 보냈습니다. 이메일을 확인하세요.','auth.setup':'로그인 기능을 설정 중입니다. 잠시 후 다시 시도해 주세요.','auth.invalid':'유효하지 않은 로그인 링크입니다. 새 링크를 요청하세요.','auth.loggedIn':'계정','auth.logout':'로그아웃'});
 Object.assign(i18n.ar, {'auth.login':'تسجيل الدخول','auth.title':'تسجيل الدخول إلى Pict','auth.intro':'أدخل بريدك الإلكتروني وسنرسل لك رابط تسجيل الدخول.','auth.email':'you@example.com','auth.send':'إرسال رابط الدخول','auth.sending':'جار الإرسال…','auth.sent':'تم إرسال الرابط. تحقق من بريدك الإلكتروني.','auth.setup':'يتم إعداد تسجيل الدخول. حاول مرة أخرى لاحقًا.','auth.invalid':'رابط تسجيل الدخول غير صالح. اطلب رابطًا جديدًا.','auth.loggedIn':'الحساب','auth.logout':'تسجيل الخروج'});
 Object.assign(i18n.de, {'auth.login':'Anmelden','auth.title':'Bei Pict anmelden','auth.intro':'Gib deine E-Mail-Adresse ein und wir senden dir einen Anmeldelink.','auth.email':'du@example.com','auth.send':'Anmeldelink senden','auth.sending':'Wird gesendet…','auth.sent':'Link gesendet. Prüfe deine E-Mails.','auth.setup':'Die Anmeldung wird eingerichtet. Bitte später erneut versuchen.','auth.invalid':'Dieser Anmeldelink ist ungültig. Fordere einen neuen an.','auth.loggedIn':'Konto','auth.logout':'Abmelden'});
+Object.assign(i18n.es, {'auth.account':'Cuenta','auth.signedIn':'Has iniciado sesión con:','auth.close':'Cerrar'});
+Object.assign(i18n.fr, {'auth.account':'Compte','auth.signedIn':'Vous êtes connecté avec :','auth.close':'Fermer'});
+Object.assign(i18n.pt, {'auth.account':'Conta','auth.signedIn':'Você está conectado com:','auth.close':'Fechar'});
+Object.assign(i18n.ja, {'auth.account':'アカウント','auth.signedIn':'ログイン中のメールアドレス：','auth.close':'閉じる'});
+Object.assign(i18n.ko, {'auth.account':'계정','auth.signedIn':'다음 계정으로 로그인되어 있습니다:','auth.close':'닫기'});
+Object.assign(i18n.ar, {'auth.account':'الحساب','auth.signedIn':'تم تسجيل الدخول باستخدام:','auth.close':'إغلاق'});
+Object.assign(i18n.de, {'auth.account':'Konto','auth.signedIn':'Du bist angemeldet mit:','auth.close':'Schließen'});
 
 Object.assign(i18n.es, {'subscribe.kicker':'Actualizaciones de PictTool','subscribe.title':'Recibe nuevas herramientas de imagen IA','subscribe.desc':'Suscríbete para novedades, ideas para Pinterest y noticias tempranas de Pro. Sin spam.','subscribe.emailLabel':'Correo electrónico','subscribe.placeholder':'tu@email.com','subscribe.button':'Suscribirse','subscribe.sending':'Suscribiendo...','subscribe.success':'Ya estás suscrito. Solo enviaremos actualizaciones útiles de PictTool.','subscribe.error':'No se pudo suscribir. Inténtalo de nuevo.'});
 Object.assign(i18n.fr, {'subscribe.kicker':'Actualités PictTool','subscribe.title':'Recevez les nouveaux outils IA','subscribe.desc':'Abonnez-vous pour les nouveautés, idées Pinterest et infos Pro. Pas de spam.','subscribe.emailLabel':'Adresse e-mail','subscribe.placeholder':'vous@example.com','subscribe.button':'S’abonner','subscribe.sending':'Inscription...','subscribe.success':'Vous êtes abonné. Nous enverrons seulement des nouvelles utiles de PictTool.','subscribe.error':'Impossible de vous abonner. Réessayez.'});
