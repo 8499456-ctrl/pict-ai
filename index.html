@@ -1618,12 +1618,20 @@ function setAuthStatus(message,error=false){const status=document.getElementById
 function updateAuthButton(user){
   const button=document.getElementById('authButton');
   if(!button)return;
+  button.disabled=false;
   button.textContent=user?(authText('auth.loggedIn')):authText('auth.login');
   button.title=user?user.email:'';
   if(user){
     document.getElementById('accountEmail').textContent=user.email||'';
     button.onclick=openAccountDialog;
   }else button.onclick=openAuthDialog;
+}
+function setAuthLoading(){
+  const button=document.getElementById('authButton');
+  if(!button)return;
+  button.disabled=true;
+  button.textContent=currentLang==='zh'?'正在检查…':'Checking…';
+  button.title='';
 }
 async function submitAuth(event){
   event.preventDefault();
@@ -1677,7 +1685,8 @@ selectTool(initialToolFromUrl());
 initializePaddleCheckout();
 refreshQuota();
 if(supabaseClient){
-  supabaseClient.auth.getSession().then(({data})=>updateAuthButton(data.session&&data.session.user));
+  setAuthLoading();
+  supabaseClient.auth.getSession().then(({data})=>updateAuthButton(data.session&&data.session.user)).catch(()=>updateAuthButton(null));
   supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthButton(session&&session.user));
 }else updateAuthButton(null);
 </script>
