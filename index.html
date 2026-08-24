@@ -1499,7 +1499,11 @@ function setCreativeCopy(tool, resetPrompt=true){
     'scene-lighting': zh?['灯光优化','只改善曝光、白平衡和自然色彩；不会故意压暗背景或改变场景。']:['Lighting enhance','Improves exposure, white balance, and natural color only—without darkening or redesigning the scene.']
   }[tool];
   const localizedToolCopy=i18n[currentLang]&&i18n[currentLang][`creative.${tool}.label`] ? [i18n[currentLang][`creative.${tool}.label`],i18n[currentLang][`creative.${tool}.help`]] : (i18n[currentLang]&&i18n[currentLang][`tool.${tool}.desc`] ? [i18n[currentLang][`tool.${tool}`],i18n[currentLang][`tool.${tool}.desc`]] : copy);
-  creativePromptLabel.textContent=localizedToolCopy[0];creativeHelp.textContent=localizedToolCopy[1];
+  const keepTranslatedGameAvatar = tool === 'game-avatar' && pageLanguage && pageLanguage !== 'en' && creativePromptLabel.dataset.i18n;
+  if (!keepTranslatedGameAvatar) {
+    creativePromptLabel.textContent=localizedToolCopy[0];
+    creativeHelp.textContent=localizedToolCopy[1];
+  }
   cartoonControls.hidden=tool!=='cartoon';
   cartoonControls.style.display=tool==='cartoon'?'grid':'none';
   document.getElementById('cartoonStyleLabel').textContent=cartoonLocale.style;
@@ -1509,6 +1513,7 @@ function setCreativeCopy(tool, resetPrompt=true){
   const preserveLabels=cartoonLocale.preserves;
   document.querySelectorAll('#cartoonPreserveButtons .style-chip').forEach((button,index)=>button.textContent=preserveLabels[index]);
   creativePrompt.required=tool==='remove-object';
+  if (keepTranslatedGameAvatar) return;
   creativePrompt.placeholder=tool==='remove-object'
     ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
     : tool==='travel-art'
