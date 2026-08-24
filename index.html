@@ -272,7 +272,7 @@
       <a href="#tools" data-i18n="nav.tools">Tools</a>
       <a href="#examples" data-i18n="nav.examples">Examples</a>
       <a href="#guides" data-i18n="nav.guides">Guides</a>
-      <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
+      <a href="privacy/" data-i18n="nav.privacy">Privacy</a>
       <a href="#upload" data-i18n="nav.try">Try Now</a>
     </div>
     <div class="nav-actions">
@@ -296,7 +296,7 @@
         <a href="#tools" data-i18n="nav.tools">Tools</a>
         <a href="#examples" data-i18n="nav.examples">Examples</a>
         <a href="#guides" data-i18n="nav.guides">Guides</a>
-        <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
+        <a href="privacy/" data-i18n="nav.privacy">Privacy</a>
         <a href="#upload" data-i18n="nav.try">Try Now</a>
         <select class="nav-language" id="mobileLangSelect" onchange="setMobileLanguage(this.value)" aria-label="Select language">
           <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="fr">Français</option><option value="pt">Português</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ar">العربية</option><option value="de">Deutsch</option>
@@ -631,6 +631,7 @@
 
 <footer>
   <p>Built with ❤️ — <a href="https://pict-ai.pages.dev">Pict</a> · AI Image Tools · Free for everyone</p>
+  <p class="legal-links"><a href="#pro">Pricing</a> · <a href="terms/">Terms of Service</a> · <a href="privacy/">Privacy Policy</a> · <a href="refund/">Refund Policy</a></p>
   <button class="feedback-link" id="feedbackButton" type="button" data-i18n="feedback.button">💬 Feedback</button>
   <p class="sister">Friends &amp; partners</p>
   <p class="partner-links">
@@ -688,8 +689,9 @@
 const SUPABASE_URL = window.PICT_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = window.PICT_SUPABASE_ANON_KEY || '';
 const PADDLE_CLIENT_TOKEN = window.PICT_PADDLE_CLIENT_TOKEN || '';
+const PADDLE_ENVIRONMENT = window.PICT_PADDLE_ENVIRONMENT || 'sandbox';
 const AUTH_REDIRECT_URL = 'https://www.picttool.com/';
-const PADDLE_PRICE_ID = 'pri_01m0kr1wzwzgp45w082thzcyaz';
+const PADDLE_PRICE_ID = window.PICT_PADDLE_PRICE_ID || 'pri_01m0kr1wzwzgp45w082thzcyaz';
 const supabaseClient = window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
@@ -697,7 +699,7 @@ let paddleInitialized = false;
 function initializePaddleCheckout(){
   if(paddleInitialized)return true;
   if(!PADDLE_CLIENT_TOKEN || !window.Paddle)return false;
-  window.Paddle.Environment.set('sandbox');
+  window.Paddle.Environment.set(PADDLE_ENVIRONMENT);
   window.Paddle.Initialize({token:PADDLE_CLIENT_TOKEN});
   paddleInitialized = true;
   return true;
