@@ -458,8 +458,8 @@
   <p class="quota-status" id="quotaStatus" aria-live="polite">Free today: 3 basic edits · 1 image generation</p>
 
   <div class="generation-zone" id="creativeOptions" hidden>
-    <label for="creativePrompt" id="creativePromptLabel">Optional scene description</label>
-    <textarea id="creativePrompt" maxlength="500" placeholder="For example: a moonlit forest with soft blue light"></textarea>
+    <label for="creativePrompt" id="creativePromptLabel" data-i18n="creative.game-avatar.label">Optional scene description</label>
+    <textarea id="creativePrompt" maxlength="500" data-i18n-placeholder="creative.game-avatar.placeholder" placeholder="For example: a moonlit forest with soft blue light"></textarea>
     <div id="cartoonControls" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:0 0 14px;">
       <div class="cartoon-setting">
         <span id="cartoonStyleLabel" class="cartoon-setting-label">Cartoon style</span>
@@ -492,7 +492,7 @@
         </select>
       </div>
     </div>
-    <p id="creativeHelp" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
+    <p id="creativeHelp" data-i18n="creative.game-avatar.help" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
   </div>
   <div class="upload-zone" id="dropZone">
     <span class="icon" id="dropIcon">📁</span>
