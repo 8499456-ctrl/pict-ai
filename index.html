@@ -1469,6 +1469,11 @@ document.getElementById('cartoonPreserveButtons').addEventListener('click',event
 });
 
 function setCreativeCopy(tool, resetPrompt=true){
+  // Keep this panel aligned with the language actually applied to the page.
+  // The navigation is translated from the DOM, so using that same source here
+  // avoids falling back to English when a saved locale is restored on refresh.
+  const pageLanguage = document.documentElement.lang;
+  if (i18n[pageLanguage] && pageLanguage !== currentLang) currentLang = pageLanguage;
   const zh=currentLang==='zh';
   const cartoonLocale={
     en:{copy:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],style:'Cartoon style',preserve:'Original preservation',styles:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'],preserves:['High','Balanced','Creative'],placeholder:'For example: a moonlit forest'},
