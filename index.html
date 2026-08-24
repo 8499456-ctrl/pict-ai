@@ -211,7 +211,7 @@
   .btn-sm{padding:8px 16px;border-radius:20px;font-size:13px}
   .auth-dialog{position:fixed;inset:0;margin:auto;width:min(92vw,420px);max-height:min(90vh,520px);border:1px solid var(--border);border-radius:18px;background:#15102a;color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.55);overflow:auto}
   .auth-dialog::backdrop{background:rgba(3,1,12,.72);backdrop-filter:blur(4px)}
-  .auth-panel{padding:30px}.auth-panel h3{margin:0 0 8px;font-size:22px}.auth-panel p{color:var(--text-dim);font-size:13px;line-height:1.6;margin:0 0 18px}.auth-panel input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;margin-bottom:12px}.auth-panel input:focus{outline:2px solid rgba(167,139,250,.5);outline-offset:1px}.auth-actions{display:flex;justify-content:flex-end;gap:8px}.auth-actions .btn{transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.auth-actions .btn:active{transform:translateY(2px) scale(.98);filter:brightness(.92)}#authSubmit{min-width:148px}#authSubmit:disabled{opacity:.72;cursor:wait;filter:saturate(.8)}.auth-status{min-height:20px;margin:10px 0 0!important;color:var(--accent-light)!important;font-size:12px!important}
+  .auth-panel{padding:30px}.auth-panel h3{margin:0 0 8px;font-size:22px}.auth-panel p{color:var(--text-dim);font-size:13px;line-height:1.6;margin:0 0 18px}.auth-panel input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;margin-bottom:12px}.auth-panel input:focus{outline:2px solid rgba(167,139,250,.5);outline-offset:1px}.auth-actions{display:flex;justify-content:flex-end;gap:8px}.auth-actions .btn{transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.auth-actions .btn:active{transform:translateY(2px) scale(.98);filter:brightness(.92)}#authSubmit{min-width:148px}#authSubmit:disabled{opacity:.72;cursor:wait;filter:saturate(.8)}.auth-status{min-height:20px;margin:10px 0 0!important;color:var(--accent-light)!important;font-size:12px!important}.auth-sent-panel{text-align:center;padding:8px 2px 2px}.auth-sent-panel .auth-check{width:54px;height:54px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:#22c55e;color:#fff;font-size:30px;font-weight:800;box-shadow:0 8px 24px rgba(34,197,94,.25)}.auth-sent-panel h4{margin:0 0 12px;color:var(--text);font-size:24px;line-height:1.25}.auth-sent-panel p{margin:0 auto 12px;max-width:300px}.auth-sent-panel .auth-sent-thanks{margin-top:22px;margin-bottom:20px}.auth-sent-panel .btn{min-width:96px}
   .account-email{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.06);color:var(--text);font-size:13px;word-break:break-all;margin:14px 0 20px}
   .spinner{display:none;width:28px;height:28px;border:3px solid rgba(255,255,255,0.06);border-top-color:var(--accent-light);border-radius:50%;animation:spin .6s linear infinite;margin:24px auto}
   .spinner.show{display:block}
@@ -681,7 +681,16 @@
     <h3 data-i18n="auth.title">Log in to Pict</h3>
     <p id="authIntro" data-i18n="auth.intro">Enter your email and we will send you a sign-in link.</p>
     <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="auth.email" />
-    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send sign-in link</button></div>
+    <div class="auth-actions" id="authActions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send sign-in link</button></div>
+    <div class="auth-sent-panel" id="authSentPanel" hidden aria-live="polite">
+      <div class="auth-check" aria-hidden="true">✓</div>
+      <h4 data-i18n="auth.sent.title">Please check your inbox</h4>
+      <p data-i18n="auth.sent.body">We just sent you a confirmation email.</p>
+      <p data-i18n="auth.sent.action">Click the link in the email to confirm your account.</p>
+      <p data-i18n="auth.sent.missing">If you don’t see it within a few minutes, check your spam folder.</p>
+      <p class="auth-sent-thanks" data-i18n="auth.sent.thanks">Thanks! PictTool team</p>
+      <button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="auth.close">Close</button>
+    </div>
     <p class="auth-status" id="authStatus" role="status"></p>
   </form>
 </dialog>
@@ -762,7 +771,7 @@ const i18n = {
     'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
     'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
     'pro.kicker': 'Pict Pro', 'pro.title': 'More credits for your best images', 'pro.desc': '300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.', 'pro.month': '/ month', 'pro.button': 'Upgrade to Pro', 'pro.note': 'Secure checkout by Paddle',
-    'auth.login': 'Sign in', 'auth.title': 'Sign in to PictTool', 'auth.intro': 'Enter your email and we’ll send you a secure sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send secure sign-in link', 'auth.sending': 'Sending…', 'auth.sent': 'Your secure sign-in link is on its way. Check your inbox.', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.account': 'Account', 'auth.signedIn': 'You are signed in with:', 'auth.close': 'Close', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
+    'auth.login': 'Sign in', 'auth.title': 'Sign in to PictTool', 'auth.intro': 'Enter your email and we’ll send you a secure sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send secure sign-in link', 'auth.sending': 'Sending…', 'auth.sent': 'Your secure sign-in link is on its way. Check your inbox.', 'auth.sent.title': 'Please check your inbox', 'auth.sent.body': 'We just sent you a confirmation email.', 'auth.sent.action': 'Click the link in the email to confirm your account.', 'auth.sent.missing': 'If you don’t see it within a few minutes, check your spam folder.', 'auth.sent.thanks': 'Thanks! PictTool team', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.account': 'Account', 'auth.signedIn': 'You are signed in with:', 'auth.close': 'Close', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
     'result.original': '📄 Original',
     'result.result': '✨ Result',
     'result.download': '⬇ Download',
@@ -839,7 +848,7 @@ const i18n = {
     'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
     'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
     'pro.kicker': 'Pict Pro', 'pro.title': '更多点数，制作更好的图片', 'pro.desc': '每月 300 点，用于 AI 生图和图片编辑。会员有效期为一个计费月，并会在你取消前每月自动续费。', 'pro.month': '/ 月', 'pro.button': '升级 Pro', 'pro.note': '由 Paddle 提供安全支付',
-    'auth.login': '登录', 'auth.title': '登录 PictTool', 'auth.intro': '输入您的邮箱，我们会发送安全登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送安全登录链接', 'auth.sending': '正在发送…', 'auth.sent': '安全登录链接已发送，请检查您的收件箱。', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.account': '账户', 'auth.signedIn': '当前登录账户：', 'auth.close': '关闭', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
+    'auth.login': '登录', 'auth.title': '登录 PictTool', 'auth.intro': '输入您的邮箱，我们会发送安全登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送安全登录链接', 'auth.sending': '正在发送…', 'auth.sent': '安全登录链接已发送，请检查您的收件箱。', 'auth.sent.title': '请查看您的收件箱', 'auth.sent.body': '我们刚刚向您发送了一封确认邮件。', 'auth.sent.action': '点击邮件中的链接即可确认您的账户。', 'auth.sent.missing': '如果几分钟内没有收到，请检查您的垃圾邮件文件夹。', 'auth.sent.thanks': '感谢您！PictTool 团队', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.account': '账户', 'auth.signedIn': '当前登录账户：', 'auth.close': '关闭', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
     'result.original': '📄 原图',
     'result.result': '✨ 处理结果',
     'result.download': '⬇ 下载',
@@ -898,6 +907,13 @@ Object.assign(i18n.ja, {'auth.account':'アカウント','auth.signedIn':'ログ
 Object.assign(i18n.ko, {'auth.account':'계정','auth.signedIn':'다음 계정으로 로그인되어 있습니다:','auth.close':'닫기'});
 Object.assign(i18n.ar, {'auth.account':'الحساب','auth.signedIn':'تم تسجيل الدخول باستخدام:','auth.close':'إغلاق'});
 Object.assign(i18n.de, {'auth.account':'Konto','auth.signedIn':'Du bist angemeldet mit:','auth.close':'Schließen'});
+Object.assign(i18n.es, {'auth.sent.title':'Revisa tu bandeja de entrada','auth.sent.body':'Te acabamos de enviar un correo de confirmación.','auth.sent.action':'Haz clic en el enlace del correo para confirmar tu cuenta.','auth.sent.missing':'Si no lo ves en unos minutos, revisa la carpeta de spam.','auth.sent.thanks':'¡Gracias! Equipo de PictTool'});
+Object.assign(i18n.fr, {'auth.sent.title':'Vérifiez votre boîte de réception','auth.sent.body':'Nous venons de vous envoyer un e-mail de confirmation.','auth.sent.action':'Cliquez sur le lien dans l’e-mail pour confirmer votre compte.','auth.sent.missing':'Si vous ne le voyez pas dans quelques minutes, vérifiez vos spams.','auth.sent.thanks':'Merci ! L’équipe PictTool'});
+Object.assign(i18n.pt, {'auth.sent.title':'Verifique sua caixa de entrada','auth.sent.body':'Acabamos de enviar um e-mail de confirmação.','auth.sent.action':'Clique no link do e-mail para confirmar sua conta.','auth.sent.missing':'Se não aparecer em alguns minutos, verifique a pasta de spam.','auth.sent.thanks':'Obrigado! Equipe PictTool'});
+Object.assign(i18n.ja, {'auth.sent.title':'受信トレイを確認してください','auth.sent.body':'確認メールを送信しました。','auth.sent.action':'メール内のリンクをクリックしてアカウントを確認してください。','auth.sent.missing':'数分たっても届かない場合は迷惑メールフォルダを確認してください。','auth.sent.thanks':'ありがとうございます！PictToolチーム'});
+Object.assign(i18n.ko, {'auth.sent.title':'받은편지를 확인해 주세요','auth.sent.body':'확인 이메일을 보냈습니다.','auth.sent.action':'이메일의 링크를 클릭하여 계정을 확인하세요.','auth.sent.missing':'몇 분 안에 보이지 않으면 스팸 폴더를 확인하세요.','auth.sent.thanks':'감사합니다! PictTool 팀'});
+Object.assign(i18n.ar, {'auth.sent.title':'يرجى التحقق من صندوق الوارد','auth.sent.body':'أرسلنا إليك رسالة تأكيد للتو.','auth.sent.action':'انقر على الرابط في الرسالة لتأكيد حسابك.','auth.sent.missing':'إذا لم تجدها خلال دقائق، فتحقق من مجلد الرسائل غير المرغوب فيها.','auth.sent.thanks':'شكرًا لك! فريق PictTool'});
+Object.assign(i18n.de, {'auth.sent.title':'Bitte prüfen Sie Ihren Posteingang','auth.sent.body':'Wir haben Ihnen gerade eine Bestätigungs-E-Mail gesendet.','auth.sent.action':'Klicken Sie auf den Link in der E-Mail, um Ihr Konto zu bestätigen.','auth.sent.missing':'Wenn sie nach einigen Minuten nicht da ist, prüfen Sie bitte den Spam-Ordner.','auth.sent.thanks':'Vielen Dank! Das PictTool-Team'});
 Object.assign(i18n.es, {'drop.hint':'Suelta una imagen aquí o haz clic para elegirla','drop.desc':'JPG, PNG, WEBP — hasta 20 MB','tool.game-avatar':'🎮 Avatar de fantasía','tool.game-avatar.desc':'Conserva el rostro, la edad, el cabello y la pose para crear un aventurero de fantasía original.','creative.game-avatar.label':'Avatar de fantasía original','creative.game-avatar.help':'Conserva el rostro, la edad, el cabello y la pose mientras crea un aspecto de aventurero de fantasía original.','creative.game-avatar.placeholder':'Por ejemplo: un bosque iluminado por la luna'});
 Object.assign(i18n.fr, {'drop.hint':'Déposez une image ici ou cliquez pour parcourir','drop.desc':'JPG, PNG, WEBP — jusqu’à 20 Mo','tool.game-avatar':'🎮 Avatar fantastique','tool.game-avatar.desc':'Conservez le visage, l’âge, les cheveux et la pose pour créer un aventurier fantastique original.','creative.game-avatar.label':'Avatar fantastique original','creative.game-avatar.help':'Conserve le visage, l’âge, les cheveux et la pose tout en créant un look d’aventurier fantastique original.','creative.game-avatar.placeholder':'Par exemple : une forêt éclairée par la lune'});
 Object.assign(i18n.pt, {'drop.hint':'Solte uma imagem aqui ou clique para escolher','drop.desc':'JPG, PNG, WEBP — até 20 MB','tool.game-avatar':'🎮 Avatar de fantasia','tool.game-avatar.desc':'Mantém o rosto, a idade, o cabelo e a pose para criar um aventureiro de fantasia original.','creative.game-avatar.label':'Avatar de fantasia original','creative.game-avatar.help':'Mantém o rosto, a idade, o cabelo e a pose enquanto cria um visual de aventureiro de fantasia original.','creative.game-avatar.placeholder':'Por exemplo: uma floresta iluminada pela lua'});
@@ -1600,6 +1616,11 @@ async function copyPictToolLink(){
 function authText(key){return (i18n[currentLang]&&i18n[currentLang][key])||i18n.en[key]||key}
 function openAuthDialog(){
   const dialog=document.getElementById('authDialog');
+  document.getElementById('authIntro').hidden=false;
+  document.getElementById('authEmail').hidden=false;
+  document.getElementById('authActions').hidden=false;
+  document.getElementById('authSentPanel').hidden=true;
+  document.getElementById('authStatus').textContent='';
   if(dialog&&typeof dialog.showModal==='function')dialog.showModal();
   document.getElementById('authEmail').focus();
 }
@@ -1644,8 +1665,11 @@ async function submitAuth(event){
   try{
     const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:AUTH_REDIRECT_URL}});
     if(error)throw error;
-    document.getElementById('authIntro').textContent=authText('auth.sent');
-    setAuthStatus(authText('auth.sent'));
+    document.getElementById('authIntro').hidden=true;
+    document.getElementById('authEmail').hidden=true;
+    document.getElementById('authActions').hidden=true;
+    document.getElementById('authSentPanel').hidden=false;
+    setAuthStatus('');
   }catch(error){setAuthStatus(error.message||authText('auth.invalid'),true)}
   finally{submit.disabled=false;submit.removeAttribute('aria-busy');submit.textContent=authText('auth.send')}
 }
