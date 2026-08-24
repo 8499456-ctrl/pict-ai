@@ -542,11 +542,13 @@ html[dir="rtl"] .tool-card:hover .arrow{transform:translateX(-3px)}
     const label=document.getElementById('creativePromptLabel');
     const help=document.getElementById('creativeHelp');
     const prompt=document.getElementById('creativePrompt');
-    if(label)label.textContent=tr('creativePromptLabel.'+tool);
-    if(help)help.textContent=tr('creativePromptHelp.'+tool);
+    const labelKey=tool==='game-avatar'?'creative.game-avatar.label':'creativePromptLabel.'+tool;
+    const helpKey=tool==='game-avatar'?'creative.game-avatar.help':'creativePromptHelp.'+tool;
+    if(label)label.textContent=tr(labelKey);
+    if(help)help.textContent=tr(helpKey);
     if(prompt){
       prompt.required=tool==='remove-object';
-      prompt.placeholder=tool==='remove-object'?tr('creative.placeholder.object'):tool==='product-poster'?'clean poster background, soft shadow, no text, preserve the subject':tr('creative.placeholder.scene');
+      prompt.placeholder=tool==='remove-object'?tr('creative.placeholder.object'):tool==='game-avatar'?tr('creative.game-avatar.placeholder'):tool==='product-poster'?'clean poster background, soft shadow, no text, preserve the subject':tr('creative.placeholder.scene');
       if(!preserveValue)prompt.value='';
     }
   }
