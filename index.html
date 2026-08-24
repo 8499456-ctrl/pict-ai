@@ -1655,6 +1655,14 @@ function initialToolFromUrl(){
   const allowed = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert','pin-before-after','product-poster'];
   return allowed.includes(tool) ? tool : 'game-avatar';
 }
+// Restore the visitor's language before selecting the initial tool.  The
+// creative panel is rendered by selectTool(), so applying the saved locale
+// first prevents its label, help text, and placeholder from falling back to
+// English on a refresh.
+try {
+  const savedLanguage = localStorage.getItem('pict-language');
+  if (savedLanguage && i18n[savedLanguage]) setLanguage(savedLanguage);
+} catch (_) {}
 selectTool(initialToolFromUrl());
 initializePaddleCheckout();
 refreshQuota();
