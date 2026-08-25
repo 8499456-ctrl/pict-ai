@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Content &amp; Likeness Rules — PictTool</title>
+  <link rel="stylesheet" href="../legal-style.css">
+</head>
+<body>
+<main>
+  <header>
+    <a href="../">✦ PictTool</a>
+    <div class="legal-tools"><label for="language">Language</label> <select id="language" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select></div>
+    <h1 id="title">AI Content &amp; Likeness Rules</h1>
+    <div class="updated" id="updated">Last updated: August 25, 2026</div>
+  </header>
+  <div class="card" id="content"></div>
+  <footer><a href="../terms/">Terms of Service</a> · <a href="../privacy/">Privacy Policy</a> · <a href="../refund/">Refund Policy</a></footer>
+</main>
+<script>
+(function(){
+  const copy={
+    en:{title:'AI Content & Likeness Rules',updated:'Last updated: August 25, 2026',language:'Language',intro:'These rules apply to PictTool features that transform, edit, or generate images. They supplement the Terms of Service and are intended to help protect people, rights, and the integrity of the service.',sections:[['1. Authorized images and likenesses','Upload only images that you own or are authorized to use. If an image contains an identifiable person, you must have that person’s permission to use their likeness for the requested transformation or generation.'],['2. Prohibited content','Do not use PictTool to create or distribute illegal, fraudulent, deceptive, defamatory, hateful, violent, or sexually explicit content, including non-consensual intimate imagery.'],['3. No impersonation or abuse','Do not create content that impersonates a celebrity, public figure, private person, business, or organization in a misleading way, or that facilitates scams, harassment, extortion, or identity abuse.'],['4. Children and vulnerable people','Do not upload or generate sexualized, nude, exploitative, or otherwise inappropriate content involving minors. Do not use the service to exploit or endanger vulnerable people.'],['5. AI disclosure','AI-generated or AI-transformed images may be labeled as AI content. You must not present an AI-generated image as documentary evidence or use it to deceive others.'],['6. User responsibility','You are responsible for your prompts, uploads, and outputs, and for complying with applicable laws and third-party rights. AI outputs may not be unique or accurate.'],['7. Review, removal, and account action','PictTool may refuse, restrict, review, or remove content and may suspend or terminate accounts that violate these rules or create risk to people, rights, or the service.'],['8. Deletion and reports','You may request deletion of your uploaded images or generated results through the available account or feedback tools. To report suspected abuse or infringement, use the PictTool feedback form.'],['9. Changes and contact','We may update these rules as the service, laws, or safety practices change. Questions and reports can be submitted through the PictTool feedback form.']]},
+    zh:{title:'AI 内容和肖像授权规则',updated:'最后更新：2026年8月25日',language:'语言',intro:'本规则适用于 PictTool 中对图片进行转换、编辑或生成的功能，是《服务条款》的补充，旨在保护个人、权利人和服务安全。',sections:[['1. 图片和肖像授权','只能上传您拥有权利或已经获得授权使用的图片。如果图片中包含可识别的人物，您必须获得该人物同意，才能按照请求使用其肖像进行转换或生成。'],['2. 禁止内容','不得使用 PictTool 制作或传播违法、欺诈、误导、诽谤、仇恨、暴力或色情内容，包括未经同意的私密影像。'],['3. 禁止冒充和滥用','不得以误导方式冒充名人、公众人物、私人个人、企业或组织，也不得用于诈骗、骚扰、勒索或滥用他人身份。'],['4. 未成年人和弱势群体','不得上传或生成涉及未成年人的性化、裸露、剥削或其他不当内容，也不得利用本服务伤害或剥削弱势群体。'],['5. AI 标识','AI 生成或 AI 修改的图片可能会被标记为 AI 内容。不得把 AI 图片伪装成真实证据，或用于欺骗他人。'],['6. 用户责任','您应对自己的提示词、上传内容和生成结果负责，并遵守适用法律及第三方权利。AI 生成结果可能不唯一，也不一定准确。'],['7. 审核、删除和账户处理','如果内容违反本规则，或可能对个人、权利人或服务造成风险，PictTool 可以拒绝、限制、审核或删除相关内容，并可以暂停或终止相关账户。'],['8. 删除和举报','您可以通过账户功能或反馈表单申请删除上传图片和生成结果。如需举报疑似滥用或侵权内容，请使用 PictTool 反馈表单。'],['9. 规则更新和联系','我们可能根据服务、法律或安全措施的变化更新本规则。如有问题或需要举报，请通过 PictTool 反馈表单联系我们。']]}
+  };
+  const lang=new URLSearchParams(location.search).get('lang')||localStorage.getItem('pict-language')||'en';
+  const data=copy[lang]||copy.en;
+  document.documentElement.lang=lang;
+  document.getElementById('language').value=copy[lang]?lang:'en';
+  document.getElementById('language').setAttribute('aria-label',data.language);
+  document.getElementById('title').textContent=data.title;
+  document.getElementById('updated').textContent=data.updated;
+  document.getElementById('content').innerHTML='<p>'+data.intro+'</p>'+data.sections.map(function(s){return '<h2>'+s[0]+'</h2><p>'+s[1]+'</p>';}).join('');
+  document.getElementById('language').addEventListener('change',function(e){localStorage.setItem('pict-language',e.target.value);location.href=location.pathname+'?lang='+e.target.value;});
+})();
+</script>
+</body>
+</html>
