@@ -1,38 +1,1719 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Content &amp; Likeness Rules — PictTool</title>
-  <link rel="stylesheet" href="../legal-style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9TJQL1RWTP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9TJQL1RWTP');
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pict | Free AI Image Tools: Remove Background, Upscale & Generate</title>
+<meta name="description" content="Free online AI image tools to remove backgrounds, upscale photos, colorize old images and generate images from text. No sign-up required." />
+<link rel="canonical" href="https://www.picttool.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.picttool.com/" />
+<meta property="og:title" content="Pict | Free AI Image Tools" />
+<meta property="og:description" content="Remove backgrounds, upscale photos, colorize images and create AI art online." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0A0A1A;--card:rgba(255,255,255,0.04);--card-hover:rgba(255,255,255,0.08);--text:#F1F1F7;--text-dim:rgba(255,255,255,0.5);--accent:#7C3AED;--accent-light:#A78BFA;--accent-glow:rgba(124,58,237,0.3);--border:rgba(255,255,255,0.06);--radius:16px}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+  
+  /* Animated background */
+  .bg-glow{position:fixed;top:-50%;left:-50%;width:200%;height:200%;z-index:-1;opacity:0.15;
+    background:radial-gradient(ellipse at 20% 50%,#7C3AED 0%,transparent 50%),
+               radial-gradient(ellipse at 80% 20%,#3B82F6 0%,transparent 50%),
+               radial-gradient(ellipse at 50% 80%,#EC4899 0%,transparent 50%);
+    animation:bgShift 20s ease-in-out infinite alternate;}
+  @keyframes bgShift{0%{transform:rotate(0deg) scale(1)}100%{transform:rotate(8deg) scale(1.1)}}
+
+  .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* Nav — glassmorphism */
+  nav{position:sticky;top:12px;z-index:100;max-width:1100px;margin:0 auto;padding:0 24px}
+  .nav-inner{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--border);border-radius:100px;padding:10px 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    box-shadow:0 10px 26px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.06)}
+  .logo{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-0.3px}
+  .logo .grad{background:linear-gradient(135deg,#7C3AED,#A78BFA,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .nav-links{display:flex;gap:4px;justify-self:center}
+  .nav-links a{color:var(--text-dim);font-size:13px;font-weight:500;text-decoration:none;padding:6px 14px;border-radius:30px;transition:all .2s}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.06)}
+  .nav-secondary{display:none}
+  .nav-menu{display:none}
+  .nav-language{justify-self:end;color:var(--text-dim);font-size:12px;background:rgba(255,255,255,0.06);padding:4px 12px;border:1px solid var(--border);border-radius:20px;font:inherit;max-width:116px}
+  .nav-actions{display:flex;align-items:center;justify-self:end;gap:8px}.auth-button{padding:8px 15px;border:1px solid rgba(167,139,250,.45);border-radius:20px;background:rgba(124,58,237,.12);color:var(--text);font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:transform .16s ease,background .16s ease,box-shadow .16s ease}
+  .nav-login{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.14);min-width:76px;white-space:nowrap}
+  .nav-upgrade{background:linear-gradient(135deg,#7C3AED,#A78BFA);border-color:rgba(196,181,253,.75);box-shadow:0 4px 0 #4c1d95,0 8px 18px rgba(124,58,237,.26),inset 1px 1px 0 rgba(255,255,255,.35)}
+  .auth-button:hover{transform:translateY(-1px);background:rgba(124,58,237,.28)}
+  .nav-upgrade:hover{background:linear-gradient(135deg,#8B5CF6,#C4B5FD);box-shadow:0 5px 0 #4c1d95,0 11px 22px rgba(124,58,237,.34),inset 1px 1px 0 rgba(255,255,255,.42)}
+  .auth-button:active{transform:translateY(1px) scale(.98);box-shadow:0 1px 0 #4c1d95,0 3px 8px rgba(124,58,237,.22)}
+
+  /* Hero */
+  .hero{text-align:center;padding:100px 24px 60px;position:relative}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.2);
+    padding:6px 14px;border-radius:30px;font-size:12px;font-weight:600;color:var(--accent-light);margin-bottom:24px}
+  .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#10B981;animation:pulse-dot 2s infinite}
+  @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+  .hero h1{font-size:56px;font-weight:800;letter-spacing:-1.5px;line-height:1.08;margin-bottom:16px;text-shadow:0 3px 0 rgba(12,7,35,.72),0 8px 18px rgba(0,0,0,.2)}
+  .hero h1 .grad{background:linear-gradient(135deg,#FFFFFF 0%,#F5EAFE 34%,#E9D5FF 65%,#C4B5FD 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 0 rgba(40,22,84,.5)) drop-shadow(0 0 8px rgba(221,190,255,.38)) drop-shadow(0 8px 14px rgba(0,0,0,.18))}
+  .hero h1 .highlight{position:relative;display:inline-block}
+  .hero h1 .highlight::after{content:'';position:absolute;bottom:2px;left:0;width:100%;height:8px;background:linear-gradient(90deg,#7C3AED,transparent);border-radius:4px;opacity:0.4}
+  .hero p{font-size:17px;color:var(--text-dim);max-width:500px;margin:0 auto 32px;line-height:1.7}
+  .hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:30px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
+  .btn-primary{background:linear-gradient(135deg,#7C3AED,#A78BFA);color:#fff;box-shadow:0 6px 0 #4c1d95,0 11px 24px rgba(124,58,237,.30),inset 1px 1px 0 rgba(255,255,255,.35)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 0 #4c1d95,0 15px 32px rgba(124,58,237,.4),inset 1px 1px 0 rgba(255,255,255,.42)}
+  .btn-ghost{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));color:var(--text);border:1px solid var(--border);box-shadow:0 5px 0 rgba(13,10,37,.65),0 10px 18px rgba(0,0,0,.18),inset 1px 1px 0 rgba(255,255,255,.1)}
+  .btn-ghost:hover{background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.06));transform:translateY(-2px);box-shadow:0 7px 0 rgba(13,10,37,.65),0 14px 22px rgba(0,0,0,.22),inset 1px 1px 0 rgba(255,255,255,.14)}
+
+  /* Before / after example */
+  .example-section{padding:20px 0 12px}
+  .before-after{max-width:760px;margin:0 auto;border:1px solid var(--border);border-radius:24px;overflow:hidden;background:rgba(255,255,255,0.035);box-shadow:12px 16px 34px rgba(0,0,0,.25),inset 1px 1px 0 rgba(255,255,255,.06)}
+  .before-after-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)}
+  .before-after-head strong{color:var(--text);font-size:14px}
+  .comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;min-height:0;padding:16px;position:relative;background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(124,58,237,.055))}
+  .demo-side{position:relative;overflow:hidden;background:#16142a;border:1px solid rgba(255,255,255,.08);border-radius:18px;aspect-ratio:3/4;box-shadow:8px 10px 22px rgba(3,1,16,.28)}
+  .demo-side img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 50%}
+  .demo-side::after{position:absolute;top:14px;left:14px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .demo-side.before::after{content:'Before';background:rgba(10,10,26,.55);color:#ddd}
+  .demo-side.after::after{content:'After';background:rgba(255,255,255,.16);color:#fff}
+  .comparison-divider{display:none;position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.8);z-index:3;box-shadow:0 0 20px #c4a5ff}
+  .comparison-divider span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#6d38c7;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .example-note{text-align:center;color:var(--text-dim);font-size:12px;padding:14px 20px}
+
+  /* Tool Grid — glow cards */
+  .section-label{text-align:center;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px}
+  .section-title{text-align:center;font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:32px}
+  .section-title .title-3d{text-shadow:0 3px 0 rgba(12,7,35,.68),0 8px 16px rgba(0,0,0,.18)}
+  .section-title .grad{background:linear-gradient(135deg,#A78BFA,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .base-tool-grid{grid-template-columns:repeat(2,1fr);max-width:760px;margin:12px auto 0}
+  .quick-tool-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .quick-tool-grid .tool-card{padding:24px 18px}
+  .tool-group-title{margin:28px 0 12px;color:var(--text-dim);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;
+    cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden}
+  .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+  .tool-card:hover{background:var(--card-hover);border-color:rgba(124,58,237,0.2);transform:translateY(-2px)}
+  .tool-card:hover::before{opacity:1}
+  /* Soft 3D Toy — friendly, layered controls without changing the site structure. */
+  .tool-card{border-color:rgba(255,255,255,.09);box-shadow:9px 10px 20px rgba(4,2,18,.28),-5px -5px 14px rgba(120,86,175,.05),inset 1px 1px 0 rgba(255,255,255,.055)}
+  .tool-card:hover{box-shadow:12px 15px 28px rgba(3,1,16,.40),-5px -5px 16px rgba(142,103,209,.09),inset 1px 1px 0 rgba(255,255,255,.08)}
+  .tool-card .icon.neon-icon{width:56px;height:56px;margin:0 0 14px;display:grid;place-items:center;position:relative;
+    border:1px solid rgba(255,255,255,.34);border-radius:19px;background:linear-gradient(145deg,#bda8ff 0%,#8c80e8 48%,#71c9ee 100%);
+    box-shadow:7px 8px 0 rgba(49,31,99,.34),10px 13px 23px rgba(0,0,0,.28),inset 2px 2px 2px rgba(255,255,255,.62),inset -3px -4px 5px rgba(73,54,159,.32);
+    color:#fff;font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;font-size:28px;font-weight:900;line-height:1;text-shadow:0 2px 0 rgba(62,37,135,.56),0 3px 8px rgba(37,20,90,.34);transition:transform .3s,box-shadow .3s}
+  .tool-card .icon.neon-icon::before{content:"";position:absolute;inset:5px 7px auto;height:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));opacity:.8}
+  .tool-card .icon.neon-icon::after{content:attr(data-mark);position:relative;z-index:1}
+  .tool-card:hover .icon.neon-icon,.tool-card.active .icon.neon-icon{transform:translateY(-4px) rotate(-2deg);box-shadow:8px 11px 0 rgba(49,31,99,.36),14px 19px 26px rgba(0,0,0,.34),inset 2px 2px 2px rgba(255,255,255,.7),inset -3px -4px 5px rgba(73,54,159,.32)}
+  /* Each tool gets its own Soft 3D Toy color while keeping one shared visual system. */
+  .tool-card[data-tool="game-avatar"] .neon-icon{background:linear-gradient(145deg,#c6a8ff 0%,#8464df 54%,#6952ba 100%)}
+  .tool-card[data-tool="cartoon"] .neon-icon{background:linear-gradient(145deg,#ffbedc 0%,#ed76b3 52%,#c64a91 100%)}
+  .tool-card[data-tool="travel-art"] .neon-icon{background:linear-gradient(145deg,#a7f3d0 0%,#38bdf8 52%,#6366f1 100%)}
+  .tool-card[data-tool="art"] .neon-icon{background:linear-gradient(145deg,#ffd89a 0%,#f49a68 52%,#cf5c77 100%)}
+  .tool-card[data-tool="change-background"] .neon-icon{background:linear-gradient(145deg,#8fe7cf 0%,#51bfa8 52%,#4088a4 100%)}
+  .tool-card[data-tool="remove-object"] .neon-icon{background:linear-gradient(145deg,#c1d7ff 0%,#789ce8 52%,#6c68c8 100%)}
+  .tool-card[data-tool="scene-lighting"] .neon-icon{background:linear-gradient(145deg,#ffe38e 0%,#f4a85c 52%,#d86978 100%)}
+  .tool-card[data-tool="remove-bg"] .neon-icon{background:linear-gradient(145deg,#d7b6ff 0%,#a36fea 52%,#687ee0 100%)}
+  .tool-card[data-tool="upscale"] .neon-icon{background:linear-gradient(145deg,#a5edff 0%,#5fbdea 52%,#6487df 100%)}
+  .tool-card[data-tool="colorize"] .neon-icon{background:linear-gradient(145deg,#ffd5a7 0%,#ec7ca6 52%,#a967d7 100%)}
+  .tool-card[data-tool="generate"] .neon-icon{background:linear-gradient(145deg,#f3c1ff 0%,#d76ee8 52%,#7468df 100%)}
+  .tool-card[data-tool="add-text"] .neon-icon{background:linear-gradient(145deg,#ffc4de 0%,#f678b1 52%,#be5bba 100%)}
+  .tool-card[data-tool="resize-crop"] .neon-icon{background:linear-gradient(145deg,#a8f2df 0%,#54c8c3 52%,#588ce1 100%)}
+  .tool-card[data-tool="compress-convert"] .neon-icon{background:linear-gradient(145deg,#e5c4ff 0%,#a77ce9 52%,#618ddd 100%)}
+  .tool-card[data-tool="pin-before-after"] .neon-icon{background:linear-gradient(145deg,#d9f99d 0%,#38bdf8 52%,#8b5cf6 100%)}
+  .tool-card[data-tool="product-poster"] .neon-icon{background:linear-gradient(145deg,#fef3c7 0%,#fb7185 52%,#8b5cf6 100%)}
+  .tool-card h3,.section-title,.privacy-card h2{letter-spacing:-.25px;text-shadow:0 2px 0 rgba(9,5,27,.55),0 5px 13px rgba(0,0,0,.18)}
+  .tool-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
+  .tool-card p{font-size:12.5px;color:var(--text-dim);line-height:1.6}
+  .tool-card .badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;
+    background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(167,139,250,0.1));color:var(--accent-light);margin-top:12px}
+  .tool-card .arrow{position:absolute;top:24px;right:24px;font-size:14px;color:var(--text-dim);transition:all .3s;opacity:0}
+  .tool-card:hover .arrow{opacity:1;color:var(--accent-light);transform:translateX(3px)}
+  .tool-card.active{background:rgba(124,58,237,.14);border-color:rgba(167,139,250,.58);box-shadow:9px 11px 24px rgba(4,2,18,.34),-4px -4px 13px rgba(142,103,209,.08),inset 1px 1px 0 rgba(255,255,255,.08)}
+  .tool-card.active::before{opacity:1}
+
+  /* SEO guide entry points */
+  .guide-section{padding:34px 0 12px}
+  .guide-label{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-dim);margin-bottom:8px}
+  .guide-title{text-align:center;font-size:28px;font-weight:850;letter-spacing:-.4px;margin-bottom:8px;text-shadow:0 3px 0 rgba(12,7,35,.58),0 8px 16px rgba(0,0,0,.16)}
+  .guide-intro{max-width:620px;margin:0 auto 22px;text-align:center;color:var(--text-dim);font-size:13px;line-height:1.7}
+  .guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .guide-card{min-height:156px;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));box-shadow:9px 11px 24px rgba(4,2,18,.26),inset 1px 1px 0 rgba(255,255,255,.06);color:inherit;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;gap:16px;transition:transform .25s,border-color .25s,background .25s}
+  .guide-card:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.42);background:linear-gradient(145deg,rgba(124,58,237,.14),rgba(255,255,255,.035))}
+  .guide-card strong{display:block;font-size:16px;line-height:1.3;margin-bottom:6px}
+  .guide-card p{color:var(--text-dim);font-size:12.5px;line-height:1.55}
+  .guide-card span{font-size:12px;font-weight:800;color:var(--accent-light)}
+
+  /* Upload Area — glassmorphism */
+  .upload-section{margin:60px auto;text-align:center;max-width:640px}
+  .upload-zone{background:rgba(255,255,255,0.03);border:1.5px dashed rgba(255,255,255,0.1);
+    border-radius:22px;padding:48px 22px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;max-width:560px;margin:0 auto;box-shadow:12px 15px 32px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.06)}
+  .upload-zone::before{content:'';position:absolute;inset:-1px;border-radius:24px;
+    background:linear-gradient(135deg,#7C3AED,#A78BFA,#EC4899,#7C3AED);background-size:400% 400%;
+    opacity:0;transition:opacity .3s;z-index:-1;animation:gradientShift 4s ease infinite}
+  @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .upload-zone:hover::before,.upload-zone.dragover::before{opacity:0.3}
+  .upload-zone:hover,.upload-zone.dragover{border-color:transparent}
+  .upload-zone .icon{font-size:46px;margin-bottom:12px;display:block}
+  .upload-zone h3{font-size:20px;font-weight:700;margin-bottom:6px}
+  .upload-zone p{font-size:14px;color:var(--text-dim)}
+  .upload-zone input{display:none}
+  /* Mobile browsers already offer Camera from the normal image picker. Keeping
+     a second camera button below it created two competing upload routes. */
+  .camera-action{display:none!important}
+  .feedback-link{border:0;background:none;color:var(--text-dim);font:inherit;font-size:12px;cursor:pointer;padding:7px 0}.feedback-link:hover{color:var(--accent-light)}
+  .feedback-dialog{width:min(92vw,500px);border:1px solid var(--border);border-radius:22px;background:#15102a;color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+  .feedback-dialog::backdrop{background:rgba(3,1,12,.72);backdrop-filter:blur(4px)}
+  .feedback-form{padding:26px;text-align:left}.feedback-form h3{margin:0 0 8px;font-size:20px}.feedback-form p{margin:0 0 18px;color:var(--text-dim);font-size:13px;line-height:1.6}.feedback-form label{display:block;margin:13px 0 6px;font-size:12px;font-weight:700}.feedback-form select,.feedback-form textarea,.feedback-form input{box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:12px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:11px}.feedback-form textarea{min-height:110px;resize:vertical}.feedback-form .feedback-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.feedback-status{min-height:18px;margin-top:12px;color:var(--text-dim);font-size:12px}
+  .generation-zone{max-width:560px;margin:0 auto 18px;padding:18px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(145deg,rgba(105,75,164,.13),rgba(255,255,255,.025));text-align:left;box-shadow:10px 13px 28px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08),inset -4px -5px 14px rgba(0,0,0,.09)}
+  .generation-zone label{display:block;font-size:13px;font-weight:700;margin-bottom:10px}
+  .generation-zone textarea{display:block;width:100%;min-height:156px;resize:vertical;padding:14px;border:1px solid var(--border);border-radius:14px;background:rgba(10,10,26,.7);color:var(--text);font:inherit;line-height:1.5;outline:none}
+  .generation-zone textarea:focus{border-color:var(--accent-light);box-shadow:0 0 0 3px rgba(124,58,237,.16)}
+  .style-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+  .style-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:7px 12px;cursor:pointer;font:inherit;font-size:12px;transition:all .2s}
+  .style-chip:hover,.style-chip.active{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
+  .cartoon-setting{min-width:0}.cartoon-setting-label{display:block;font-size:12px;font-weight:800;margin-bottom:8px;color:var(--text)}
+  .cartoon-setting .style-row{margin:0;gap:7px}.cartoon-setting .style-chip{flex:1 1 105px;min-height:40px;padding:7px 10px;font-size:11px;line-height:1.25}
+  .generation-zone .btn{width:100%;justify-content:center}
+  .local-editor{max-width:760px;margin:18px auto 0;padding:24px;border:1px solid var(--border);border-radius:24px;background:linear-gradient(145deg,rgba(105,75,164,.13),rgba(255,255,255,.025));text-align:left;box-shadow:10px 13px 28px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08),inset -4px -5px 14px rgba(0,0,0,.09)}
+  .local-editor[hidden]{display:none}
+  .local-editor h3{font-size:17px;margin-bottom:5px}.local-editor .editor-help{font-size:12px;color:var(--text-dim);margin-bottom:18px}
+  .editor-layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px;align-items:start}
+  .editor-preview{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:#090817;min-height:180px;display:grid;place-items:center}
+  .editor-preview canvas{display:block;width:100%;max-height:460px;object-fit:contain}
+  .editor-controls{display:grid;gap:12px}.editor-controls label{display:grid;gap:5px;font-size:12px;font-weight:700}.editor-controls input,.editor-controls select{width:100%;border:1px solid var(--border);border-radius:10px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:9px}
+  .editor-controls input[type="color"]{height:40px;padding:4px}.editor-controls input[type="range"]{padding:0}.editor-controls .btn{justify-content:center;width:100%;padding:10px 16px}
+  .preset-row{display:flex;gap:6px;flex-wrap:wrap}.preset-chip{border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-dim);border-radius:99px;padding:6px 9px;cursor:pointer;font:inherit;font-size:11px}.preset-chip.active,.preset-chip:hover{color:#fff;border-color:var(--accent-light);background:rgba(124,58,237,.2)}
+  .secondary-upload{border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:12px;background:rgba(255,255,255,.035)}
+  .secondary-upload input{padding:0;border:0;background:transparent;color:var(--text-dim)}
+  .tool-indicator{display:inline-block;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
+    background:rgba(124,58,237,0.12);color:var(--accent-light);margin-bottom:16px}
+  .quota-status{margin:-7px 0 18px;font-size:12px;color:var(--text-dim)}
+
+  /* Result */
+  .result-area{display:none;margin:24px auto;gap:24px;max-width:640px}
+  .result-area.show{display:grid;grid-template-columns:1fr 1fr}
+  .result-area.generate-mode.show{grid-template-columns:1fr}
+  .result-area.generate-mode .original-panel{display:none}
+  .result-panel{background:linear-gradient(145deg,rgba(105,75,164,.13),rgba(255,255,255,.025));border-radius:var(--radius);padding:16px;border:1px solid var(--border);box-shadow:9px 12px 25px rgba(3,1,16,.24),inset 1px 1px 0 rgba(255,255,255,.08),inset -4px -5px 14px rgba(0,0,0,.09)}
+  .result-panel img{width:100%;border-radius:12px;display:block}
+  .result-panel .label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .result-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .btn-sm{padding:8px 16px;border-radius:20px;font-size:13px}
+  .auth-dialog{position:fixed;inset:0;margin:auto;width:min(92vw,420px);max-height:min(90vh,520px);border:1px solid var(--border);border-radius:18px;background:#15102a;color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.55);overflow:auto}
+  .auth-dialog::backdrop{background:rgba(3,1,12,.72);backdrop-filter:blur(4px)}
+  .auth-panel{padding:30px}.auth-panel h3{margin:0 0 8px;font-size:22px}.auth-panel p{color:var(--text-dim);font-size:13px;line-height:1.6;margin:0 0 18px}.auth-panel input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;margin-bottom:12px}.auth-panel input:focus{outline:2px solid rgba(167,139,250,.5);outline-offset:1px}.auth-actions{display:flex;justify-content:flex-end;gap:8px}.auth-actions .btn{transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.auth-actions .btn:active{transform:translateY(2px) scale(.98);filter:brightness(.92)}#authSubmit{min-width:148px}#authSubmit:disabled{opacity:.72;cursor:wait;filter:saturate(.8)}.auth-status{min-height:20px;margin:10px 0 0!important;color:var(--accent-light)!important;font-size:12px!important}.auth-sent-panel{text-align:center;padding:8px 2px 2px}.auth-sent-panel .auth-check{width:54px;height:54px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:#22c55e;color:#fff;font-size:30px;font-weight:800;box-shadow:0 8px 24px rgba(34,197,94,.25)}.auth-sent-panel h4{margin:0 0 12px;color:var(--text);font-size:24px;line-height:1.25}.auth-sent-panel p{margin:0 auto 12px;max-width:300px}.auth-sent-panel .auth-sent-thanks{margin-top:22px;margin-bottom:20px}.auth-sent-panel .btn{min-width:96px}
+  .account-email{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.06);color:var(--text);font-size:13px;word-break:break-all;margin:14px 0 20px}
+  .spinner{display:none;width:28px;height:28px;border:3px solid rgba(255,255,255,0.06);border-top-color:var(--accent-light);border-radius:50%;animation:spin .6s linear infinite;margin:24px auto}
+  .spinner.show{display:block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Features strip */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:60px auto;text-align:center;padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .feature{min-width:0;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .feature .fi{font-size:24px;margin-bottom:8px}
+  .feature h4{font-size:14px;font-weight:600;margin-bottom:4px}
+  .feature p{font-size:12.5px;color:var(--text-dim);margin-left:auto;margin-right:auto}
+  .pricing-section{padding:8px 0 20px;scroll-margin-top:100px}
+  .pricing-card{max-width:760px;margin:0 auto;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid rgba(167,139,250,.35);border-radius:22px;background:linear-gradient(145deg,rgba(124,58,237,.16),rgba(255,255,255,.035));box-shadow:10px 13px 28px rgba(3,1,16,.24),inset 1px 1px 0 rgba(255,255,255,.08)}
+  .pricing-kicker{display:block;color:var(--accent-light);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
+  .pricing-card h2{font-size:24px;line-height:1.2;margin-bottom:8px}.pricing-card p{color:var(--text-dim);font-size:13px;line-height:1.65}.pricing-card strong{color:var(--text)}
+  .pricing-actions{flex:0 0 auto;text-align:center}.pricing-price{display:block;font-size:22px;font-weight:800;margin-bottom:10px}.pricing-price small{font-size:12px;font-weight:500;color:var(--text-dim)}
+  .pricing-note{display:block;margin-top:8px;font-size:11px;color:var(--text-dim)}
+  .privacy-card{max-width:760px;margin:28px auto 28px;padding:24px 28px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(145deg,rgba(142,110,224,.16),rgba(34,25,76,.45));box-shadow:10px 12px 26px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08);text-align:left}
+  .privacy-card h2{font-size:18px;margin-bottom:8px}
+  .privacy-card p{font-size:13px;color:var(--text-dim)}
+
+  /* Email subscription */
+  .subscribe-section{padding:8px 0 18px}
+  .subscribe-card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:center;padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(145deg,rgba(124,58,237,.16),rgba(34,25,76,.38));box-shadow:10px 12px 26px rgba(3,1,16,.22),inset 1px 1px 0 rgba(255,255,255,.08);text-align:left}
+  .subscribe-kicker{display:inline-block;margin-bottom:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-light)}
+  .subscribe-card h2{font-size:22px;line-height:1.25;margin-bottom:7px;text-shadow:0 2px 0 rgba(9,5,27,.55),0 5px 13px rgba(0,0,0,.18)}
+  .subscribe-card p{font-size:13px;color:var(--text-dim);line-height:1.65}
+  .subscribe-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+  .subscribe-form input{min-height:44px;width:100%;border:1px solid var(--border);border-radius:14px;background:rgba(8,6,22,.8);color:var(--text);font:inherit;padding:10px 13px;outline:none}
+  .subscribe-form input:focus{border-color:var(--accent-light);box-shadow:0 0 0 3px rgba(124,58,237,.16)}
+  .subscribe-form .btn{min-height:44px;justify-content:center;white-space:nowrap}
+  .subscribe-status{grid-column:1/-1;min-height:18px;color:var(--text-dim);font-size:12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  html[dir="rtl"] .subscribe-card{text-align:right}
+
+  /* Footer */
+  footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--text-dim)}
+  footer a{color:var(--accent-light);text-decoration:none;transition:color .2s}
+  footer a:hover{color:#C4B5FD}
+  footer .sister{margin-top:8px;font-size:12px}
+  footer .partner-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-top:10px;font-size:12px}
+
+	  @media(max-width:768px){
+    .container{padding:0 16px}.hero h1{font-size:32px}.tool-grid,.base-tool-grid{grid-template-columns:1fr}.result-area.show{grid-template-columns:1fr}.features{grid-template-columns:1fr;gap:16px}.pricing-card{padding:24px 20px;display:block}.pricing-actions{margin-top:20px}.hero{padding:60px 16px 32px}.upload-zone{padding:36px 16px}.generation-zone{padding:16px;margin-bottom:16px}.generation-zone textarea{min-height:150px}.editor-layout{grid-template-columns:1fr}.editor-preview canvas{max-height:360px}
+    .subscribe-card{grid-template-columns:1fr;padding:20px}.subscribe-form{grid-template-columns:1fr}.subscribe-form .btn{width:100%}
+    .guide-grid{grid-template-columns:1fr}.guide-title{font-size:23px}.guide-card{min-height:132px}
+    nav{top:8px;padding:0 16px}.nav-inner{display:flex;justify-content:space-between;border-radius:16px;padding:9px 12px}.logo img{width:36px;height:36px}.nav-links,.nav-actions{display:none}.nav-menu{display:block;position:relative}.nav-menu summary{list-style:none;cursor:pointer;padding:7px 11px;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}.nav-menu summary::-webkit-details-marker{display:none}.nav-secondary{display:flex;flex-direction:column;gap:4px;position:absolute;right:0;top:43px;width:190px;padding:8px;background:#17152d;border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}.nav-secondary .nav-language{display:block;max-width:none;width:100%;padding:8px 10px}
+	    .nav-secondary a{color:var(--text-dim);font-size:13px;text-decoration:none;padding:8px 10px;border-radius:8px}.nav-secondary a:hover{background:rgba(255,255,255,.06);color:var(--text)}.comparison{gap:10px;padding:10px}.before-after-head{padding:13px 15px;align-items:flex-start;gap:8px;flex-direction:column}.privacy-card{padding:20px}
+	  }
+</style>
 </head>
 <body>
-<main>
-  <header>
-    <a href="../">✦ PictTool</a>
-    <div class="legal-tools"><label for="language">Language</label> <select id="language" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select></div>
-    <h1 id="title">AI Content &amp; Likeness Rules</h1>
-    <div class="updated" id="updated">Last updated: August 25, 2026</div>
-  </header>
-  <div class="card" id="content"></div>
-  <footer><a href="../terms/">Terms of Service</a> · <a href="../privacy/">Privacy Policy</a> · <a href="../refund/">Refund Policy</a></footer>
-</main>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <img src="assets/logo.svg" alt="Pict" width="48" height="48" style="border-radius:10px;" />
+      <span class="grad">Pict</span>
+    </div>
+    <div class="nav-links">
+      <a href="#tools" data-i18n="nav.tools">Tools</a>
+      <a href="#examples" data-i18n="nav.examples">Examples</a>
+      <a href="#guides" data-i18n="nav.guides">Guides</a>
+      <a href="privacy/" data-i18n="nav.privacy">Privacy</a>
+      <a href="#upload" data-i18n="nav.try">Try Now</a>
+    </div>
+    <div class="nav-actions">
+      <select class="nav-language" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="pt">Português</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="ar">العربية</option>
+        <option value="de">Deutsch</option>
+      </select>
+      <button class="auth-button nav-login" id="authButton" type="button" onclick="openAuthDialog()" data-i18n="auth.login">Log in</button>
+      <button class="auth-button nav-upgrade" type="button" onclick="openProCheckout(event)" data-i18n="pro.button">Upgrade</button>
+    </div>
+    <details class="nav-menu">
+      <summary>Menu</summary>
+      <div class="nav-secondary">
+        <a href="#tools" data-i18n="nav.tools">Tools</a>
+        <a href="#examples" data-i18n="nav.examples">Examples</a>
+        <a href="#guides" data-i18n="nav.guides">Guides</a>
+        <a href="privacy/" data-i18n="nav.privacy">Privacy</a>
+        <a href="#upload" data-i18n="nav.try">Try Now</a>
+        <select class="nav-language" id="mobileLangSelect" onchange="setMobileLanguage(this.value)" aria-label="Select language">
+          <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="fr">Français</option><option value="pt">Português</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ar">العربية</option><option value="de">Deutsch</option>
+        </select>
+        <button class="auth-button nav-login" type="button" onclick="openAuthDialog()" data-i18n="auth.login">Log in</button>
+      </div>
+    </details>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Free AI image tools — no sign-up required</div>
+  <h1>
+    <span class="grad">AI Image Tools</span><br>
+    <span class="highlight">Fast, Free</span>, Beautiful
+  </h1>
+  <p>Remove backgrounds, upscale, colorize, and generate images — all powered by AI, right in your browser.</p>
+  <div class="hero-actions">
+    <a href="#upload" class="btn btn-primary">✨ Try It Now</a>
+    <a href="#tools" class="btn btn-ghost">View All Tools →</a>
+  </div>
+</section>
+
+<section class="container example-section" id="examples">
+  <div class="before-after">
+    <div class="before-after-head"><strong data-i18n="example.title">Turn travel photos into comic art</strong><span data-i18n="example.subtitle">AI comic-style travel example</span></div>
+    <div class="comparison" aria-label="Before and after beach travel photo comic-art comparison">
+      <div class="demo-side before"><img src="assets/homepage-travel-comic-before.jpg" alt="Beach travel photo before AI comic transformation" /></div>
+      <div class="demo-side after"><img src="assets/homepage-travel-comic-after.jpg" alt="Beach travel photo after AI comic transformation" /></div>
+      <div class="comparison-divider" aria-hidden="true"><span>↔</span></div>
+    </div>
+    <p class="example-note" data-i18n="example.note">A real example — upload your own travel photo to create your result.</p>
+  </div>
+</section>
+
+<section class="container" id="tools">
+  <div class="section-label">🧰 AI Tools</div>
+  <h2 class="section-title"><span class="title-3d">Everything you need,</span> <span class="grad">one click away</span></h2>
+  <p class="tool-group-title">✦ Featured tools</p>
+  <div class="tool-grid">
+    <a href="#upload" class="tool-card" data-tool="product-poster" onclick="selectTool('product-poster')">
+      <span class="icon neon-icon" data-mark="$" aria-hidden="true"></span>
+      <h3>AI Product Poster</h3>
+      <p>Turn a product photo into a polished poster-style image for shops, Pinterest, and social posts.</p>
+      <span class="badge">✨ New</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card active" data-tool="game-avatar" onclick="selectTool('game-avatar')"><span class="icon neon-icon" data-mark="⌘" aria-hidden="true"></span><h3>Game Fantasy Avatar</h3><p>Turn a portrait into an original fantasy RPG avatar. No named characters or games.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="cartoon" onclick="selectTool('cartoon')"><span class="icon neon-icon" data-mark="☺" aria-hidden="true"></span><h3>Photo to Cartoon</h3><p>Make a clean, charming cartoon version while keeping the subject recognizable.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="travel-art" onclick="selectTool('travel-art')"><span class="icon neon-icon" data-mark="◎" aria-hidden="true"></span><h3>Travel Photo to Art</h3><p>Turn landmarks, streets, buildings, and scenery into illustrated travel art.</p><span class="badge">✨ New</span><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="art" onclick="selectTool('art')"><span class="icon neon-icon" data-mark="✦" aria-hidden="true"></span><h3>Art Style</h3><p>Give a photo an original editorial digital-art finish.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="change-background" onclick="selectTool('change-background')"><span class="icon neon-icon" data-mark="◈" aria-hidden="true"></span><h3>Change Background</h3><p>Keep the subject and create a new scene around it.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="remove-object" onclick="selectTool('remove-object')"><span class="icon neon-icon" data-mark="⊘" aria-hidden="true"></span><h3>Remove Object</h3><p>Remove one unwanted item while keeping the rest of your photo intact.</p><span class="arrow">→</span></a>
+    <a href="#upload" class="tool-card" data-tool="scene-lighting" onclick="selectTool('scene-lighting')"><span class="icon neon-icon" data-mark="☀" aria-hidden="true"></span><h3>Lighting Enhance</h3><p>Improve light, color, and atmosphere without changing the scene.</p><span class="arrow">→</span></a>
+  </div>
+  <p class="tool-group-title">✦ Everyday image tools</p>
+  <div class="tool-grid base-tool-grid">
+    <a href="#upload" class="tool-card active" data-tool="remove-bg" onclick="selectTool('remove-bg')">
+      <span class="icon neon-icon" data-mark="⌁" aria-hidden="true"></span>
+      <h3>Remove Background</h3>
+      <p>Instantly remove image backgrounds with AI. Perfect for people, products, and game screenshots.</p>
+      <span class="badge">🔥 Popular</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="upscale" onclick="selectTool('upscale')">
+      <span class="icon neon-icon" data-mark="↗" aria-hidden="true"></span>
+      <h3>AI Upscale 4x</h3>
+      <p>Enhance and upscale low-resolution images up to 4x. Revive old photos and game captures.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="colorize" onclick="selectTool('colorize')">
+      <span class="icon neon-icon" data-mark="◉" aria-hidden="true"></span>
+      <h3>Colorize Photo</h3>
+      <p>Bring black & white photos to life with realistic AI colorization. Preserves original details.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="generate" onclick="selectTool('generate')">
+      <span class="icon neon-icon" data-mark="✧" aria-hidden="true"></span>
+      <h3>Text to Image</h3>
+      <p>Generate stunning images from text. Powered by Stable Diffusion — describe, create, download.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+  <p class="tool-group-title">✦ Quick tools — free &amp; private in your browser</p>
+  <div class="tool-grid quick-tool-grid">
+    <a href="#upload" class="tool-card" data-tool="add-text" onclick="selectTool('add-text')">
+      <span class="icon neon-icon" data-mark="T" aria-hidden="true"></span>
+      <h3>Add Text to Image</h3>
+      <p>Add a headline or caption with fonts, color, shadow, and simple placement controls.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="resize-crop" onclick="selectTool('resize-crop')">
+      <span class="icon neon-icon" data-mark="↔" aria-hidden="true"></span>
+      <h3>Resize &amp; Crop</h3>
+      <p>Make a clean, ready-to-share image for Instagram, Pinterest, YouTube, and more.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="compress-convert" onclick="selectTool('compress-convert')">
+      <span class="icon neon-icon" data-mark="⇲" aria-hidden="true"></span>
+      <h3>Compress &amp; Convert</h3>
+      <p>Reduce file size or convert between JPG, PNG, and WebP before you share.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+    <a href="#upload" class="tool-card" data-tool="pin-before-after" onclick="selectTool('pin-before-after')">
+      <span class="icon neon-icon" data-mark="P" aria-hidden="true"></span>
+      <h3>Pinterest Before/After</h3>
+      <p>Combine an original and edited image into a vertical Pinterest before/after pin.</p>
+      <span class="badge">Free · No AI needed</span><span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="container guide-section" id="guides">
+  <div class="guide-label" data-i18n="guides.label">Detailed guides</div>
+  <h2 class="guide-title" data-i18n="guides.title">Learn more by task</h2>
+  <p class="guide-intro" data-i18n="guides.intro">These pages explain use cases, examples, and tips. Use the tool cards above when you are ready to edit.</p>
+  <div class="guide-grid">
+    <a class="guide-card" href="photo-to-comic/">
+      <div><strong data-i18n="guides.comic.title">Photo to Comic</strong><p data-i18n="guides.comic.desc">Turn portraits, pets, and travel photos into colorful comic-style illustrations.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="remove-background/">
+      <div><strong data-i18n="guides.remove.title">Remove Background</strong><p data-i18n="guides.remove.desc">Create clean cutouts for products, people, profile images, and social posts.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="travel-photo-to-art/">
+      <div><strong data-i18n="guides.travel.title">Travel Photo to Art</strong><p data-i18n="guides.travel.desc">Transform travel snapshots into watercolor-style art for Pinterest and memories.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="image-compressor/">
+      <div><strong data-i18n="guides.compress.title">Image Compressor</strong><p data-i18n="guides.compress.desc">Reduce image file size and convert JPG, PNG, or WebP before sharing.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="resize-crop-image/">
+      <div><strong data-i18n="guides.resize.title">Resize &amp; Crop Image</strong><p data-i18n="guides.resize.desc">Crop images for Pinterest, Instagram, YouTube, and other social formats.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+    <a class="guide-card" href="product-poster/">
+      <div><strong data-i18n="guides.poster.title">AI Product Poster</strong><p data-i18n="guides.poster.desc">Turn a product photo into a polished poster-style image for shops and social posts.</p></div>
+      <span data-i18n="guides.open">Open guide →</span>
+    </a>
+  </div>
+</section>
+
+<section class="container" id="privacy" style="scroll-margin-top:100px;">
+  <div class="privacy-card">
+    <h2 data-i18n="privacy.title">Your images deserve care</h2>
+    <p data-i18n="privacy.body">Pict does not require an account to try its tools. Uploads are used only to process your request. Please avoid uploading sensitive, personal, or confidential images while this service is in preview.</p>
+  </div>
+</section>
+
+<section class="container upload-section" id="upload" style="scroll-margin-top:100px;">
+  <div class="section-label">🚀 Get Started</div>
+  <h2 class="section-title">Upload & <span class="grad">Transform</span></h2>
+  <div class="tool-indicator" id="toolIndicator">✂️ Remove Background</div>
+  <p class="quota-status" id="quotaStatus" aria-live="polite">Free today: 3 basic edits · 1 image generation</p>
+
+  <div class="generation-zone" id="creativeOptions" hidden>
+    <label for="creativePrompt" id="creativePromptLabel" data-i18n="creative.game-avatar.label">Optional scene description</label>
+    <textarea id="creativePrompt" maxlength="500" data-i18n-placeholder="creative.game-avatar.placeholder" placeholder="For example: a moonlit forest with soft blue light"></textarea>
+    <div id="cartoonControls" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:0 0 14px;">
+      <div class="cartoon-setting">
+        <span id="cartoonStyleLabel" class="cartoon-setting-label">Cartoon style</span>
+        <div class="style-row cartoon-style-row" id="cartoonStyleButtons">
+          <button class="style-chip active" type="button" data-value="soft 3D animated film illustration with expressive faces, clean stylized shapes, warm cinematic lighting, and refined character rendering">Movie animation</button>
+          <button class="style-chip" type="button" data-value="clean Japanese anime illustration">Japanese anime</button>
+          <button class="style-chip" type="button" data-value="storybook watercolor illustration">Storybook watercolor</button>
+          <button class="style-chip" type="button" data-value="bright 3D cartoon character art">3D cartoon</button>
+          <button class="style-chip" type="button" data-value="clean ink comic illustration">Comic ink</button>
+        </div>
+        <select id="cartoonStyle" aria-hidden="true" tabindex="-1" style="display:none">
+          <option value="soft 3D animated film illustration with expressive faces, clean stylized shapes, warm cinematic lighting, and refined character rendering" selected>Movie animation</option>
+          <option value="clean Japanese anime illustration">Japanese anime</option>
+          <option value="storybook watercolor illustration">Storybook watercolor</option>
+          <option value="bright 3D cartoon character art">3D cartoon</option>
+          <option value="clean ink comic illustration">Comic ink</option>
+        </select>
+      </div>
+      <div class="cartoon-setting">
+        <span id="cartoonPreserveLabel" class="cartoon-setting-label">Original preservation</span>
+        <div class="style-row cartoon-preserve-row" id="cartoonPreserveButtons">
+          <button class="style-chip active" type="button" data-value="strictly preserve the original photo">High</button>
+          <button class="style-chip" type="button" data-value="preserve the original while improving the illustration">Balanced</button>
+          <button class="style-chip" type="button" data-value="allow creative redesign while keeping the subject recognizable">Creative</button>
+        </div>
+        <select id="cartoonPreserve" aria-hidden="true" tabindex="-1" style="display:none">
+          <option value="strictly preserve the original photo" selected>High</option>
+          <option value="preserve the original while improving the illustration">Balanced</option>
+          <option value="allow creative redesign while keeping the subject recognizable">Creative</option>
+        </select>
+      </div>
+    </div>
+    <p id="creativeHelp" data-i18n="creative.game-avatar.help" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Upload an image, then Pict will create the selected effect.</p>
+  </div>
+  <div class="upload-zone" id="dropZone">
+    <span class="icon" id="dropIcon">📁</span>
+    <h3>Drop image here or click to browse</h3>
+    <p>JPG, PNG, WEBP — up to 20MB</p>
+    <input type="file" id="fileInput" accept="image/*" />
+    <input type="file" id="cameraInput" accept="image/jpeg,image/png,image/webp" capture="environment" />
+  </div>
+  <button class="camera-action" id="cameraButton" type="button" data-i18n="camera.take" hidden>📷 Take a photo</button>
+
+  <div class="local-editor" id="localEditor" hidden>
+    <h3 id="localEditorTitle">Add Text to Image</h3>
+    <p class="editor-help" id="localEditorHelp">Your image stays in this browser. Adjust the controls, then download your result.</p>
+    <div class="editor-layout">
+      <div class="editor-preview"><canvas id="localCanvas" width="1200" height="800"></canvas></div>
+      <div class="editor-controls">
+        <div id="textControls">
+          <label>Headline<input id="textHeadline" maxlength="80" placeholder="Your headline"></label>
+          <label>Caption (optional)<input id="textCaption" maxlength="120" placeholder="A short supporting line"></label>
+          <label>Font style<select id="textFont"><option value="Arial Black,Arial,sans-serif">Bold Sans</option><option value="Georgia,serif">Classic Serif</option><option value="Trebuchet MS,Arial,sans-serif">Friendly</option><option value="Impact,Arial Black,sans-serif">Poster</option></select></label>
+          <label>Text color<input id="textColor" type="color" value="#ffffff"></label>
+          <label>Position<div class="preset-row" id="textPosition"><button class="preset-chip" type="button" data-value="top">Top</button><button class="preset-chip active" type="button" data-value="center">Center</button><button class="preset-chip" type="button" data-value="bottom">Bottom</button></div></label>
+        </div>
+        <div id="resizeControls" hidden>
+          <label>Choose a size<div class="preset-row" id="resizePreset"><button class="preset-chip active" type="button" data-value="original">Original</button><button class="preset-chip" type="button" data-value="square">Square</button><button class="preset-chip" type="button" data-value="portrait">Portrait</button><button class="preset-chip" type="button" data-value="landscape">Landscape</button><button class="preset-chip" type="button" data-value="story">Story</button></div></label>
+          <p class="editor-help">Square 1:1 · Portrait 4:5 · Landscape 16:9 · Story 9:16</p>
+        </div>
+        <div id="compressControls" hidden>
+          <label>Download format<select id="compressFormat"><option value="image/jpeg">JPG — smaller files</option><option value="image/webp">WebP — smallest for web</option><option value="image/png">PNG — highest quality</option></select></label>
+          <label>Quality <span id="qualityValue">82%</span><input id="compressQuality" type="range" min="50" max="95" value="82"></label>
+          <p class="editor-help">JPG and WebP reduce file size. PNG keeps more detail but may be larger.</p>
+        </div>
+        <div id="pinPosterControls" hidden>
+          <label class="secondary-upload">Edited result image
+            <input id="pinAfterFile" type="file" accept="image/jpeg,image/png,image/webp">
+          </label>
+          <label>Before thumbnail position
+            <div class="preset-row" id="pinInsetPosition">
+              <button class="preset-chip active" type="button" data-value="left">Left</button>
+              <button class="preset-chip" type="button" data-value="right">Right</button>
+            </div>
+          </label>
+          <p class="editor-help">Use the original photo as the first upload, then choose the edited image here. Output is Pinterest 2:3.</p>
+        </div>
+        <div id="productPosterControls" hidden>
+          <label>Poster headline<input id="posterHeadline" maxlength="44" placeholder="New Arrival"></label>
+          <label>Subtitle<input id="posterSubtitle" maxlength="64" placeholder="Clean product poster template"></label>
+          <label>Price<input id="posterPrice" maxlength="24" placeholder="$19.99"></label>
+          <label>Template<div class="preset-row" id="posterTemplate"><button class="preset-chip active" type="button" data-value="clean">Clean</button><button class="preset-chip" type="button" data-value="bold">Bold</button><button class="preset-chip" type="button" data-value="warm">Warm</button></div></label>
+          <p class="editor-help">Tip: use a product image with a simple background or remove the background first.</p>
+        </div>
+        <button class="btn btn-primary" type="button" id="localDownload" data-i18n="local.download">⬇ Download image</button>
+        <button class="btn btn-ghost" type="button" id="localShare" data-i18n="local.share">↗ Share image</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="generation-zone" id="generationZone" hidden>
+    <label for="promptInput" data-i18n="generate.label">Describe the image you want to create</label>
+    <textarea id="promptInput" maxlength="1000" data-i18n-placeholder="generate.placeholder" placeholder="For example: a cozy reading corner with warm afternoon sunlight, editorial photo"></textarea>
+    <p id="promptLanguageNote" style="margin:-4px 0 14px;color:var(--text-dim);font-size:12px;">Tip: English prompts usually produce more accurate results.</p>
+    <div class="style-row" aria-label="Image style">
+      <button class="style-chip active" type="button" data-style="photorealistic" data-i18n="style.photo" onclick="setGenerationStyle(this)">Photo</button>
+      <button class="style-chip" type="button" data-style="cartoon illustration" data-i18n="style.cartoon" onclick="setGenerationStyle(this)">Cartoon</button>
+      <button class="style-chip" type="button" data-style="fine art" data-i18n="style.art" onclick="setGenerationStyle(this)">Art</button>
+    </div>
+    <button class="btn btn-primary" type="button" data-i18n="generate.create" onclick="generateImage()">✨ Create image</button>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <div class="result-panel original-panel">
+      <div class="label">📄 Original</div>
+      <img id="originalImg" src="" alt="original" />
+    </div>
+    <div class="result-panel">
+      <div class="label">✨ Result</div>
+      <div id="resultContent" style="min-height:100px;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+        <div class="spinner" id="spinner"></div>
+        <p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>
+      </div>
+      <div class="result-actions" id="resultActions" style="display:none;">
+        <button class="btn btn-primary btn-sm" onclick="downloadResult()">⬇ Download</button>
+        <button class="btn btn-ghost btn-sm" onclick="shareResult()">↗ Share result</button>
+        <button class="btn btn-ghost btn-sm" onclick="shareToPinterest()">📌 Pinterest</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyPictToolLink()">🔗 Copy link</button>
+        <button class="btn btn-ghost btn-sm" onclick="resetUpload()">🔄 Try Another</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container features">
+  <div class="feature">
+    <div class="fi">⚡</div>
+    <h4>Lightning Fast</h4>
+    <p>AI processing in seconds. No queue, no waiting.</p>
+  </div>
+  <div class="feature">
+    <div class="fi">🔒</div>
+    <h4>100% Private</h4>
+    <p>Images processed temporarily and deleted immediately.</p>
+  </div>
+  <div class="feature">
+    <div class="fi">💸</div>
+    <h4>Free Daily Usage</h4>
+    <p>No credit card needed. Free allowances every day.</p>
+  </div>
+</section>
+
+<section class="container pricing-section" id="pro">
+  <div class="pricing-card">
+    <div>
+      <span class="pricing-kicker" data-i18n="pro.kicker">Pict Pro</span>
+      <h2 data-i18n="pro.title">More credits for your best images</h2>
+      <p data-i18n="pro.desc">300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.</p>
+    </div>
+    <div class="pricing-actions">
+      <span class="pricing-price">US$9 <small data-i18n="pro.month">/ month</small></span>
+      <a class="btn btn-primary" href="#pro" onclick="return openProCheckout(event)" data-i18n="pro.button">Upgrade to Pro</a>
+      <span class="pricing-note" data-i18n="pro.note">Secure checkout by Paddle</span>
+    </div>
+  </div>
+</section>
+
+<section class="container subscribe-section" id="subscribe">
+  <div class="subscribe-card">
+    <div>
+      <span class="subscribe-kicker" data-i18n="subscribe.kicker">PictTool updates</span>
+      <h2 data-i18n="subscribe.title">Get new AI image tools in your inbox</h2>
+      <p data-i18n="subscribe.desc">Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.</p>
+    </div>
+    <form class="subscribe-form" id="subscribeForm">
+      <label class="sr-only" for="subscribeEmail" data-i18n="subscribe.emailLabel">Email address</label>
+      <input id="subscribeEmail" name="email" type="email" maxlength="254" autocomplete="email" required data-i18n-placeholder="subscribe.placeholder" placeholder="you@example.com" />
+      <button class="btn btn-primary btn-sm" type="submit" data-i18n="subscribe.button">Subscribe</button>
+      <p class="subscribe-status" id="subscribeStatus" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>Built with ❤️ — <a href="https://pict-ai.pages.dev">Pict</a> · AI Image Tools · Free for everyone</p>
+  <p class="legal-links"><a href="#pro">Pricing</a> · <a href="terms/">Terms of Service</a> · <a href="privacy/">Privacy Policy</a> · <a href="refund/">Refund Policy</a></p>
+  <button class="feedback-link" id="feedbackButton" type="button" data-i18n="feedback.button">💬 Feedback</button>
+  <p class="sister">Friends &amp; partners</p>
+  <p class="partner-links">
+    <a href="https://gearup.sjv.io/c/7462059/3204502/40222" target="_blank" rel="noopener nofollow">🚀 GearUP</a>
+    <a href="https://www.exitlag.com/refer/10324758" target="_blank" rel="noopener nofollow">🌍 ExitLag</a>
+    <a href="/blog/original-game-avatar-guide">📖 Avatar Guide</a>
+    <a href="https://genshinwiki.cn" target="_blank" rel="noopener">Genshin Guide</a>
+    <a href="https://eggywiki.com" target="_blank" rel="noopener">Eggy Wiki</a>
+  </p>
+</footer>
+
+<dialog class="feedback-dialog" id="feedbackDialog">
+  <form class="feedback-form" id="feedbackForm">
+    <h3 data-i18n="feedback.title">Help us improve Pict</h3>
+    <p data-i18n="feedback.desc">Tell us what worked, what did not, or what you would like next.</p>
+    <label for="feedbackType" data-i18n="feedback.type">Feedback type</label>
+    <select id="feedbackType">
+      <option value="idea" data-i18n="feedback.idea">Feature idea</option>
+      <option value="problem" data-i18n="feedback.problem">Something went wrong</option>
+      <option value="result" data-i18n="feedback.result">Result needs improvement</option>
+      <option value="other" data-i18n="feedback.other">Other</option>
+    </select>
+    <label for="feedbackMessage" data-i18n="feedback.message">Your feedback</label>
+    <textarea id="feedbackMessage" maxlength="500" required data-i18n-placeholder="feedback.placeholder" placeholder="Please share your idea or issue..."></textarea>
+    <label for="feedbackEmail" data-i18n="feedback.email">Email (optional, only if you want a reply)</label>
+    <input id="feedbackEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" />
+    <div class="feedback-status" id="feedbackStatus" aria-live="polite"></div>
+    <div class="feedback-actions"><button type="button" class="btn btn-ghost btn-sm" id="feedbackClose" data-i18n="feedback.close">Cancel</button><button type="submit" class="btn btn-primary btn-sm" data-i18n="feedback.send">Send feedback</button></div>
+  </form>
+</dialog>
+
+<dialog class="auth-dialog" id="accountDialog">
+  <div class="auth-panel">
+    <h3 data-i18n="auth.account">Account</h3>
+    <p data-i18n="auth.signedIn">You are signed in with:</p>
+    <span class="account-email" id="accountEmail"></span>
+    <div class="auth-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAccountDialog()" data-i18n="auth.close">Close</button><button class="btn btn-primary btn-sm" type="button" onclick="signOutAccount()" data-i18n="auth.logout">Log out</button></div>
+  </div>
+</dialog>
+
+<dialog class="auth-dialog" id="authDialog">
+  <form class="auth-panel" onsubmit="submitAuth(event)">
+    <h3 data-i18n="auth.title">Log in to Pict</h3>
+    <p id="authIntro" data-i18n="auth.intro">Enter your email and we will send you a sign-in link.</p>
+    <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="auth.email" />
+    <div class="auth-actions" id="authActions"><button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="feedback.close">Cancel</button><button class="btn btn-primary btn-sm" type="submit" id="authSubmit" data-i18n="auth.send">Send sign-in link</button></div>
+    <div class="auth-sent-panel" id="authSentPanel" hidden aria-live="polite">
+      <div class="auth-check" aria-hidden="true">✓</div>
+      <h4 data-i18n="auth.sent.title">Please check your inbox</h4>
+      <p data-i18n="auth.sent.body">We just sent you a confirmation email.</p>
+      <p data-i18n="auth.sent.action">Click the link in the email to confirm your account.</p>
+      <p data-i18n="auth.sent.missing">If you don’t see it within a few minutes, check your spam folder.</p>
+      <p class="auth-sent-thanks" data-i18n="auth.sent.thanks">Thanks! PictTool team</p>
+      <button class="btn btn-ghost btn-sm" type="button" onclick="closeAuthDialog()" data-i18n="auth.close">Close</button>
+    </div>
+    <p class="auth-status" id="authStatus" role="status"></p>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2'"></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
-(function(){
+/* Replace these two public values after creating the Supabase project. */
+const SUPABASE_URL = window.PICT_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = window.PICT_SUPABASE_ANON_KEY || '';
+const PADDLE_CLIENT_TOKEN = window.PICT_PADDLE_CLIENT_TOKEN || '';
+const PADDLE_ENVIRONMENT = window.PICT_PADDLE_ENVIRONMENT || 'sandbox';
+const AUTH_REDIRECT_URL = 'https://www.picttool.com/';
+const PADDLE_PRICE_ID = window.PICT_PADDLE_PRICE_ID || 'pri_01m0kr1wzwzgp45w082thzcyaz';
+const supabaseClient = window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+let paddleInitialized = false;
+function initializePaddleCheckout(){
+  if(paddleInitialized)return true;
+  if(!PADDLE_CLIENT_TOKEN || !window.Paddle)return false;
+  window.Paddle.Environment.set(PADDLE_ENVIRONMENT);
+  window.Paddle.Initialize({token:PADDLE_CLIENT_TOKEN});
+  paddleInitialized = true;
+  return true;
+}
+let currentLang = 'en';
+const i18n = {
+  en: {
+    'nav.tools': 'Tools',
+    'nav.examples': 'Examples',
+    'nav.guides': 'Guides',
+    'nav.privacy': 'Privacy',
+    'nav.try': 'Try Now',
+    'badge': 'Free AI image tools — no sign-up required',
+    'hero.title1': 'AI Image Tools',
+    'hero.title2': 'Fast, Free',
+    'hero.title3': 'Beautiful',
+    'hero.desc': 'Remove backgrounds, upscale, colorize, and generate images — all powered by AI, right in your browser.',
+    'hero.cta': '✨ Try It Now',
+    'hero.view': 'View All Tools →',
+    'example.title': 'Turn travel photos into comic art',
+    'example.subtitle': 'AI comic-style travel example',
+    'example.note': 'A real example — upload your own travel photo to create your result.',
+    'guides.label': 'Detailed guides',
+    'guides.title': 'Learn more by task',
+    'guides.intro': 'These pages explain use cases, examples, and tips. Use the tool cards above when you are ready to edit.',
+    'guides.comic.title': 'Photo to Comic',
+    'guides.comic.desc': 'Turn portraits, pets, and travel photos into colorful comic-style illustrations.',
+    'guides.remove.title': 'Remove Background',
+    'guides.remove.desc': 'Create clean cutouts for products, people, profile images, and social posts.',
+    'guides.travel.title': 'Travel Photo to Art',
+    'guides.travel.desc': 'Transform travel snapshots into watercolor-style art for Pinterest and memories.',
+    'guides.compress.title': 'Image Compressor',
+    'guides.compress.desc': 'Reduce image file size and convert JPG, PNG, or WebP before sharing.',
+    'guides.resize.title': 'Resize & Crop Image',
+    'guides.resize.desc': 'Crop images for Pinterest, Instagram, YouTube, and other social formats.',
+    'guides.poster.title': 'Product Poster',
+    'guides.poster.desc': 'Turn a product photo into a polished poster-style image for shops and social posts.',
+    'guides.open': 'Open guide →',
+    'section.tools.label': '🧰 AI Tools',
+    'section.tools.title': 'Everything you need, one click away',
+    'section.upload.label': '🚀 Get Started',
+    'section.upload.title': 'Upload & Transform',
+    'tool.remove-bg': '✂️ Remove Background',
+    'tool.upscale': '🔍 AI Upscale 4x',
+    'tool.colorize': '🎨 Colorize Photo',
+    'tool.generate': '✨ Text to Image',
+    'tool.add-text': '✍️ Add Text to Image', 'tool.resize-crop': '↔️ Resize & Crop', 'tool.compress-convert': '🗜️ Compress & Convert', 'tool.pin-before-after': '📌 Pinterest Before/After', 'tool.product-poster': '🛍️ AI Product Poster',
+    'tool.game-avatar': '🎮 Game Fantasy Avatar', 'tool.cartoon': '🧸 Photo to Cartoon', 'tool.travel-art': '🌄 Travel Photo to Art', 'tool.art': '🖼️ Art Style', 'tool.change-background': '🏞️ Change Background', 'tool.remove-object': '🧹 Remove Object', 'tool.scene-lighting': '💡 Lighting Enhance',
+    'tool.travel-art.desc': 'Turn landmarks, streets, buildings, and scenery into illustrated travel art.',
+    'tool.product-poster.desc': 'Turn a product photo into a polished poster-style image for shops, Pinterest, and social posts.',
+    'tool.pin-before-after.desc': 'Combine an original and edited image into a vertical Pinterest before/after pin.',
+    'tool.remove-object': '🧹 Remove Object',
+    'drop.hint': 'Drop image here or click to browse',
+    'drop.desc': 'JPG, PNG, WEBP — up to 20MB',
+    'camera.take': '📷 Take a photo',
+    'feedback.button': '💬 Feedback', 'feedback.title': 'Help us improve Pict', 'feedback.desc': 'Tell us what worked, what did not, or what you would like next.', 'feedback.type': 'Feedback type', 'feedback.idea': 'Feature idea', 'feedback.problem': 'Something went wrong', 'feedback.result': 'Result needs improvement', 'feedback.other': 'Other', 'feedback.message': 'Your feedback', 'feedback.placeholder': 'Please share your idea or issue...', 'feedback.email': 'Email (optional, only if you want a reply)', 'feedback.close': 'Cancel', 'feedback.send': 'Send feedback',
+    'subscribe.kicker': 'PictTool updates', 'subscribe.title': 'Get new AI image tools in your inbox', 'subscribe.desc': 'Subscribe for new tool updates, Pinterest ideas, and early Pro news. No spam.', 'subscribe.emailLabel': 'Email address', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': 'Subscribe', 'subscribe.sending': 'Subscribing...', 'subscribe.success': "You're subscribed. We'll only send useful PictTool updates.", 'subscribe.error': 'Could not subscribe. Please try again.',
+    'pro.kicker': 'Pict Pro', 'pro.title': 'More credits for your best images', 'pro.desc': '300 credits every month for AI image generation and editing. Your membership is valid for one billing month and renews automatically each month until you cancel.', 'pro.month': '/ month', 'pro.button': 'Upgrade to Pro', 'pro.note': 'Secure checkout by Paddle',
+    'auth.login': 'Sign in', 'auth.title': 'Sign in to PictTool', 'auth.intro': 'Enter your email and we’ll send you a secure sign-in link.', 'auth.email': 'you@example.com', 'auth.send': 'Send secure sign-in link', 'auth.sending': 'Sending…', 'auth.sent': 'Your secure sign-in link is on its way. Check your inbox.', 'auth.sent.title': 'Please check your inbox', 'auth.sent.body': 'We just sent you a confirmation email.', 'auth.sent.action': 'Click the link in the email to confirm your account.', 'auth.sent.missing': 'If you don’t see it within a few minutes, check your spam folder.', 'auth.sent.thanks': 'Thanks! PictTool team', 'auth.setup': 'Login is being configured. Please try again later.', 'auth.invalid': 'That sign-in link is not valid. Please request a new one.', 'auth.account': 'Account', 'auth.signedIn': 'You are signed in with:', 'auth.close': 'Close', 'auth.loggedIn': 'Account', 'auth.logout': 'Log out',
+    'result.original': '📄 Original',
+    'result.result': '✨ Result',
+    'result.download': '⬇ Download',
+    'result.share': '↗ Share result',
+    'result.pinterest': '📌 Pinterest',
+    'result.copylink': '🔗 Copy link',
+    'result.tryagain': '🔄 Try Another',
+    'feature.fast': 'Lightning Fast',
+    'feature.fast.desc': 'AI processing in seconds. No queue, no waiting.',
+    'feature.private': '100% Private',
+    'feature.private.desc': 'Images processed temporarily and deleted immediately.',
+    'feature.free': 'Free Daily Usage',
+    'feature.free.desc': 'No credit card needed. Free allowances every day.',
+    'privacy.title': 'Your images deserve care',
+    'privacy.body': 'Pict does not require an account to try its tools. Uploads are used only to process your request. Please avoid uploading sensitive, personal, or confidential images while this service is in preview.',
+    'footer.text': 'Built with ❤️ — Pict · AI Image Tools · Free for everyone',
+    'footer.sister': 'Friends & partners',
+    'generate.label': 'Describe the image you want to create',
+    'generate.placeholder': 'For example: a cozy reading corner with warm afternoon sunlight, editorial photo',
+    'generate.create': '✨ Create image',
+    'style.photo': 'Photo', 'style.cartoon': 'Cartoon', 'style.art': 'Art',
+    'local.download': '⬇ Download image', 'local.share': '↗ Share image',
+    'local.pin-before-after.help': 'Upload the original first, then add the edited result below. Pict creates a 2:3 Pinterest pin locally in your browser.',
+  },
+  zh: {
+    'nav.tools': '工具',
+    'nav.examples': '示例',
+    'nav.guides': '入口',
+    'nav.privacy': '隐私',
+    'nav.try': '试试看',
+    'badge': '免费 AI 图片工具 — 无需注册',
+    'hero.title1': 'AI 图片工具',
+    'hero.title2': '免费、快速',
+    'hero.title3': '精美',
+    'hero.desc': '去背景、高清化、上色、文生图 — 全部 AI 驱动，浏览器直接使用。',
+    'hero.cta': '✨ 立即体验',
+    'hero.view': '查看全部工具 →',
+    'example.title': '旅行照片也能变漫画',
+    'example.subtitle': 'AI 漫画风旅行照片示例',
+    'example.note': '真实示例 — 上传自己的旅行照片即可开始处理。',
+    'guides.label': '详细指南',
+    'guides.title': '按任务了解更多',
+    'guides.intro': '这些页面用于说明用途、示例和技巧；真正开始处理图片时，请使用上方工具卡片。',
+    'guides.comic.title': '照片转漫画',
+    'guides.comic.desc': '把头像、宠物和旅行照片变成彩色漫画风插画。',
+    'guides.remove.title': '去除背景',
+    'guides.remove.desc': '为商品、人物、头像和社交帖子制作干净抠图。',
+    'guides.travel.title': '旅行照片转艺术',
+    'guides.travel.desc': '把旅行随手拍变成水彩风艺术图，适合 Pinterest 和纪念收藏。',
+    'guides.compress.title': '图片压缩',
+    'guides.compress.desc': '分享前压缩图片体积，或在 JPG、PNG、WebP 之间转换。',
+    'guides.resize.title': '图片改尺寸与裁剪',
+    'guides.resize.desc': '裁剪成 Pinterest、Instagram、YouTube 等平台常用比例。',
+    'guides.poster.title': '商品海报',
+    'guides.poster.desc': '把商品照片变成更适合店铺、Pinterest 和社交发布的海报风图片。',
+    'guides.open': '打开页面 →',
+    'section.tools.label': '🧰 AI 工具',
+    'section.tools.title': '一站式搞定，一键完成',
+    'section.upload.label': '🚀 开始使用',
+    'section.upload.title': '上传 & 处理',
+    'tool.remove-bg': '✂️ 去除背景',
+    'tool.upscale': '🔍 AI 高清化',
+    'tool.colorize': '🎨 照片上色',
+    'tool.generate': '✨ 文字生图',
+    'tool.add-text': '✍️ 图片加文字', 'tool.resize-crop': '↔️ 改尺寸与裁剪', 'tool.compress-convert': '🗜️ 压缩与格式转换', 'tool.pin-before-after': '📌 Pinterest 前后对比', 'tool.product-poster': '🛍️ AI 商品海报',
+    'tool.game-avatar': '🎮 幻想游戏头像', 'tool.cartoon': '🧸 图片卡通化', 'tool.travel-art': '🌄 旅行照片转艺术', 'tool.art': '🖼️ 艺术风格', 'tool.change-background': '🏞️ 更换背景', 'tool.remove-object': '🧹 去除物体', 'tool.scene-lighting': '💡 灯光优化',
+    'tool.travel-art.desc': '把建筑、街景、风景和旅行照片变成插画风旅行艺术图。',
+    'tool.product-poster.desc': '把商品照片变成更适合店铺、Pinterest 和社交发布的海报风图片。',
+    'tool.pin-before-after.desc': '把原图和处理结果合成一张 Pinterest 竖版前后对比图。',
+    'tool.remove-object': '🧹 去除物体',
+    'drop.hint': '拖拽图片到此处或点击上传',
+    'drop.desc': '支持 JPG、PNG、WEBP — 最大 20MB',
+    'camera.take': '📷 拍照上传',
+    'feedback.button': '💬 意见反馈', 'feedback.title': '帮助我们改进 Pict', 'feedback.desc': '告诉我们哪些地方好用、哪些地方需要改进，或你希望增加什么功能。', 'feedback.type': '反馈类型', 'feedback.idea': '功能建议', 'feedback.problem': '遇到问题', 'feedback.result': '处理效果需要改进', 'feedback.other': '其他', 'feedback.message': '你的反馈', 'feedback.placeholder': '请写下你的建议或遇到的问题…', 'feedback.email': '邮箱（选填，仅在希望得到回复时填写）', 'feedback.close': '取消', 'feedback.send': '发送反馈',
+    'subscribe.kicker': 'PictTool 更新', 'subscribe.title': '接收新工具和网站更新', 'subscribe.desc': '订阅后会收到新功能、Pinterest 内容灵感和 Pro 版本消息。不会发送垃圾邮件。', 'subscribe.emailLabel': '邮箱地址', 'subscribe.placeholder': 'you@example.com', 'subscribe.button': '订阅', 'subscribe.sending': '正在订阅...', 'subscribe.success': '订阅成功！有新工具和更新时会通知你。', 'subscribe.error': '暂时无法订阅，请稍后再试。',
+    'pro.kicker': 'Pict Pro', 'pro.title': '更多点数，制作更好的图片', 'pro.desc': '每月 300 点，用于 AI 生图和图片编辑。会员有效期为一个计费月，并会在你取消前每月自动续费。', 'pro.month': '/ 月', 'pro.button': '升级 Pro', 'pro.note': '由 Paddle 提供安全支付',
+    'auth.login': '登录', 'auth.title': '登录 PictTool', 'auth.intro': '输入您的邮箱，我们会发送安全登录链接。', 'auth.email': '你的邮箱', 'auth.send': '发送安全登录链接', 'auth.sending': '正在发送…', 'auth.sent': '安全登录链接已发送，请检查您的收件箱。', 'auth.sent.title': '请查看您的收件箱', 'auth.sent.body': '我们刚刚向您发送了一封确认邮件。', 'auth.sent.action': '点击邮件中的链接即可确认您的账户。', 'auth.sent.missing': '如果几分钟内没有收到，请检查您的垃圾邮件文件夹。', 'auth.sent.thanks': '感谢您！PictTool 团队', 'auth.setup': '登录功能正在配置中，请稍后再试。', 'auth.invalid': '登录链接无效，请重新请求。', 'auth.account': '账户', 'auth.signedIn': '当前登录账户：', 'auth.close': '关闭', 'auth.loggedIn': '账户', 'auth.logout': '退出登录',
+    'result.original': '📄 原图',
+    'result.result': '✨ 处理结果',
+    'result.download': '⬇ 下载',
+    'result.share': '↗ 分享结果',
+    'result.pinterest': '📌 Pinterest',
+    'result.copylink': '🔗 复制链接',
+    'result.tryagain': '🔄 再来一张',
+    'feature.fast': '闪电速度',
+    'feature.fast.desc': 'AI 处理只需几秒，无需排队等待。',
+    'feature.private': '100% 隐私',
+    'feature.private.desc': '图片临时处理，处理完即刻删除。',
+    'feature.free': '每日免费',
+    'feature.free.desc': '无需信用卡，每天免费使用额度。',
+    'privacy.title': '你的图片值得被认真对待',
+    'privacy.body': 'Pict 无需注册即可试用。上传的图片仅用于处理你的请求；在服务仍处于预览阶段时，请不要上传敏感、个人或机密内容。',
+    'footer.text': '用 ❤️ 打造 — Pict · AI 图片工具 · 人人免费',
+    'footer.sister': '友情链接',
+    'generate.label': '描述你想创作的图片',
+    'generate.placeholder': '例如：午后暖阳下舒适的阅读角，杂志摄影风格',
+    'generate.create': '✨ 生成图片',
+    'style.photo': '写实', 'style.cartoon': '卡通', 'style.art': '艺术',
+    'local.download': '⬇ 下载图片', 'local.share': '↗ 分享图片',
+    'local.pin-before-after.help': '先上传原图，再在下方选择处理后的图片。Pict 会在浏览器本地生成 2:3 Pinterest 图片。',
+  }
+};
+
+Object.assign(i18n, {
+  es: {'nav.tools':'Herramientas','nav.examples':'Ejemplos','nav.privacy':'Privacidad','nav.try':'Probar ahora','badge':'Herramientas de imagen con IA — sin registro','hero.title1':'Herramientas de imagen IA','hero.title2':'Rápidas y gratis','hero.title3':'bonitas','hero.desc':'Elimina fondos, mejora, colorea y genera imágenes con IA directamente en tu navegador.','hero.cta':'✨ Probar ahora','hero.view':'Ver todas las herramientas →','example.title':'Ve la diferencia al instante','example.subtitle':'Ejemplo de eliminación de fondo','example.note':'Un ejemplo real: sube tu propia imagen para crear el resultado.','section.tools.label':'🧰 Herramientas IA','section.tools.title':'Todo lo que necesitas, a un clic','section.upload.label':'🚀 Empezar','section.upload.title':'Subir & transformar','tool.remove-bg':'✂️ Quitar fondo','tool.upscale':'🔍 Mejorar imagen 4x','tool.colorize':'🎨 Colorear foto','tool.generate':'✨ Texto a imagen','drop.hint':'Suelta una imagen aquí o haz clic para elegirla','drop.desc':'JPG, PNG, WEBP — hasta 20 MB','privacy.title':'Tus imágenes merecen cuidado','privacy.body':'Pict no requiere una cuenta. Las imágenes se usan solo para procesar tu solicitud. No subas contenido sensible, personal o confidencial.','generate.label':'Describe la imagen que quieres crear','generate.placeholder':'Por ejemplo: un rincón de lectura acogedor con luz cálida de tarde, foto editorial','generate.create':'✨ Crear imagen','style.photo':'Foto','style.cartoon':'Dibujo','style.art':'Arte','footer.sister':'Amigos y socios'},
+  fr: {'nav.tools':'Outils','nav.examples':'Exemples','nav.privacy':'Confidentialité','nav.try':'Essayer','badge':'Outils d’image IA gratuits — sans inscription','hero.title1':'Outils d’image IA','hero.title2':'Rapides et gratuits','hero.title3':'élégants','hero.desc':'Supprimez les arrière-plans, améliorez, colorisez et générez des images avec l’IA dans votre navigateur.','hero.cta':'✨ Essayer','hero.view':'Voir tous les outils →','example.title':'Voyez la différence instantanément','example.subtitle':'Exemple de suppression d’arrière-plan','example.note':'Un exemple réel : importez votre image pour créer le résultat.','section.tools.label':'🧰 Outils IA','section.tools.title':'Tout ce qu’il vous faut, en un clic','section.upload.label':'🚀 Commencer','section.upload.title':'Importer & transformer','tool.remove-bg':'✂️ Supprimer le fond','tool.upscale':'🔍 Améliorer en 4x','tool.colorize':'🎨 Coloriser une photo','tool.generate':'✨ Texte vers image','drop.hint':'Déposez une image ici ou cliquez pour parcourir','drop.desc':'JPG, PNG, WEBP — jusqu’à 20 Mo','privacy.title':'Vos images méritent attention','privacy.body':'Pict ne nécessite pas de compte. Les images servent uniquement à traiter votre demande. N’importez pas de contenu sensible, personnel ou confidentiel.','generate.label':'Décrivez l’image à créer','generate.placeholder':'Par exemple : un coin lecture chaleureux au soleil de l’après-midi, photo éditoriale','generate.create':'✨ Créer une image','style.photo':'Photo','style.cartoon':'Dessin animé','style.art':'Art','footer.sister':'Amis et partenaires'},
+  pt: {'nav.tools':'Ferramentas','nav.examples':'Exemplos','nav.privacy':'Privacidade','nav.try':'Experimentar','badge':'Ferramentas de imagem com IA gratuitas — sem cadastro','hero.title1':'Ferramentas de imagem IA','hero.title2':'Rápidas e grátis','hero.title3':'bonitas','hero.desc':'Remova fundos, melhore, colore e gere imagens com IA direto no navegador.','hero.cta':'✨ Experimentar agora','hero.view':'Ver todas as ferramentas →','example.title':'Veja a diferença instantaneamente','example.subtitle':'Exemplo de remoção de fundo','example.note':'Um exemplo real — envie sua imagem para criar o resultado.','section.tools.label':'🧰 Ferramentas IA','section.tools.title':'Tudo o que você precisa, a um clique','section.upload.label':'🚀 Começar','section.upload.title':'Enviar & transformar','tool.remove-bg':'✂️ Remover fundo','tool.upscale':'🔍 Melhorar imagem 4x','tool.colorize':'🎨 Colorir foto','tool.generate':'✨ Texto para imagem','drop.hint':'Solte uma imagem aqui ou clique para escolher','drop.desc':'JPG, PNG, WEBP — até 20 MB','privacy.title':'Suas imagens merecem cuidado','privacy.body':'O Pict não exige conta. As imagens são usadas apenas para processar sua solicitação. Não envie conteúdo sensível, pessoal ou confidencial.','generate.label':'Descreva a imagem que quer criar','generate.placeholder':'Por exemplo: um canto de leitura aconchegante com luz quente da tarde, foto editorial','generate.create':'✨ Criar imagem','style.photo':'Foto','style.cartoon':'Cartoon','style.art':'Arte','footer.sister':'Amigos e parceiros'},
+  ja: {'nav.tools':'ツール','nav.examples':'作例','nav.privacy':'プライバシー','nav.try':'今すぐ試す','badge':'無料のAI画像ツール — 登録不要','hero.title1':'AI画像ツール','hero.title2':'高速・無料','hero.title3':'美しい','hero.desc':'背景削除・高画質化・カラー化・画像生成を、ブラウザ上でAIにより実現します。','hero.cta':'✨ 今すぐ試す','hero.view':'すべてのツールを見る →','example.title':'違いをすぐに確認','example.subtitle':'AI背景削除の作例','example.note':'実際の作例です。自分の画像をアップロードして試せます。','section.tools.label':'🧰 AIツール','section.tools.title':'必要なものを、ワンクリックで','section.upload.label':'🚀 はじめる','section.upload.title':'アップロード & 変換','tool.remove-bg':'✂️ 背景を削除','tool.upscale':'🔍 4倍高画質化','tool.colorize':'🎨 写真をカラー化','tool.generate':'✨ テキストから画像','drop.hint':'画像をドロップ、またはクリックして選択','drop.desc':'JPG、PNG、WEBP — 最大20MB','privacy.title':'あなたの画像を大切に扱います','privacy.body':'Pictはアカウント不要です。アップロード画像はリクエストの処理にのみ使用されます。機密性の高い個人情報はアップロードしないでください。','generate.label':'作成したい画像を説明してください','generate.placeholder':'例：午後の暖かい日差しが入る居心地のよい読書スペース、雑誌写真風','generate.create':'✨ 画像を作成','style.photo':'写真','style.cartoon':'カートゥーン','style.art':'アート','footer.sister':'友人・パートナー'},
+  ko: {'nav.tools':'도구','nav.examples':'예시','nav.privacy':'개인정보','nav.try':'지금 사용해 보기','badge':'무료 AI 이미지 도구 — 가입 불필요','hero.title1':'AI 이미지 도구','hero.title2':'빠르고 무료','hero.title3':'아름답게','hero.desc':'브라우저에서 AI로 배경 제거, 업스케일, 사진 채색, 이미지 생성을 이용하세요.','hero.cta':'✨ 지금 사용해 보기','hero.view':'모든 도구 보기 →','example.title':'차이를 바로 확인하세요','example.subtitle':'AI 배경 제거 예시','example.note':'실제 예시입니다. 내 이미지를 올려 결과를 만들어 보세요.','section.tools.label':'🧰 AI 도구','section.tools.title':'필요한 모든 것, 한 번의 클릭으로','section.upload.label':'🚀 시작하기','section.upload.title':'업로드 & 변환','tool.remove-bg':'✂️ 배경 제거','tool.upscale':'🔍 AI 4배 업스케일','tool.colorize':'🎨 사진 채색','tool.generate':'✨ 텍스트로 이미지 만들기','drop.hint':'이미지를 놓거나 클릭하여 선택하세요','drop.desc':'JPG, PNG, WEBP — 최대 20MB','privacy.title':'이미지를 소중히 다룹니다','privacy.body':'Pict는 계정이 필요하지 않습니다. 업로드한 이미지는 요청 처리에만 사용됩니다. 민감한 개인 정보나 기밀 콘텐츠는 업로드하지 마세요.','generate.label':'만들고 싶은 이미지를 설명하세요','generate.placeholder':'예: 따뜻한 오후 햇살이 드는 아늑한 독서 공간, 에디토리얼 사진','generate.create':'✨ 이미지 만들기','style.photo':'사진','style.cartoon':'만화','style.art':'예술','footer.sister':'친구와 파트너'},
+  ar: {'nav.tools':'الأدوات','nav.examples':'أمثلة','nav.privacy':'الخصوصية','nav.try':'جرّبه الآن','badge':'أدوات صور بالذكاء الاصطناعي مجانًا — بلا تسجيل','hero.title1':'أدوات صور بالذكاء الاصطناعي','hero.title2':'سريعة ومجانية','hero.title3':'جميلة','hero.desc':'أزل الخلفيات وحسّن الصور ولوّنها وأنشئ صورًا بالذكاء الاصطناعي مباشرة في متصفحك.','hero.cta':'✨ جرّبه الآن','hero.view':'عرض جميع الأدوات ←','example.title':'شاهد الفرق فورًا','example.subtitle':'مثال على إزالة الخلفية بالذكاء الاصطناعي','example.note':'مثال حقيقي — حمّل صورتك لإنشاء النتيجة.','section.tools.label':'🧰 أدوات الذكاء الاصطناعي','section.tools.title':'كل ما تحتاجه، بنقرة واحدة','section.upload.label':'🚀 ابدأ الآن','section.upload.title':'رفع & تحويل','tool.remove-bg':'✂️ إزالة الخلفية','tool.upscale':'🔍 تحسين الصورة 4×','tool.colorize':'🎨 تلوين الصورة','tool.generate':'✨ نص إلى صورة','drop.hint':'أفلت الصورة هنا أو انقر للاختيار','drop.desc':'JPG وPNG وWEBP — حتى 20 ميجابايت','privacy.title':'صورك تستحق العناية','privacy.body':'لا يتطلب Pict حسابًا. تُستخدم الصور المرفوعة لمعالجة طلبك فقط. يرجى عدم رفع محتوى حساس أو شخصي أو سري.','generate.label':'صف الصورة التي تريد إنشاءها','generate.placeholder':'مثلًا: زاوية قراءة دافئة بضوء شمس العصر، صورة تحريرية','generate.create':'✨ إنشاء صورة','style.photo':'صورة','style.cartoon':'كرتون','style.art':'فن','footer.sister':'الأصدقاء والشركاء'},
+  de: {'nav.tools':'Werkzeuge','nav.examples':'Beispiele','nav.privacy':'Datenschutz','nav.try':'Jetzt testen','badge':'Kostenlose KI-Bildtools — keine Anmeldung nötig','hero.title1':'KI-Bildwerkzeuge','hero.title2':'Schnell und kostenlos','hero.title3':'schön','hero.desc':'Entferne Hintergründe, verbessere und kolorisiere Fotos oder erstelle Bilder mit KI direkt im Browser.','hero.cta':'✨ Jetzt testen','hero.view':'Alle Werkzeuge ansehen →','example.title':'Sieh den Unterschied sofort','example.subtitle':'Beispiel für KI-Hintergrundentfernung','example.note':'Ein echtes Beispiel — lade dein Bild hoch und erstelle dein Ergebnis.','section.tools.label':'🧰 KI-Werkzeuge','section.tools.title':'Alles, was du brauchst, mit einem Klick','section.upload.label':'🚀 Loslegen','section.upload.title':'Hochladen & verwandeln','tool.remove-bg':'✂️ Hintergrund entfernen','tool.upscale':'🔍 Bild 4× verbessern','tool.colorize':'🎨 Foto kolorieren','tool.generate':'✨ Text zu Bild','drop.hint':'Bild hier ablegen oder zum Auswählen klicken','drop.desc':'JPG, PNG, WEBP — bis zu 20 MB','privacy.title':'Deine Bilder verdienen Sorgfalt','privacy.body':'Pict benötigt kein Konto. Uploads werden nur zur Bearbeitung deiner Anfrage verwendet. Bitte lade keine sensiblen, persönlichen oder vertraulichen Inhalte hoch.','generate.label':'Beschreibe das Bild, das du erstellen möchtest','generate.placeholder':'Zum Beispiel: eine gemütliche Leseecke im warmen Nachmittagslicht, Editorial-Foto','generate.create':'✨ Bild erstellen','style.photo':'Foto','style.cartoon':'Cartoon','style.art':'Kunst','footer.sister':'Freunde und Partner'}
+});
+
+Object.assign(i18n.es, {'pro.kicker':'Pict Pro','pro.title':'Más créditos para tus mejores imágenes','pro.desc':'300 créditos cada mes para generar y editar imágenes con IA. La suscripción dura un periodo de facturación y se renueva automáticamente hasta que la canceles.','pro.month':'/ mes','pro.button':'Pasar a Pro','pro.note':'Pago seguro con Paddle'});
+Object.assign(i18n.fr, {'pro.kicker':'Pict Pro','pro.title':'Plus de crédits pour vos meilleures images','pro.desc':'300 crédits chaque mois pour générer et retoucher des images avec l’IA. Votre abonnement couvre une période de facturation et se renouvelle automatiquement jusqu’à sa résiliation.','pro.month':'/ mois','pro.button':'Passer à Pro','pro.note':'Paiement sécurisé par Paddle'});
+Object.assign(i18n.pt, {'pro.kicker':'Pict Pro','pro.title':'Mais créditos para suas melhores imagens','pro.desc':'300 créditos por mês para gerar e editar imagens com IA. A assinatura vale por um período de cobrança e é renovada automaticamente até o cancelamento.','pro.month':'/ mês','pro.button':'Mudar para Pro','pro.note':'Pagamento seguro pelo Paddle'});
+Object.assign(i18n.ja, {'pro.kicker':'Pict Pro','pro.title':'最高の画像に、さらにクレジットを','pro.desc':'AI画像の生成と編集に使えるクレジットを毎月300付与します。請求期間ごとのサブスクリプションで、解約するまで自動更新されます。','pro.month':'/ 月','pro.button':'Proにアップグレード','pro.note':'Paddleによる安全な決済'});
+Object.assign(i18n.ko, {'pro.kicker':'Pict Pro','pro.title':'멋진 이미지를 위한 더 많은 크레딧','pro.desc':'AI 이미지 생성과 편집에 사용할 수 있는 크레딧 300개를 매달 제공합니다. 구독은 결제 기간 단위로 자동 갱신되며 취소할 때까지 유지됩니다.','pro.month':'/월','pro.button':'Pro로 업그레이드','pro.note':'Paddle 보안 결제'});
+Object.assign(i18n.ar, {'pro.kicker':'Pict Pro','pro.title':'أرصدة أكثر لأفضل صورك','pro.desc':'300 رصيدًا كل شهر لإنشاء الصور وتحريرها بالذكاء الاصطناعي. يستمر الاشتراك لفترة فوترة واحدة ويتجدد تلقائيًا حتى إلغائه.','pro.month':'/ شهر','pro.button':'الترقية إلى Pro','pro.note':'دفع آمن عبر Paddle'});
+Object.assign(i18n.de, {'pro.kicker':'Pict Pro','pro.title':'Mehr Credits für deine besten Bilder','pro.desc':'300 Credits pro Monat für KI-Bilderstellung und -bearbeitung. Das Abo gilt für einen Abrechnungszeitraum und verlängert sich bis zur Kündigung automatisch.','pro.month':'/ Monat','pro.button':'Auf Pro upgraden','pro.note':'Sicherer Checkout über Paddle'});
+
+Object.assign(i18n.es, {'auth.login':'Iniciar sesión','auth.title':'Iniciar sesión en Pict','auth.intro':'Introduce tu correo y te enviaremos un enlace de acceso.','auth.email':'tu@email.com','auth.send':'Enviar enlace de acceso','auth.sending':'Enviando…','auth.sent':'Enlace enviado. Revisa tu correo.','auth.setup':'El inicio de sesión está en configuración. Inténtalo más tarde.','auth.invalid':'El enlace no es válido. Solicita uno nuevo.','auth.loggedIn':'Cuenta','auth.logout':'Cerrar sesión'});
+Object.assign(i18n.fr, {'auth.login':'Se connecter','auth.title':'Se connecter à Pict','auth.intro':'Saisissez votre e-mail et nous vous enverrons un lien de connexion.','auth.email':'vous@example.com','auth.send':'Envoyer le lien','auth.sending':'Envoi…','auth.sent':'Lien envoyé. Consultez votre messagerie.','auth.setup':'La connexion est en cours de configuration. Réessayez plus tard.','auth.invalid':'Ce lien n’est pas valide. Demandez-en un nouveau.','auth.loggedIn':'Compte','auth.logout':'Se déconnecter'});
+Object.assign(i18n.pt, {'auth.login':'Entrar','auth.title':'Entrar no Pict','auth.intro':'Digite seu e-mail e enviaremos um link de acesso.','auth.email':'voce@example.com','auth.send':'Enviar link de acesso','auth.sending':'Enviando…','auth.sent':'Link enviado. Verifique seu e-mail.','auth.setup':'O login está sendo configurado. Tente novamente mais tarde.','auth.invalid':'Este link não é válido. Solicite um novo.','auth.loggedIn':'Conta','auth.logout':'Sair'});
+Object.assign(i18n.ja, {'auth.login':'ログイン','auth.title':'Pictにログイン','auth.intro':'メールアドレスを入力すると、ログインリンクを送信します。','auth.email':'you@example.com','auth.send':'ログインリンクを送信','auth.sending':'送信中…','auth.sent':'リンクを送信しました。メールを確認してください。','auth.setup':'ログイン機能を設定中です。しばらくしてからお試しください。','auth.invalid':'このログインリンクは無効です。新しいリンクをリクエストしてください。','auth.loggedIn':'アカウント','auth.logout':'ログアウト'});
+Object.assign(i18n.ko, {'auth.login':'로그인','auth.title':'Pict 로그인','auth.intro':'이메일을 입력하면 로그인 링크를 보내드립니다.','auth.email':'you@example.com','auth.send':'로그인 링크 보내기','auth.sending':'보내는 중…','auth.sent':'링크를 보냈습니다. 이메일을 확인하세요.','auth.setup':'로그인 기능을 설정 중입니다. 잠시 후 다시 시도해 주세요.','auth.invalid':'유효하지 않은 로그인 링크입니다. 새 링크를 요청하세요.','auth.loggedIn':'계정','auth.logout':'로그아웃'});
+Object.assign(i18n.ar, {'auth.login':'تسجيل الدخول','auth.title':'تسجيل الدخول إلى Pict','auth.intro':'أدخل بريدك الإلكتروني وسنرسل لك رابط تسجيل الدخول.','auth.email':'you@example.com','auth.send':'إرسال رابط الدخول','auth.sending':'جار الإرسال…','auth.sent':'تم إرسال الرابط. تحقق من بريدك الإلكتروني.','auth.setup':'يتم إعداد تسجيل الدخول. حاول مرة أخرى لاحقًا.','auth.invalid':'رابط تسجيل الدخول غير صالح. اطلب رابطًا جديدًا.','auth.loggedIn':'الحساب','auth.logout':'تسجيل الخروج'});
+Object.assign(i18n.de, {'auth.login':'Anmelden','auth.title':'Bei Pict anmelden','auth.intro':'Gib deine E-Mail-Adresse ein und wir senden dir einen Anmeldelink.','auth.email':'du@example.com','auth.send':'Anmeldelink senden','auth.sending':'Wird gesendet…','auth.sent':'Link gesendet. Prüfe deine E-Mails.','auth.setup':'Die Anmeldung wird eingerichtet. Bitte später erneut versuchen.','auth.invalid':'Dieser Anmeldelink ist ungültig. Fordere einen neuen an.','auth.loggedIn':'Konto','auth.logout':'Abmelden'});
+Object.assign(i18n.es, {'auth.account':'Cuenta','auth.signedIn':'Has iniciado sesión con:','auth.close':'Cerrar'});
+Object.assign(i18n.fr, {'auth.account':'Compte','auth.signedIn':'Vous êtes connecté avec :','auth.close':'Fermer'});
+Object.assign(i18n.pt, {'auth.account':'Conta','auth.signedIn':'Você está conectado com:','auth.close':'Fechar'});
+Object.assign(i18n.ja, {'auth.account':'アカウント','auth.signedIn':'ログイン中のメールアドレス：','auth.close':'閉じる'});
+Object.assign(i18n.ko, {'auth.account':'계정','auth.signedIn':'다음 계정으로 로그인되어 있습니다:','auth.close':'닫기'});
+Object.assign(i18n.ar, {'auth.account':'الحساب','auth.signedIn':'تم تسجيل الدخول باستخدام:','auth.close':'إغلاق'});
+Object.assign(i18n.de, {'auth.account':'Konto','auth.signedIn':'Du bist angemeldet mit:','auth.close':'Schließen'});
+Object.assign(i18n.es, {'auth.sent.title':'Revisa tu bandeja de entrada','auth.sent.body':'Te acabamos de enviar un correo de confirmación.','auth.sent.action':'Haz clic en el enlace del correo para confirmar tu cuenta.','auth.sent.missing':'Si no lo ves en unos minutos, revisa la carpeta de spam.','auth.sent.thanks':'¡Gracias! Equipo de PictTool'});
+Object.assign(i18n.fr, {'auth.sent.title':'Vérifiez votre boîte de réception','auth.sent.body':'Nous venons de vous envoyer un e-mail de confirmation.','auth.sent.action':'Cliquez sur le lien dans l’e-mail pour confirmer votre compte.','auth.sent.missing':'Si vous ne le voyez pas dans quelques minutes, vérifiez vos spams.','auth.sent.thanks':'Merci ! L’équipe PictTool'});
+Object.assign(i18n.pt, {'auth.sent.title':'Verifique sua caixa de entrada','auth.sent.body':'Acabamos de enviar um e-mail de confirmação.','auth.sent.action':'Clique no link do e-mail para confirmar sua conta.','auth.sent.missing':'Se não aparecer em alguns minutos, verifique a pasta de spam.','auth.sent.thanks':'Obrigado! Equipe PictTool'});
+Object.assign(i18n.ja, {'auth.sent.title':'受信トレイを確認してください','auth.sent.body':'確認メールを送信しました。','auth.sent.action':'メール内のリンクをクリックしてアカウントを確認してください。','auth.sent.missing':'数分たっても届かない場合は迷惑メールフォルダを確認してください。','auth.sent.thanks':'ありがとうございます！PictToolチーム'});
+Object.assign(i18n.ko, {'auth.sent.title':'받은편지를 확인해 주세요','auth.sent.body':'확인 이메일을 보냈습니다.','auth.sent.action':'이메일의 링크를 클릭하여 계정을 확인하세요.','auth.sent.missing':'몇 분 안에 보이지 않으면 스팸 폴더를 확인하세요.','auth.sent.thanks':'감사합니다! PictTool 팀'});
+Object.assign(i18n.ar, {'auth.sent.title':'يرجى التحقق من صندوق الوارد','auth.sent.body':'أرسلنا إليك رسالة تأكيد للتو.','auth.sent.action':'انقر على الرابط في الرسالة لتأكيد حسابك.','auth.sent.missing':'إذا لم تجدها خلال دقائق، فتحقق من مجلد الرسائل غير المرغوب فيها.','auth.sent.thanks':'شكرًا لك! فريق PictTool'});
+Object.assign(i18n.de, {'auth.sent.title':'Bitte prüfen Sie Ihren Posteingang','auth.sent.body':'Wir haben Ihnen gerade eine Bestätigungs-E-Mail gesendet.','auth.sent.action':'Klicken Sie auf den Link in der E-Mail, um Ihr Konto zu bestätigen.','auth.sent.missing':'Wenn sie nach einigen Minuten nicht da ist, prüfen Sie bitte den Spam-Ordner.','auth.sent.thanks':'Vielen Dank! Das PictTool-Team'});
+Object.assign(i18n.es, {'drop.hint':'Suelta una imagen aquí o haz clic para elegirla','drop.desc':'JPG, PNG, WEBP — hasta 20 MB','tool.game-avatar':'🎮 Avatar de fantasía','tool.game-avatar.desc':'Conserva el rostro, la edad, el cabello y la pose para crear un aventurero de fantasía original.','creative.game-avatar.label':'Avatar de fantasía original','creative.game-avatar.help':'Conserva el rostro, la edad, el cabello y la pose mientras crea un aspecto de aventurero de fantasía original.','creative.game-avatar.placeholder':'Por ejemplo: un bosque iluminado por la luna'});
+Object.assign(i18n.fr, {'drop.hint':'Déposez une image ici ou cliquez pour parcourir','drop.desc':'JPG, PNG, WEBP — jusqu’à 20 Mo','tool.game-avatar':'🎮 Avatar fantastique','tool.game-avatar.desc':'Conservez le visage, l’âge, les cheveux et la pose pour créer un aventurier fantastique original.','creative.game-avatar.label':'Avatar fantastique original','creative.game-avatar.help':'Conserve le visage, l’âge, les cheveux et la pose tout en créant un look d’aventurier fantastique original.','creative.game-avatar.placeholder':'Par exemple : une forêt éclairée par la lune'});
+Object.assign(i18n.pt, {'drop.hint':'Solte uma imagem aqui ou clique para escolher','drop.desc':'JPG, PNG, WEBP — até 20 MB','tool.game-avatar':'🎮 Avatar de fantasia','tool.game-avatar.desc':'Mantém o rosto, a idade, o cabelo e a pose para criar um aventureiro de fantasia original.','creative.game-avatar.label':'Avatar de fantasia original','creative.game-avatar.help':'Mantém o rosto, a idade, o cabelo e a pose enquanto cria um visual de aventureiro de fantasia original.','creative.game-avatar.placeholder':'Por exemplo: uma floresta iluminada pela lua'});
+Object.assign(i18n.ja, {'drop.hint':'画像をここにドロップ、またはクリックして選択','drop.desc':'JPG、PNG、WEBP — 最大20MB','tool.game-avatar':'🎮 ファンタジーアバター','tool.game-avatar.desc':'顔、年齢、髪型、ポーズを保ちながら、オリジナルのファンタジー冒険者を作成します。','creative.game-avatar.label':'オリジナルのファンタジーゲームアバター','creative.game-avatar.help':'顔、年齢、髪型、ポーズを保ちながら、ファンタジー冒険者らしい見た目を作成します。','creative.game-avatar.placeholder':'例：月明かりの森'});
+Object.assign(i18n.ko, {'drop.hint':'이미지를 여기에 놓거나 클릭하여 선택하세요','drop.desc':'JPG, PNG, WEBP — 최대 20MB','tool.game-avatar':'🎮 판타지 아바타','tool.game-avatar.desc':'얼굴, 나이, 머리카락과 포즈를 유지하면서 오리지널 판타지 모험가를 만듭니다.','creative.game-avatar.label':'오리지널 판타지 게임 아바타','creative.game-avatar.help':'얼굴, 나이, 머리카락과 포즈를 유지하면서 판타지 모험가 스타일을 만듭니다.','creative.game-avatar.placeholder':'예: 달빛이 비치는 숲'});
+Object.assign(i18n.ar, {'drop.hint':'أفلت الصورة هنا أو انقر للاختيار','drop.desc':'JPG وPNG وWEBP — حتى 20 ميجابايت','tool.game-avatar':'🎮 صورة شخصية خيالية','tool.game-avatar.desc':'يحافظ على الوجه والعمر والشعر والوضعية لإنشاء مغامر خيالي أصلي.','creative.game-avatar.label':'صورة شخصية خيالية أصلية','creative.game-avatar.help':'يحافظ على الوجه والعمر والشعر والوضعية مع إنشاء مظهر مغامر خيالي أصلي.','creative.game-avatar.placeholder':'مثال: غابة مضاءة بضوء القمر'});
+Object.assign(i18n.de, {'drop.hint':'Bild hier ablegen oder zum Auswählen klicken','drop.desc':'JPG, PNG, WEBP — bis zu 20 MB','tool.game-avatar':'🎮 Fantasy-Avatar','tool.game-avatar.desc':'Behält Gesicht, Alter, Haare und Pose bei und erstellt einen eigenen Fantasy-Abenteurer.','creative.game-avatar.label':'Originaler Fantasy-Spielavatar','creative.game-avatar.help':'Behält Gesicht, Alter, Haare und Pose bei und erstellt einen eigenen Fantasy-Abenteurer-Look.','creative.game-avatar.placeholder':'Zum Beispiel: ein mondbeleuchteter Wald'});
+Object.assign(i18n.es, {'tool.travel-art':'🌄 Foto de viaje a arte','tool.travel-art.desc':'Convierte paisajes, calles y edificios en arte de viaje ilustrado.','tool.art':'🖼️ Estilo artístico','tool.art.desc':'Aplica un acabado de arte digital original conservando la composición y los detalles.','tool.change-background':'🏞️ Cambiar fondo','tool.change-background.desc':'Conserva el sujeto y crea una nueva escena a su alrededor.','tool.remove-object':'🧹 Quitar objeto','tool.remove-object.desc':'Elimina un objeto no deseado y conserva el resto de la foto.','tool.scene-lighting':'💡 Mejorar iluminación','tool.scene-lighting.desc':'Mejora la luz, el color y la atmósfera sin cambiar la escena.'});
+Object.assign(i18n.fr, {'tool.travel-art':'🌄 Photo de voyage en art','tool.travel-art.desc':'Transformez paysages, rues et bâtiments en art de voyage illustré.','tool.art':'🖼️ Style artistique','tool.art.desc':'Appliquez un rendu d’art numérique original en conservant la composition et les détails.','tool.change-background':'🏞️ Changer l’arrière-plan','tool.change-background.desc':'Conservez le sujet et créez une nouvelle scène autour de lui.','tool.remove-object':'🧹 Supprimer un objet','tool.remove-object.desc':'Supprimez un élément indésirable en conservant le reste de la photo.','tool.scene-lighting':'💡 Améliorer la lumière','tool.scene-lighting.desc':'Améliorez la lumière, les couleurs et l’atmosphère sans changer la scène.'});
+Object.assign(i18n.pt, {'tool.travel-art':'🌄 Foto de viagem para arte','tool.travel-art.desc':'Transforme paisagens, ruas e edifícios em arte de viagem ilustrada.','tool.art':'🖼️ Estilo artístico','tool.art.desc':'Aplique um acabamento de arte digital original mantendo composição e detalhes.','tool.change-background':'🏞️ Trocar fundo','tool.change-background.desc':'Mantenha o sujeito e crie uma nova cena ao redor dele.','tool.remove-object':'🧹 Remover objeto','tool.remove-object.desc':'Remova um item indesejado mantendo o restante da foto.','tool.scene-lighting':'💡 Melhorar iluminação','tool.scene-lighting.desc':'Melhore luz, cor e atmosfera sem alterar a cena.'});
+Object.assign(i18n.ja, {'tool.travel-art':'🌄 旅行写真をアートに','tool.travel-art.desc':'風景、街並み、建物をイラスト風の旅行アートに変換します。','tool.art':'🖼️ アートスタイル','tool.art.desc':'構図と細部を保ちながら、オリジナルのデジタルアートに仕上げます。','tool.change-background':'🏞️ 背景を変更','tool.change-background.desc':'被写体を保ちながら、周囲に新しい背景を作成します。','tool.remove-object':'🧹 物体を削除','tool.remove-object.desc':'不要な物体を削除し、写真の残りを保ちます。','tool.scene-lighting':'💡 ライティング補正','tool.scene-lighting.desc':'シーンを変えずに光、色、雰囲気を改善します。'});
+Object.assign(i18n.ko, {'tool.travel-art':'🌄 여행 사진을 아트로','tool.travel-art.desc':'풍경, 거리와 건물을 일러스트 여행 아트로 바꿉니다.','tool.art':'🖼️ 아트 스타일','tool.art.desc':'구도와 세부 사항을 유지하면서 독창적인 디지털 아트로 마무리합니다.','tool.change-background':'🏞️ 배경 변경','tool.change-background.desc':'피사체를 유지하고 주변에 새로운 장면을 만듭니다.','tool.remove-object':'🧹 물체 제거','tool.remove-object.desc':'원하지 않는 물체를 제거하고 사진의 나머지를 유지합니다.','tool.scene-lighting':'💡 조명 개선','tool.scene-lighting.desc':'장면을 바꾸지 않고 빛, 색상과 분위기를 개선합니다.'});
+Object.assign(i18n.ar, {'tool.travel-art':'🌄 تحويل صورة السفر إلى فن','tool.travel-art.desc':'حوّل المناظر والشوارع والمباني إلى فن سفر مرسوم.','tool.art':'🖼️ أسلوب فني','tool.art.desc':'طبّق لمسة فن رقمي أصلية مع الحفاظ على التكوين والتفاصيل.','tool.change-background':'🏞️ تغيير الخلفية','tool.change-background.desc':'حافظ على الموضوع وأنشئ مشهداً جديداً حوله.','tool.remove-object':'🧹 إزالة عنصر','tool.remove-object.desc':'أزل عنصراً غير مرغوب فيه مع الحفاظ على بقية الصورة.','tool.scene-lighting':'💡 تحسين الإضاءة','tool.scene-lighting.desc':'حسّن الإضاءة والألوان والأجواء دون تغيير المشهد.'});
+Object.assign(i18n.de, {'tool.travel-art':'🌄 Reisefoto zu Kunst','tool.travel-art.desc':'Verwandle Landschaften, Straßen und Gebäude in illustrierte Reisekunst.','tool.art':'🖼️ Kunststil','tool.art.desc':'Erstelle ein eigenes digitales Kunstfinish und bewahre Komposition und Details.','tool.change-background':'🏞️ Hintergrund ändern','tool.change-background.desc':'Behalte das Motiv bei und erstelle eine neue Szene darum herum.','tool.remove-object':'🧹 Objekt entfernen','tool.remove-object.desc':'Entferne ein unerwünschtes Objekt und bewahre den Rest des Fotos.','tool.scene-lighting':'💡 Beleuchtung verbessern','tool.scene-lighting.desc':'Verbessere Licht, Farbe und Atmosphäre, ohne die Szene zu verändern.'});
+
+Object.assign(i18n.es, {'subscribe.kicker':'Actualizaciones de PictTool','subscribe.title':'Recibe nuevas herramientas de imagen IA','subscribe.desc':'Suscríbete para novedades, ideas para Pinterest y noticias tempranas de Pro. Sin spam.','subscribe.emailLabel':'Correo electrónico','subscribe.placeholder':'tu@email.com','subscribe.button':'Suscribirse','subscribe.sending':'Suscribiendo...','subscribe.success':'Ya estás suscrito. Solo enviaremos actualizaciones útiles de PictTool.','subscribe.error':'No se pudo suscribir. Inténtalo de nuevo.'});
+Object.assign(i18n.fr, {'subscribe.kicker':'Actualités PictTool','subscribe.title':'Recevez les nouveaux outils IA','subscribe.desc':'Abonnez-vous pour les nouveautés, idées Pinterest et infos Pro. Pas de spam.','subscribe.emailLabel':'Adresse e-mail','subscribe.placeholder':'vous@example.com','subscribe.button':'S’abonner','subscribe.sending':'Inscription...','subscribe.success':'Vous êtes abonné. Nous enverrons seulement des nouvelles utiles de PictTool.','subscribe.error':'Impossible de vous abonner. Réessayez.'});
+Object.assign(i18n.pt, {'subscribe.kicker':'Atualizações do PictTool','subscribe.title':'Receba novas ferramentas de imagem IA','subscribe.desc':'Assine para novidades, ideias para Pinterest e notícias do Pro. Sem spam.','subscribe.emailLabel':'Email','subscribe.placeholder':'voce@example.com','subscribe.button':'Assinar','subscribe.sending':'Assinando...','subscribe.success':'Você assinou. Enviaremos apenas atualizações úteis do PictTool.','subscribe.error':'Não foi possível assinar. Tente novamente.'});
+Object.assign(i18n.ja, {'subscribe.kicker':'PictTool更新情報','subscribe.title':'新しいAI画像ツールを受け取る','subscribe.desc':'新機能、Pinterestのアイデア、Proの早期情報をお届けします。迷惑メールは送りません。','subscribe.emailLabel':'メールアドレス','subscribe.placeholder':'you@example.com','subscribe.button':'登録','subscribe.sending':'登録中...','subscribe.success':'登録しました。PictToolの役立つ更新だけをお送りします。','subscribe.error':'登録できませんでした。もう一度お試しください。'});
+Object.assign(i18n.ko, {'subscribe.kicker':'PictTool 업데이트','subscribe.title':'새 AI 이미지 도구 소식 받기','subscribe.desc':'새 기능, Pinterest 아이디어, Pro 소식을 받아보세요. 스팸은 보내지 않습니다.','subscribe.emailLabel':'이메일 주소','subscribe.placeholder':'you@example.com','subscribe.button':'구독','subscribe.sending':'구독 중...','subscribe.success':'구독되었습니다. 유용한 PictTool 업데이트만 보내겠습니다.','subscribe.error':'구독할 수 없습니다. 다시 시도해 주세요.'});
+Object.assign(i18n.ar, {'subscribe.kicker':'تحديثات PictTool','subscribe.title':'استقبل أدوات صور جديدة بالذكاء الاصطناعي','subscribe.desc':'اشترك لتصلك تحديثات الأدوات وأفكار Pinterest وأخبار Pro المبكرة. بلا رسائل مزعجة.','subscribe.emailLabel':'البريد الإلكتروني','subscribe.placeholder':'you@example.com','subscribe.button':'اشتراك','subscribe.sending':'جار الاشتراك...','subscribe.success':'تم الاشتراك. سنرسل تحديثات مفيدة فقط من PictTool.','subscribe.error':'تعذر الاشتراك. حاول مرة أخرى.'});
+Object.assign(i18n.de, {'subscribe.kicker':'PictTool Updates','subscribe.title':'Neue KI-Bildwerkzeuge per E-Mail','subscribe.desc':'Abonniere Updates, Pinterest-Ideen und frühe Pro-Neuigkeiten. Kein Spam.','subscribe.emailLabel':'E-Mail-Adresse','subscribe.placeholder':'du@example.com','subscribe.button':'Abonnieren','subscribe.sending':'Abonniere...','subscribe.success':'Du bist abonniert. Wir senden nur nützliche PictTool-Updates.','subscribe.error':'Abo konnte nicht gespeichert werden. Bitte erneut versuchen.'});
+
+Object.assign(i18n.es, {'nav.guides':'Guías','guides.label':'Guías detalladas','guides.title':'Aprende por tarea','guides.intro':'Estas páginas explican usos, ejemplos y consejos. Usa las tarjetas de herramientas de arriba cuando quieras editar.','guides.comic.title':'Foto a comic','guides.comic.desc':'Convierte retratos, mascotas y fotos de viaje en ilustraciones estilo comic.','guides.remove.title':'Quitar fondo','guides.remove.desc':'Crea recortes limpios para productos, personas, perfiles y publicaciones.','guides.travel.title':'Foto de viaje a arte','guides.travel.desc':'Transforma recuerdos de viaje en arte tipo postal para Pinterest.','guides.compress.title':'Compresor de imagen','guides.compress.desc':'Reduce el tamaño o convierte JPG, PNG y WebP antes de compartir.','guides.resize.title':'Redimensionar y recortar','guides.resize.desc':'Recorta para Pinterest, Instagram, YouTube y otros formatos.','guides.poster.title':'Poster de producto IA','guides.poster.desc':'Convierte una foto de producto en una imagen tipo poster para tiendas y redes.','guides.open':'Abrir guía →'});
+Object.assign(i18n.fr, {'nav.guides':'Guides','guides.label':'Guides détaillés','guides.title':'Approfondir par tâche','guides.intro':'Ces pages expliquent usages, exemples et conseils. Utilisez les cartes d’outils ci-dessus pour modifier.','guides.comic.title':'Photo en BD','guides.comic.desc':'Transformez portraits, animaux et voyages en illustrations style BD.','guides.remove.title':'Supprimer le fond','guides.remove.desc':'Créez des découpes propres pour produits, personnes, profils et posts.','guides.travel.title':'Photo de voyage en art','guides.travel.desc':'Transformez vos souvenirs de voyage en art type carte postale.','guides.compress.title':'Compresseur d’image','guides.compress.desc':'Réduisez la taille ou convertissez JPG, PNG et WebP avant partage.','guides.resize.title':'Redimensionner et recadrer','guides.resize.desc':'Recadrez pour Pinterest, Instagram, YouTube et autres formats.','guides.poster.title':'Affiche produit IA','guides.poster.desc':'Transformez une photo produit en visuel type affiche pour boutiques et réseaux.','guides.open':'Ouvrir le guide →'});
+Object.assign(i18n.pt, {'nav.guides':'Guias','guides.label':'Guias detalhados','guides.title':'Aprenda por tarefa','guides.intro':'Estas páginas explicam usos, exemplos e dicas. Use os cartões de ferramentas acima para editar.','guides.comic.title':'Foto para HQ','guides.comic.desc':'Transforme retratos, pets e viagens em ilustrações estilo quadrinhos.','guides.remove.title':'Remover fundo','guides.remove.desc':'Crie recortes limpos para produtos, pessoas, perfis e posts.','guides.travel.title':'Foto de viagem em arte','guides.travel.desc':'Transforme lembranças de viagem em arte estilo postal para Pinterest.','guides.compress.title':'Compressor de imagem','guides.compress.desc':'Reduza o tamanho ou converta JPG, PNG e WebP antes de compartilhar.','guides.resize.title':'Redimensionar e cortar','guides.resize.desc':'Corte para Pinterest, Instagram, YouTube e outros formatos.','guides.poster.title':'Poster de produto IA','guides.poster.desc':'Transforme uma foto de produto em imagem estilo poster para lojas e redes.','guides.open':'Abrir guia →'});
+Object.assign(i18n.ja, {'nav.guides':'ガイド','guides.label':'詳しいガイド','guides.title':'目的別に詳しく見る','guides.intro':'用途、作例、コツを紹介するページです。編集するときは上のツールカードを使ってください。','guides.comic.title':'写真をコミックに','guides.comic.desc':'人物、ペット、旅行写真をカラフルなコミック風イラストにします。','guides.remove.title':'背景削除','guides.remove.desc':'商品、人物、プロフィール、投稿向けのきれいな切り抜きを作ります。','guides.travel.title':'旅行写真をアートに','guides.travel.desc':'旅行の思い出をPinterest向けのポストカード風アートにします。','guides.compress.title':'画像圧縮','guides.compress.desc':'共有前にJPG、PNG、WebPのサイズ削減や変換をします。','guides.resize.title':'リサイズ・切り抜き','guides.resize.desc':'Pinterest、Instagram、YouTubeなどの比率に切り抜きます。','guides.poster.title':'AI商品ポスター','guides.poster.desc':'商品写真をショップやSNS向けのポスター風画像にします。','guides.open':'ガイドを開く →'});
+Object.assign(i18n.ko, {'nav.guides':'가이드','guides.label':'상세 가이드','guides.title':'작업별로 자세히 보기','guides.intro':'용도, 예시, 팁을 설명하는 페이지입니다. 편집할 때는 위의 도구 카드를 사용하세요.','guides.comic.title':'사진을 만화로','guides.comic.desc':'인물, 반려동물, 여행 사진을 컬러 코믹 일러스트로 바꿉니다.','guides.remove.title':'배경 제거','guides.remove.desc':'상품, 인물, 프로필, 게시물용 깔끔한 누끼 이미지를 만듭니다.','guides.travel.title':'여행 사진 아트','guides.travel.desc':'여행 추억을 Pinterest용 엽서 스타일 아트로 바꿉니다.','guides.compress.title':'이미지 압축','guides.compress.desc':'공유 전에 JPG, PNG, WebP를 압축하거나 변환합니다.','guides.resize.title':'크기 조정 및 자르기','guides.resize.desc':'Pinterest, Instagram, YouTube 등 비율에 맞게 자릅니다.','guides.poster.title':'AI 상품 포스터','guides.poster.desc':'상품 사진을 쇼핑몰과 소셜 게시물용 포스터 이미지로 바꿉니다.','guides.open':'가이드 열기 →'});
+Object.assign(i18n.ar, {'nav.guides':'الأدلة','guides.label':'أدلة مفصلة','guides.title':'تعلّم حسب المهمة','guides.intro':'تشرح هذه الصفحات الاستخدامات والأمثلة والنصائح. استخدم بطاقات الأدوات أعلاه عند التحرير.','guides.comic.title':'صورة إلى كوميكس','guides.comic.desc':'حوّل الصور الشخصية والحيوانات وصور السفر إلى رسوم كوميكس ملونة.','guides.remove.title':'إزالة الخلفية','guides.remove.desc':'أنشئ قصاصات نظيفة للمنتجات والأشخاص والملفات والمنشورات.','guides.travel.title':'صورة السفر إلى فن','guides.travel.desc':'حوّل ذكريات السفر إلى فن بطاقة بريدية مناسب لـ Pinterest.','guides.compress.title':'ضغط الصور','guides.compress.desc':'قلّل الحجم أو حوّل JPG وPNG وWebP قبل المشاركة.','guides.resize.title':'تغيير الحجم والقص','guides.resize.desc':'قص الصور لـ Pinterest وInstagram وYouTube وغيرها.','guides.poster.title':'ملصق منتج بالذكاء الاصطناعي','guides.poster.desc':'حوّل صورة منتج إلى ملصق مناسب للمتاجر والمنشورات.','guides.open':'افتح الدليل ←'});
+Object.assign(i18n.de, {'nav.guides':'Leitfäden','guides.label':'Detaillierte Leitfäden','guides.title':'Nach Aufgabe lernen','guides.intro':'Diese Seiten erklären Einsatzzwecke, Beispiele und Tipps. Nutze zum Bearbeiten die Werkzeugkarten oben.','guides.comic.title':'Foto zu Comic','guides.comic.desc':'Verwandle Porträts, Haustiere und Reisefotos in farbige Comic-Illustrationen.','guides.remove.title':'Hintergrund entfernen','guides.remove.desc':'Erstelle saubere Freisteller für Produkte, Menschen, Profile und Posts.','guides.travel.title':'Reisefoto zu Kunst','guides.travel.desc':'Verwandle Reiseerinnerungen in Postkartenkunst für Pinterest.','guides.compress.title':'Bildkompressor','guides.compress.desc':'Reduziere Dateigröße oder konvertiere JPG, PNG und WebP vor dem Teilen.','guides.resize.title':'Größe ändern & zuschneiden','guides.resize.desc':'Schneide für Pinterest, Instagram, YouTube und andere Formate zu.','guides.poster.title':'KI-Produktposter','guides.poster.desc':'Verwandle ein Produktfoto in ein Posterbild für Shops und Social Posts.','guides.open':'Leitfaden öffnen →'});
+
+Object.assign(i18n.es, {'tool.product-poster':'🛍️ Poster de producto IA','tool.product-poster.desc':'Convierte una foto de producto en una imagen tipo poster para tiendas, Pinterest y redes.'});
+Object.assign(i18n.fr, {'tool.product-poster':'🛍️ Affiche produit IA','tool.product-poster.desc':'Transformez une photo produit en visuel type affiche pour boutiques, Pinterest et réseaux.'});
+Object.assign(i18n.pt, {'tool.product-poster':'🛍️ Poster de produto IA','tool.product-poster.desc':'Transforme uma foto de produto em imagem estilo poster para lojas, Pinterest e redes sociais.'});
+Object.assign(i18n.ja, {'tool.product-poster':'🛍️ AI商品ポスター','tool.product-poster.desc':'商品写真をショップ、Pinterest、SNS向けのポスター風画像にします。'});
+Object.assign(i18n.ko, {'tool.product-poster':'🛍️ AI 상품 포스터','tool.product-poster.desc':'상품 사진을 쇼핑몰, Pinterest, 소셜 게시물용 포스터 이미지로 바꿉니다.'});
+Object.assign(i18n.ar, {'tool.product-poster':'🛍️ ملصق منتج بالذكاء الاصطناعي','tool.product-poster.desc':'حوّل صورة منتج إلى ملصق مناسب للمتاجر وPinterest والمنشورات.'});
+Object.assign(i18n.de, {'tool.product-poster':'🛍️ KI-Produktposter','tool.product-poster.desc':'Verwandle ein Produktfoto in ein Posterbild für Shops, Pinterest und Social Posts.'});
+Object.assign(i18n.es, {'tool.pin-before-after':'📌 Antes/después para Pinterest','tool.pin-before-after.desc':'Combina la foto original y la editada en un pin vertical para Pinterest.','local.pin-before-after.help':'Sube primero la original y luego la imagen editada abajo. Pict crea un pin 2:3 localmente en tu navegador.'});
+Object.assign(i18n.fr, {'tool.pin-before-after':'📌 Avant/après Pinterest','tool.pin-before-after.desc':'Combinez l’original et l’image modifiée dans un pin vertical Pinterest.','local.pin-before-after.help':'Importez d’abord l’original, puis l’image modifiée ci-dessous. Pict crée un pin 2:3 localement dans le navigateur.'});
+Object.assign(i18n.pt, {'tool.pin-before-after':'📌 Antes/depois Pinterest','tool.pin-before-after.desc':'Combine a imagem original e editada em um pin vertical para Pinterest.','local.pin-before-after.help':'Envie primeiro a original e depois a imagem editada abaixo. O Pict cria um pin 2:3 localmente no navegador.'});
+Object.assign(i18n.ja, {'tool.pin-before-after':'📌 Pinterestビフォー/アフター','tool.pin-before-after.desc':'元画像と編集後画像をPinterest向けの縦長ピンに合成します。','local.pin-before-after.help':'先に元画像をアップロードし、下で編集後画像を選択します。Pictはブラウザ内で2:3ピンを作成します。'});
+Object.assign(i18n.ko, {'tool.pin-before-after':'📌 Pinterest 전후 비교','tool.pin-before-after.desc':'원본과 편집 결과를 세로형 Pinterest 핀으로 합칩니다.','local.pin-before-after.help':'먼저 원본을 업로드한 뒤 아래에서 편집 결과를 선택하세요. Pict가 브라우저에서 2:3 핀을 만듭니다.'});
+Object.assign(i18n.ar, {'tool.pin-before-after':'📌 قبل/بعد لـ Pinterest','tool.pin-before-after.desc':'اجمع الصورة الأصلية والمعدلة في منشور عمودي لـ Pinterest.','local.pin-before-after.help':'ارفع الصورة الأصلية أولاً، ثم اختر الصورة المعدلة في الأسفل. ينشئ Pict صورة 2:3 محليًا داخل المتصفح.'});
+Object.assign(i18n.de, {'tool.pin-before-after':'📌 Pinterest Vorher/Nachher','tool.pin-before-after.desc':'Kombiniere Original und bearbeitetes Bild zu einem vertikalen Pinterest-Pin.','local.pin-before-after.help':'Lade zuerst das Original hoch und wähle unten das bearbeitete Bild. Pict erstellt lokal im Browser einen 2:3-Pin.'});
+
+function isTouchUpload(){
+  return window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
+
+function setLanguage(lang) {
+  currentLang = i18n[lang] ? lang : 'en';
+  try { localStorage.setItem('pict-language', currentLang); } catch (_) {}
+  const copy = i18n[currentLang];
+  const translate = key => copy[key] || i18n.en[key] || key;
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('langSelect').value = currentLang;
+  document.getElementById('mobileLangSelect').value = currentLang;
+  document.getElementById('promptLanguageNote').textContent = currentLang === 'zh'
+    ? '提示：文字生图模型使用英文描述通常更准确。'
+    : 'Tip: English prompts usually produce more accurate results.';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = translate(key);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = translate(el.getAttribute('data-i18n-placeholder')));
+  // Hero H1 — needs special split handling
+  const h1 = document.querySelector('.hero h1');
+  h1.innerHTML = `<span class="grad">${translate('hero.title1')}</span><br><span class="highlight">${translate('hero.title2')}</span>, ${translate('hero.title3')}`;
+  // Hero desc
+  document.querySelector('.hero p').textContent = translate('hero.desc');
+  // Hero badge
+  document.querySelector('.hero-badge').textContent = translate('badge');
+  // Hero buttons
+  const btns = document.querySelectorAll('.hero-actions a');
+  if (btns[0]) btns[0].textContent = translate('hero.cta');
+  if (btns[1]) btns[1].textContent = translate('hero.view');
+  // Section labels
+  document.querySelectorAll('.section-label').forEach((el, i) => {
+    if (i === 0) el.textContent = translate('section.tools.label');
+    else el.textContent = translate('section.upload.label');
+  });
+  // Section titles
+  const st = document.querySelectorAll('.section-title');
+  if (st[0]) { const parts = translate('section.tools.title').split(/[,，、،]/); st[0].innerHTML = parts.length > 1 ? `<span class="title-3d">${parts[0]},</span> <span class="grad">${parts.slice(1).join('')}</span>` : `<span class="title-3d">${parts[0]}</span>`; }
+  if (st[1]) st[1].innerHTML = `${translate('section.upload.title').split('&')[0]}& <span class="grad">${translate('section.upload.title').split('&').pop()}</span>`;
+  // Tool cards
+  document.querySelectorAll('.tool-card').forEach(card => {
+    const tool = card.dataset.tool;
+    const title = card.querySelector('h3');
+    const desc = card.querySelector('p');
+    if (title) title.textContent = translate(`tool.${tool}`);
+    if (desc) desc.textContent = translate(`tool.${tool}.desc`);
+  });
+  // Upload zone
+  document.querySelector('.upload-zone h3').textContent = isTouchUpload()
+    ? (currentLang==='zh' ? '点击选择图片' : 'Tap to choose an image')
+    : translate('drop.hint');
+  document.querySelector('.upload-zone p').textContent = ['add-text','resize-crop','compress-convert','pin-before-after'].includes(currentTool)
+    ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
+    : translate('drop.desc');
+  // Result labels
+  const rl = document.querySelectorAll('.result-panel .label');
+  if (rl[0]) rl[0].textContent = translate('result.original');
+  if (rl[1]) rl[1].textContent = translate('result.result');
+  const ra = document.querySelectorAll('.result-actions .btn');
+  if (ra[0]) ra[0].textContent = translate('result.download');
+  if (ra[1]) ra[1].textContent = translate('result.share');
+  if (ra[2]) ra[2].textContent = translate('result.pinterest');
+  if (ra[3]) ra[3].textContent = translate('result.copylink');
+  if (ra[4]) ra[4].textContent = translate('result.tryagain');
+  // Features
+  const fc = document.querySelectorAll('.feature');
+  if (fc[0]) { fc[0].querySelector('h4').textContent = translate('feature.fast'); fc[0].querySelector('p').textContent = translate('feature.fast.desc'); }
+  if (fc[1]) { fc[1].querySelector('h4').textContent = translate('feature.private'); fc[1].querySelector('p').textContent = translate('feature.private.desc'); }
+  if (fc[2]) { fc[2].querySelector('h4').textContent = translate('feature.free'); fc[2].querySelector('p').textContent = translate('feature.free.desc'); }
+  // Footer
+  document.querySelector('footer p:first-child').innerHTML = translate('footer.text').replace('Pict', '<a href="https://pict-ai.pages.dev">Pict</a>');
+  const footerSister = document.querySelector('footer .sister');
+  if (footerSister) footerSister.textContent = translate('footer.sister');
+  document.getElementById('toolIndicator').textContent = translate(`tool.${currentTool}`);
+  if (['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(currentTool)) setCreativeCopy(currentTool, false);
+  renderQuota();
+}
+
+function setMobileLanguage(lang) {
+  setLanguage(lang);
+  document.querySelector('.nav-menu')?.removeAttribute('open');
+}
+
+let currentTool = 'game-avatar';
+let selectedGenerationStyle = 'photorealistic';
+let quotaGroups = null;
+let isProcessing = false;
+const testMode = new URLSearchParams(location.search).get('test') === '1';
+let testToken = testMode ? sessionStorage.getItem('pict-test-token') : '';
+if (testMode && !testToken) {
+  testToken = window.prompt('Private test mode — enter the test password:') || '';
+  if (testToken) sessionStorage.setItem('pict-test-token', testToken);
+}
+function processRequestOptions(form) {
+  return { method: 'POST', body: form, headers: testToken ? { 'X-Pict-Test-Token': testToken } : {} };
+}
+
+function quotaGroupForTool(tool) {
+  if (['add-text','resize-crop','compress-convert','pin-before-after'].includes(tool)) return 'local';
+  if (['remove-bg', 'upscale', 'colorize'].includes(tool)) return 'basic';
+  if (tool === 'generate') return 'generate';
+  return 'creative';
+}
+
+function renderQuota() {
+  const status = document.getElementById('quotaStatus');
+  const group = quotaGroupForTool(currentTool);
+  const quota = quotaGroups && quotaGroups[group];
+  const names = currentLang === 'zh'
+    ? { basic: '基础修图', generate: '文字生图', creative: '高级创意编辑', local: '本地实用工具' }
+    : { basic: 'basic edits', generate: 'image generation', creative: 'creative edit', local: 'quick tools' };
+  if (group === 'local') {
+    status.textContent = currentLang === 'zh' ? '免费本地工具：不限次数，不上传到服务器' : 'Free quick tool: unlimited, processed in your browser';
+    return;
+  }
+  if (quota) {
+    status.textContent = currentLang === 'zh'
+      ? `今日${names[group]}剩余：${quota.remaining}/${quota.limit}`
+      : `Free today — ${names[group]} remaining: ${quota.remaining}/${quota.limit}`;
+  } else {
+    status.textContent = currentLang === 'zh'
+      ? '每日免费：基础修图 3 次 · 文字生图 1 次'
+      : 'Free today: 3 basic edits · 1 image generation';
+  }
+  if (testMode && testToken) status.textContent = currentLang === 'zh' ? '🧪 私人测试模式：不占用每日免费次数' : '🧪 Private test mode: daily free quota is not used';
+}
+
+async function refreshQuota() {
+  try {
+    const response = await fetch('/api/quota');
+    if (!response.ok) return;
+    const data = await response.json();
+    quotaGroups = data.groups || null;
+    renderQuota();
+  } catch (_) { renderQuota(); }
+}
+
+async function apiError(response, fallback) {
+  try {
+    const data = await response.json();
+    return data.error || fallback;
+  } catch (_) { return fallback; }
+}
+
+function textFor(key) {
+  const copy = i18n[currentLang] || i18n.en;
+  return copy[key] || i18n.en[key] || key;
+}
+
+function selectTool(tool) {
+  currentTool = tool;
+  document.getElementById('toolIndicator').textContent = i18n[currentLang][`tool.${tool}`] || i18n[currentLang]['tool.remove-bg'];
+  document.querySelectorAll('.tool-card').forEach(card => {
+    const selected = card.dataset.tool === tool;
+    card.classList.toggle('active', selected);
+    card.setAttribute('aria-current', selected ? 'true' : 'false');
+  });
+  const isGenerate = tool === 'generate';
+  const isCreative = ['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(tool);
+  const isLocal = ['add-text','resize-crop','compress-convert','pin-before-after'].includes(tool);
+  dropZone.hidden = isGenerate;
+  generationZone.hidden = !isGenerate;
+  creativeOptions.hidden = !isCreative;
+  localEditor.hidden = !isLocal;
+  // On phones the regular chooser already includes a Camera option, so avoid
+  // showing a duplicate button below the upload area.
+  cameraButton.hidden = true;
+  dropZone.querySelector('p').textContent = isLocal
+    ? (currentLang==='zh' ? 'JPG、PNG、WEBP — 最大 50MB，本地处理' : 'JPG, PNG, WEBP — up to 50MB, processed locally')
+    : (i18n[currentLang]['drop.desc'] || i18n.en['drop.desc']);
+  if (isLocal) setLocalEditorCopy(tool);
+  if (isCreative) setCreativeCopy(tool);
+  resetUpload();
+  renderQuota();
+}
+
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),cameraInput=document.getElementById('cameraInput'),cameraButton=document.getElementById('cameraButton');
+const resultArea=document.getElementById('resultArea'),originalImg=document.getElementById('originalImg');
+let spinner=document.getElementById('spinner'),resultPlaceholder=document.getElementById('resultPlaceholder');
+const resultActions=document.getElementById('resultActions'),resultContent=document.getElementById('resultContent');
+const generationZone=document.getElementById('generationZone'),promptInput=document.getElementById('promptInput');
+const creativeOptions=document.getElementById('creativeOptions'),creativePrompt=document.getElementById('creativePrompt'),creativePromptLabel=document.getElementById('creativePromptLabel'),creativeHelp=document.getElementById('creativeHelp');
+const cartoonControls=document.getElementById('cartoonControls'),cartoonStyle=document.getElementById('cartoonStyle'),cartoonPreserve=document.getElementById('cartoonPreserve');
+const feedbackDialog=document.getElementById('feedbackDialog'),feedbackButton=document.getElementById('feedbackButton'),feedbackForm=document.getElementById('feedbackForm'),feedbackStatus=document.getElementById('feedbackStatus');
+const subscribeForm=document.getElementById('subscribeForm'),subscribeEmail=document.getElementById('subscribeEmail'),subscribeStatus=document.getElementById('subscribeStatus');
+const localEditor=document.getElementById('localEditor'),localCanvas=document.getElementById('localCanvas'),localContext=localCanvas.getContext('2d');
+const localEditorTitle=document.getElementById('localEditorTitle'),localEditorHelp=document.getElementById('localEditorHelp');
+const textControls=document.getElementById('textControls'),resizeControls=document.getElementById('resizeControls'),compressControls=document.getElementById('compressControls'),pinPosterControls=document.getElementById('pinPosterControls'),productPosterControls=document.getElementById('productPosterControls');
+const textHeadline=document.getElementById('textHeadline'),textCaption=document.getElementById('textCaption'),textFont=document.getElementById('textFont'),textColor=document.getElementById('textColor');
+const compressFormat=document.getElementById('compressFormat'),compressQuality=document.getElementById('compressQuality'),qualityValue=document.getElementById('qualityValue');
+const posterHeadline=document.getElementById('posterHeadline'),posterSubtitle=document.getElementById('posterSubtitle'),posterPrice=document.getElementById('posterPrice');
+const pinAfterFile=document.getElementById('pinAfterFile');
+let localImage=null,localFile=null,pinAfterImage=null,localTextPosition='center',localResizePreset='original',posterTemplate='clean',pinInsetPosition='left';
+
+dropZone.addEventListener('click',()=>fileInput.click());
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
+fileInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
+cameraButton.addEventListener('click',()=>cameraInput.click());
+cameraInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
+feedbackButton.addEventListener('click',()=>feedbackDialog.showModal());
+document.getElementById('feedbackClose').addEventListener('click',()=>feedbackDialog.close());
+feedbackForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const message=document.getElementById('feedbackMessage').value.trim(),email=document.getElementById('feedbackEmail').value.trim(),type=document.getElementById('feedbackType').value;
+  if(!message)return;
+  feedbackStatus.textContent=currentLang==='zh'?'正在发送…':'Sending…';
+  try{
+    const response=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type,message,email})});
+    if(!response.ok)throw new Error(await apiError(response,'Could not send feedback.'));
+    feedbackStatus.textContent=currentLang==='zh'?'谢谢！你的反馈已收到。':'Thank you — your feedback has been received.';
+    feedbackForm.reset();
+    setTimeout(()=>feedbackDialog.close(),1200);
+  }catch(error){feedbackStatus.textContent=error.message||'Could not send feedback.'}
+});
+subscribeForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const email=subscribeEmail.value.trim();
+  if(!email)return;
+  subscribeStatus.textContent=textFor('subscribe.sending');
+  try{
+    const response=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,lang:currentLang,source:'homepage'})});
+    if(!response.ok)throw new Error(await apiError(response,textFor('subscribe.error')));
+    subscribeStatus.textContent=textFor('subscribe.success');
+    subscribeForm.reset();
+  }catch(error){
+    subscribeStatus.textContent=error.message||textFor('subscribe.error');
+  }
+});
+
+function setLocalEditorCopy(tool){
+  const zh=currentLang==='zh';
   const copy={
-    en:{title:'AI Content & Likeness Rules',updated:'Last updated: August 25, 2026',language:'Language',intro:'These rules apply to PictTool features that transform, edit, or generate images. They supplement the Terms of Service and are intended to help protect people, rights, and the integrity of the service.',sections:[['1. Authorized images and likenesses','Upload only images that you own or are authorized to use. If an image contains an identifiable person, you must have that person’s permission to use their likeness for the requested transformation or generation.'],['2. Prohibited content','Do not use PictTool to create or distribute illegal, fraudulent, deceptive, defamatory, hateful, violent, or sexually explicit content, including non-consensual intimate imagery.'],['3. No impersonation or abuse','Do not create content that impersonates a celebrity, public figure, private person, business, or organization in a misleading way, or that facilitates scams, harassment, extortion, or identity abuse.'],['4. Children and vulnerable people','Do not upload or generate sexualized, nude, exploitative, or otherwise inappropriate content involving minors. Do not use the service to exploit or endanger vulnerable people.'],['5. AI disclosure','AI-generated or AI-transformed images may be labeled as AI content. You must not present an AI-generated image as documentary evidence or use it to deceive others.'],['6. User responsibility','You are responsible for your prompts, uploads, and outputs, and for complying with applicable laws and third-party rights. AI outputs may not be unique or accurate.'],['7. Review, removal, and account action','PictTool may refuse, restrict, review, or remove content and may suspend or terminate accounts that violate these rules or create risk to people, rights, or the service.'],['8. Deletion and reports','You may request deletion of your uploaded images or generated results through the available account or feedback tools. To report suspected abuse or infringement, use the PictTool feedback form.'],['9. Changes and contact','We may update these rules as the service, laws, or safety practices change. Questions and reports can be submitted through the PictTool feedback form.']]},
-    zh:{title:'AI 内容和肖像授权规则',updated:'最后更新：2026年8月25日',language:'语言',intro:'本规则适用于 PictTool 中对图片进行转换、编辑或生成的功能，是《服务条款》的补充，旨在保护个人、权利人和服务安全。',sections:[['1. 图片和肖像授权','只能上传您拥有权利或已经获得授权使用的图片。如果图片中包含可识别的人物，您必须获得该人物同意，才能按照请求使用其肖像进行转换或生成。'],['2. 禁止内容','不得使用 PictTool 制作或传播违法、欺诈、误导、诽谤、仇恨、暴力或色情内容，包括未经同意的私密影像。'],['3. 禁止冒充和滥用','不得以误导方式冒充名人、公众人物、私人个人、企业或组织，也不得用于诈骗、骚扰、勒索或滥用他人身份。'],['4. 未成年人和弱势群体','不得上传或生成涉及未成年人的性化、裸露、剥削或其他不当内容，也不得利用本服务伤害或剥削弱势群体。'],['5. AI 标识','AI 生成或 AI 修改的图片可能会被标记为 AI 内容。不得把 AI 图片伪装成真实证据，或用于欺骗他人。'],['6. 用户责任','您应对自己的提示词、上传内容和生成结果负责，并遵守适用法律及第三方权利。AI 生成结果可能不唯一，也不一定准确。'],['7. 审核、删除和账户处理','如果内容违反本规则，或可能对个人、权利人或服务造成风险，PictTool 可以拒绝、限制、审核或删除相关内容，并可以暂停或终止相关账户。'],['8. 删除和举报','您可以通过账户功能或反馈表单申请删除上传图片和生成结果。如需举报疑似滥用或侵权内容，请使用 PictTool 反馈表单。'],['9. 规则更新和联系','我们可能根据服务、法律或安全措施的变化更新本规则。如有问题或需要举报，请通过 PictTool 反馈表单联系我们。']]}
+    'add-text': zh?['图片加文字','图片仅在本机浏览器中处理。添加标题、说明和简单样式后即可下载。']:['Add Text to Image','Your image stays in this browser. Add a headline, caption, and simple style, then download.'],
+    'resize-crop': zh?['改尺寸与裁剪','按常见社交媒体比例裁剪图片。裁剪只在本机完成。']:['Resize & Crop','Crop your image to popular social-media sizes. Nothing is uploaded.'],
+    'compress-convert': zh?['压缩与格式转换','选择 JPG、WebP 或 PNG，并调整下载质量。图片不会上传到服务器。']:['Compress & Convert','Choose JPG, WebP, or PNG and set the download quality. Your image is never uploaded.'],
+    'pin-before-after': zh?['Pinterest 前后对比','先上传原图，再选择处理后的图片。Pict 会在浏览器本地生成 2:3 Pinterest 竖版图。']:['Pinterest Before/After','Upload the original first, then add the edited image. Pict creates a 2:3 Pinterest pin locally in your browser.']
+  }[tool];
+  const translatedTitle=i18n[currentLang]&&i18n[currentLang][`tool.${tool}`];
+  const translatedHelp=i18n[currentLang]&&i18n[currentLang][`local.${tool}.help`];
+  if(translatedTitle)copy[0]=translatedTitle;
+  if(translatedHelp)copy[1]=translatedHelp;
+  localEditorTitle.textContent=copy[0];localEditorHelp.textContent=copy[1];
+  textControls.hidden=tool!=='add-text';resizeControls.hidden=tool!=='resize-crop';compressControls.hidden=tool!=='compress-convert';pinPosterControls.hidden=tool!=='pin-before-after';productPosterControls.hidden=tool!=='product-poster';
+}
+
+function setActiveChip(container,value){
+  container.querySelectorAll('.preset-chip').forEach(button=>button.classList.toggle('active',button.dataset.value===value));
+}
+document.getElementById('textPosition').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  localTextPosition=button.dataset.value;setActiveChip(event.currentTarget,localTextPosition);renderLocalPreview();
+});
+document.getElementById('resizePreset').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  localResizePreset=button.dataset.value;setActiveChip(event.currentTarget,localResizePreset);renderLocalPreview();
+});
+document.getElementById('posterTemplate').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  posterTemplate=button.dataset.value;setActiveChip(event.currentTarget,posterTemplate);renderLocalPreview();
+});
+document.getElementById('pinInsetPosition').addEventListener('click',event=>{
+  const button=event.target.closest('button[data-value]');if(!button)return;
+  pinInsetPosition=button.dataset.value;setActiveChip(event.currentTarget,pinInsetPosition);renderLocalPreview();
+});
+[textHeadline,textCaption,textFont,textColor,compressFormat,compressQuality,posterHeadline,posterSubtitle,posterPrice].forEach(control=>control.addEventListener('input',()=>{
+  qualityValue.textContent=`${compressQuality.value}%`;renderLocalPreview();
+}));
+pinAfterFile.addEventListener('change',event=>{
+  const file=event.target.files&&event.target.files[0];if(!file)return;
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。':'Please use a JPG, PNG, or WEBP image.');return}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pinAfterImage=new Image();
+    pinAfterImage.onload=renderLocalPreview;
+    pinAfterImage.src=e.target.result;
   };
-  const lang=new URLSearchParams(location.search).get('lang')||localStorage.getItem('pict-language')||'en';
-  const data=copy[lang]||copy.en;
-  document.documentElement.lang=lang;
-  document.getElementById('language').value=copy[lang]?lang:'en';
-  document.getElementById('language').setAttribute('aria-label',data.language);
-  document.getElementById('title').textContent=data.title;
-  document.getElementById('updated').textContent=data.updated;
-  document.getElementById('content').innerHTML='<p>'+data.intro+'</p>'+data.sections.map(function(s){return '<h2>'+s[0]+'</h2><p>'+s[1]+'</p>';}).join('');
-  document.getElementById('language').addEventListener('change',function(e){localStorage.setItem('pict-language',e.target.value);location.href=location.pathname+'?lang='+e.target.value;});
-})();
+  reader.readAsDataURL(file);
+});
+document.getElementById('localDownload').addEventListener('click',downloadLocalImage);
+document.getElementById('localShare').addEventListener('click',shareLocalImage);
+
+function localCanvasSize(image){
+  if(currentTool==='product-poster')return [1080,1350];
+  if(currentTool==='pin-before-after')return [1000,1500];
+  if(currentTool==='resize-crop'){
+    return {original:[image.naturalWidth,image.naturalHeight],square:[1080,1080],portrait:[1080,1350],landscape:[1920,1080],story:[1080,1920]}[localResizePreset];
+  }
+  const maxSide=2600,scale=Math.min(1,maxSide/Math.max(image.naturalWidth,image.naturalHeight));
+  return [Math.max(1,Math.round(image.naturalWidth*scale)),Math.max(1,Math.round(image.naturalHeight*scale))];
+}
+
+function drawCover(image,width,height){
+  const scale=Math.max(width/image.naturalWidth,height/image.naturalHeight),drawWidth=image.naturalWidth*scale,drawHeight=image.naturalHeight*scale;
+  localContext.drawImage(image,(width-drawWidth)/2,(height-drawHeight)/2,drawWidth,drawHeight);
+}
+function drawCoverRect(image,x,y,width,height){
+  const scale=Math.max(width/image.naturalWidth,height/image.naturalHeight),drawWidth=image.naturalWidth*scale,drawHeight=image.naturalHeight*scale;
+  localContext.drawImage(image,x+(width-drawWidth)/2,y+(height-drawHeight)/2,drawWidth,drawHeight);
+}
+function drawRoundedImage(image,x,y,width,height,radius){
+  localContext.save();
+  localContext.beginPath();
+  localContext.roundRect(x,y,width,height,radius);
+  localContext.clip();
+  drawCoverRect(image,x,y,width,height);
+  localContext.restore();
+}
+function wrapCanvasText(text,maxWidth){
+  const words=text.split(/\s+/);const lines=[];let line='';
+  words.forEach(word=>{const test=line?`${line} ${word}`:word;if(localContext.measureText(test).width<=maxWidth||!line)line=test;else{lines.push(line);line=word}});
+  if(line)lines.push(line);return lines.slice(0,3);
+}
+function drawCenteredLines(lines,x,y,lineHeight){lines.forEach((line,index)=>localContext.fillText(line,x,y+index*lineHeight));}
+function drawTextOverlay(width,height){
+  const headline=textHeadline.value.trim()||'Your headline',caption=textCaption.value.trim();
+  const size=Math.max(30,Math.round(Math.min(width,height)*.092)),captionSize=Math.max(18,Math.round(size*.42));
+  const maxWidth=width*.82;localContext.textAlign='center';localContext.fillStyle=textColor.value;localContext.shadowColor='rgba(0,0,0,.72)';localContext.shadowBlur=Math.max(4,Math.round(size*.12));localContext.shadowOffsetY=Math.max(2,Math.round(size*.04));
+  localContext.font=`800 ${size}px ${textFont.value}`;const titleLines=wrapCanvasText(headline,maxWidth);
+  localContext.font=`600 ${captionSize}px ${textFont.value}`;const captionLines=caption?wrapCanvasText(caption,maxWidth):[];
+  const titleHeight=titleLines.length*size*1.08,captionHeight=captionLines.length*captionSize*1.35,totalHeight=titleHeight+(captionLines.length?captionSize*.5+captionHeight:0);
+  const margin=Math.round(height*.09);let top=localTextPosition==='top'?margin:localTextPosition==='bottom'?height-margin-totalHeight:(height-totalHeight)/2;
+  localContext.font=`800 ${size}px ${textFont.value}`;drawCenteredLines(titleLines,width/2,top+size,size*1.08);
+  if(captionLines.length){top+=titleHeight+captionSize*.7;localContext.font=`600 ${captionSize}px ${textFont.value}`;drawCenteredLines(captionLines,width/2,top+captionSize,captionSize*1.35);}
+  localContext.shadowColor='transparent';
+}
+function drawProductPoster(width,height){
+  const palettes={
+    clean:['#f8fafc','#e0f2fe','#111827','#2563eb'],
+    bold:['#111827','#312e81','#ffffff','#f59e0b'],
+    warm:['#fff7ed','#fed7aa','#1f2937','#e11d48']
+  };
+  const [top,bottom,text,accent]=palettes[posterTemplate]||palettes.clean;
+  const gradient=localContext.createLinearGradient(0,0,width,height);
+  gradient.addColorStop(0,top);gradient.addColorStop(1,bottom);
+  localContext.fillStyle=gradient;localContext.fillRect(0,0,width,height);
+  localContext.fillStyle=accent;localContext.globalAlpha=.14;localContext.beginPath();localContext.arc(width*.88,height*.12,width*.36,0,Math.PI*2);localContext.fill();localContext.globalAlpha=1;
+  const productBox={x:Math.round(width*.09),y:Math.round(height*.19),w:Math.round(width*.82),h:Math.round(height*.54)};
+  localContext.save();localContext.shadowColor='rgba(15,23,42,.22)';localContext.shadowBlur=28;localContext.fillStyle='rgba(255,255,255,.68)';localContext.roundRect(productBox.x,productBox.y,productBox.w,productBox.h,34);localContext.fill();localContext.restore();
+  const scale=Math.min(productBox.w/localImage.naturalWidth,productBox.h/localImage.naturalHeight);
+  const dw=localImage.naturalWidth*scale,dh=localImage.naturalHeight*scale;
+  localContext.drawImage(localImage,productBox.x+(productBox.w-dw)/2,productBox.y+(productBox.h-dh)/2,dw,dh);
+  localContext.fillStyle=text;localContext.textAlign='center';localContext.shadowColor='transparent';
+  localContext.font='900 70px Inter, Arial, sans-serif';
+  drawCenteredLines(wrapCanvasText(posterHeadline.value.trim()||'New Arrival',width*.78),width/2,height*.82,76);
+  localContext.font='600 30px Inter, Arial, sans-serif';localContext.fillStyle=posterTemplate==='bold'?'rgba(255,255,255,.78)':'rgba(31,41,55,.72)';
+  drawCenteredLines(wrapCanvasText(posterSubtitle.value.trim()||'Made with PictTool',width*.72),width/2,height*.89,36);
+  const price=posterPrice.value.trim()||'$19.99';
+  localContext.font='900 44px Inter, Arial, sans-serif';localContext.fillStyle=accent;
+  localContext.fillText(price,width/2,height*.955);
+}
+function drawPinterestBeforeAfter(width,height){
+  const mainImage=pinAfterImage||localImage;
+  drawCoverRect(mainImage,0,0,width,height);
+  const insetWidth=Math.round(width*.34),insetHeight=Math.round(insetWidth*1.22);
+  const margin=Math.round(width*.045),radius=Math.round(width*.025);
+  const x=pinInsetPosition==='right'?width-margin-insetWidth:margin;
+  const y=height-margin-insetHeight;
+  localContext.save();
+  localContext.fillStyle='rgba(4,2,18,.28)';
+  localContext.shadowColor='rgba(0,0,0,.34)';
+  localContext.shadowBlur=Math.round(width*.022);
+  localContext.shadowOffsetY=Math.round(width*.012);
+  localContext.roundRect(x-7,y-7,insetWidth+14,insetHeight+14,radius+8);
+  localContext.fill();
+  localContext.restore();
+  localContext.save();
+  localContext.fillStyle='#fff';
+  localContext.roundRect(x-5,y-5,insetWidth+10,insetHeight+10,radius+7);
+  localContext.fill();
+  localContext.restore();
+  drawRoundedImage(localImage,x,y,insetWidth,insetHeight,radius);
+  if(!pinAfterImage){
+    localContext.save();
+    localContext.fillStyle='rgba(10,10,26,.72)';
+    localContext.fillRect(0,0,width,height);
+    localContext.fillStyle='#fff';
+    localContext.textAlign='center';
+    localContext.font='700 42px Inter, Arial, sans-serif';
+    localContext.fillText(currentLang==='zh'?'请选择处理后的图片':'Choose the edited image',width/2,height/2);
+    localContext.font='500 24px Inter, Arial, sans-serif';
+    localContext.fillStyle='rgba(255,255,255,.72)';
+    localContext.fillText(currentLang==='zh'?'下方上传第二张图后自动生成':'Upload the second image below to create the pin',width/2,height/2+48);
+    localContext.restore();
+  }
+}
+function renderLocalPreview(){
+  if(!localImage)return;
+  const [width,height]=localCanvasSize(localImage);localCanvas.width=width;localCanvas.height=height;localContext.clearRect(0,0,width,height);
+  if(currentTool==='product-poster')drawProductPoster(width,height);
+  else if(currentTool==='pin-before-after')drawPinterestBeforeAfter(width,height);
+  else if(currentTool==='resize-crop')drawCover(localImage,width,height);
+  else localContext.drawImage(localImage,0,0,width,height);
+  if(currentTool==='add-text')drawTextOverlay(width,height);
+}
+function loadLocalFile(file,dataUrl){
+  if(currentTool==='pin-before-after'){pinAfterImage=null;if(pinAfterFile)pinAfterFile.value='';}
+  localFile=file;localImage=new Image();localImage.onload=()=>{renderLocalPreview();localEditor.scrollIntoView({behavior:'smooth',block:'center'});};localImage.src=dataUrl;
+}
+async function createLocalResultBlob(){
+  if(!localImage){alert(currentLang==='zh'?'请先上传图片。':'Please upload an image first.');return;}
+  if(currentTool==='pin-before-after'&&!pinAfterImage){alert(currentLang==='zh'?'请再选择一张处理后的图片。':'Please choose the edited result image.');return;}
+  const mime=currentTool==='compress-convert'?compressFormat.value:'image/jpeg';
+  const quality=currentTool==='compress-convert'?Number(compressQuality.value)/100:.92;
+  const blob=await new Promise(resolve=>localCanvas.toBlob(value=>resolve(value),mime,quality));
+  if(!blob){alert('Could not create the image. Please try again.');return null;}
+  window.resultBlob=blob;return blob;
+}
+async function downloadLocalImage(){
+  const blob=await createLocalResultBlob();if(!blob)return;
+  const mime=blob.type;
+  const extension=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+async function shareLocalImage(){
+  const blob=await createLocalResultBlob();if(!blob)return;
+  const extension=blob.type==='image/png'?'png':blob.type==='image/webp'?'webp':'jpg';
+  const file=new File([blob],`pict-result.${extension}`,{type:blob.type});
+  const title='PictTool — Free Image Tools',text='Made with PictTool.';
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title,text,files:[file]});return;}
+    if(navigator.share){await navigator.share({title,text,url:window.location.href});return;}
+    await copyText(window.location.href);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }catch(error){
+    if(error&&error.name==='AbortError')return;
+    await copyText(window.location.href);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }
+}
+
+function handleFile(file){
+  if(!file)return;
+  const isLocal=['add-text','resize-crop','compress-convert','pin-before-after'].includes(currentTool),maxSize=isLocal?50:20;
+  if(file.size>maxSize*1024*1024){alert(`File too large (max ${maxSize}MB)`);return}
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert(currentLang==='zh'?'请使用 JPG、PNG 或 WEBP 图片。iPhone 的 HEIC 照片请先转换为 JPG 后上传。':'Please use a JPG, PNG, or WEBP image. Convert iPhone HEIC photos to JPG first.');return}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    if(isLocal){resultArea.classList.remove('show','generate-mode');loadLocalFile(file,e.target.result);return;}
+    originalImg.src=e.target.result;resultArea.classList.add('show');resultActions.style.display='none';resultContent.innerHTML='<div class="spinner" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Processing...</p>';spinner=document.getElementById('spinner');resultPlaceholder=document.getElementById('resultPlaceholder');prepareAndProcess(file)
+  };
+  reader.readAsDataURL(file);
+}
+
+async function prepareAndProcess(file){
+  const creative=['game-avatar','cartoon','travel-art','product-poster','art','change-background','remove-object','scene-lighting'].includes(currentTool);
+  const prepared=creative ? await resizeCreativeImage(file) : file;
+  processImage(prepared);
+}
+
+async function resizeCreativeImage(file){
+  const sourceUrl=URL.createObjectURL(file);
+  try{
+    const image=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=sourceUrl});
+    const maxPixels=1000000,scale=Math.min(1,Math.sqrt(maxPixels/(image.naturalWidth*image.naturalHeight)));
+    if(scale===1)return file;
+    const canvas=document.createElement('canvas');canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);
+    canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.9));
+    return blob ? new File([blob],'pict-creative.jpg',{type:'image/jpeg'}) : file;
+  }catch(_){return file}finally{URL.revokeObjectURL(sourceUrl)}
+}
+
+async function processImage(file){
+  if(isProcessing)return;
+  isProcessing=true;
+  spinner.classList.add('show');resultPlaceholder.textContent='';
+  const fd=new FormData();fd.append('image',file);fd.append('tool',currentTool);
+  if (creativePrompt && !creativeOptions.hidden) {
+    let userPrompt=creativePrompt.value.trim();
+    if(currentTool==='cartoon') userPrompt=[`Style: ${cartoonStyle.value}`,`Preservation: ${cartoonPreserve.value}`,userPrompt].filter(Boolean).join('. ');
+    fd.append('prompt',userPrompt);
+  }
+  try{
+    const res=await fetch('/api/process',processRequestOptions(fd));
+    if(!res.ok)throw new Error(await apiError(res,'Could not process the image. Please try again shortly.'));
+    const blob=await optimizeResultBlob(await res.blob());
+    const url=URL.createObjectURL(blob);
+    spinner.classList.remove('show');
+    resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;
+    resultActions.style.display='flex';
+    window.resultBlob=blob;
+    await refreshQuota();
+  }catch(e){showProcessingError(e.message)}finally{isProcessing=false}
+}
+
+async function optimizeResultBlob(blob){
+  if(currentTool==='remove-bg'||!blob.type.startsWith('image/'))return blob;
+  const sourceUrl=URL.createObjectURL(blob);
+  try{
+    const image=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=sourceUrl});
+    const maxSide=3200,scale=Math.min(1,maxSide/Math.max(image.naturalWidth,image.naturalHeight));
+    const canvas=document.createElement('canvas');canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);
+    canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+    return await new Promise(resolve=>canvas.toBlob(result=>resolve(result||blob),'image/jpeg',0.88));
+  }catch(error){
+    return blob;
+  }finally{URL.revokeObjectURL(sourceUrl)}
+}
+
+function setGenerationStyle(button){
+  selectedGenerationStyle=button.dataset.style;
+  button.parentElement.querySelectorAll('.style-chip').forEach(chip=>chip.classList.toggle('active',chip===button));
+}
+
+function setCartoonOption(group, value){
+  const select=group==='style'?cartoonStyle:cartoonPreserve;
+  const buttons=document.querySelectorAll(group==='style'?'#cartoonStyleButtons .style-chip':'#cartoonPreserveButtons .style-chip');
+  select.value=value;
+  buttons.forEach(button=>button.classList.toggle('active',button.dataset.value===value));
+}
+
+document.getElementById('cartoonStyleButtons').addEventListener('click',event=>{
+  const button=event.target.closest('.style-chip');
+  if(button)setCartoonOption('style',button.dataset.value);
+});
+document.getElementById('cartoonPreserveButtons').addEventListener('click',event=>{
+  const button=event.target.closest('.style-chip');
+  if(button)setCartoonOption('preserve',button.dataset.value);
+});
+
+function setCreativeCopy(tool, resetPrompt=true){
+  // Keep this panel aligned with the language actually applied to the page.
+  // The navigation is translated from the DOM, so using that same source here
+  // avoids falling back to English when a saved locale is restored on refresh.
+  const pageLanguage = document.documentElement.lang;
+  if (i18n[pageLanguage] && pageLanguage !== currentLang) currentLang = pageLanguage;
+  const zh=currentLang==='zh';
+  const cartoonLocale={
+    en:{copy:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],style:'Cartoon style',preserve:'Original preservation',styles:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'],preserves:['High','Balanced','Creative'],placeholder:'For example: a moonlit forest'},
+    zh:{copy:['卡通化风格','默认保留原图的人物、物体、构图与颜色，只把画面转为卡通效果。'],style:'卡通风格',preserve:'原图保持程度',styles:['柔和动画','日系动漫','绘本水彩','3D 卡通','漫画线稿'],preserves:['高','平衡','创作'],placeholder:'例如：月光下的森林'},
+    es:{copy:['Efecto de caricatura','De forma predeterminada, Pict conserva el sujeto, los objetos, la composición y los colores, y convierte la imagen en una ilustración.'],style:'Estilo de caricatura',preserve:'Conservación del original',styles:['Animación suave','Anime japonés','Acuarela de cuento','Caricatura 3D','Tinta de cómic'],preserves:['Alta','Equilibrada','Creativa'],placeholder:'Por ejemplo: un bosque iluminado por la luna'},
+    fr:{copy:['Effet cartoon','Par défaut, Pict conserve le sujet, les objets, la composition et les couleurs, puis transforme l’image en illustration.'],style:'Style cartoon',preserve:'Conservation de l’original',styles:['Animation douce','Anime japonais','Aquarelle conte','Cartoon 3D','Encre BD'],preserves:['Élevée','Équilibrée','Créative'],placeholder:'Par exemple : une forêt éclairée par la lune'},
+    pt:{copy:['Efeito cartoon','Por padrão, o Pict mantém o sujeito, os objetos, a composição e as cores, transformando a imagem em uma ilustração.'],style:'Estilo cartoon',preserve:'Preservação do original',styles:['Animação suave','Anime japonês','Aquarela de conto','Cartoon 3D','Tinta de quadrinhos'],preserves:['Alta','Equilibrada','Criativa'],placeholder:'Por exemplo: uma floresta iluminada pela lua'},
+    ja:{copy:['コミック風効果','Pictは通常、被写体、物、構図、色を保ちながら、同じ画像をイラスト風に変換します。'],style:'コミック風',preserve:'元画像の保持',styles:['やわらかいアニメ','日本のアニメ','絵本水彩','3Dカートゥーン','コミック線画'],preserves:['高い','バランス','クリエイティブ'],placeholder:'例：月明かりの森'},
+    ko:{copy:['만화 효과','기본적으로 Pict는 피사체, 사물, 구도와 색상을 유지하면서 같은 이미지를 일러스트로 변환합니다.'],style:'만화 스타일',preserve:'원본 보존 정도',styles:['부드러운 애니메이션','일본 애니메이션','동화 수채화','3D 만화','코믹 잉크'],preserves:['높음','균형','창의적'],placeholder:'예: 달빛이 비치는 숲'},
+    ar:{copy:['تأثير كرتوني','يحافظ Pict افتراضياً على الموضوع والعناصر والتكوين والألوان، ثم يحول الصورة نفسها إلى رسم توضيحي.'],style:'النمط الكرتوني',preserve:'الحفاظ على الأصل',styles:['رسوم ناعمة','أنمي ياباني','ألوان مائية قصصية','كرتون ثلاثي الأبعاد','حبر كوميكس'],preserves:['عالٍ','متوازن','إبداعي'],placeholder:'مثال: غابة مضاءة بضوء القمر'},
+    de:{copy:['Comic-Effekt','Pict behält standardmäßig Motiv, Objekte, Komposition und Farben bei und verwandelt dasselbe Bild in eine Illustration.'],style:'Comic-Stil',preserve:'Original erhalten',styles:['Sanfte Animation','Japanischer Anime','Märchen-Aquarell','3D-Comic','Comic-Tusche'],preserves:['Hoch','Ausgewogen','Kreativ'],placeholder:'Zum Beispiel: ein mondbeleuchteter Wald'}
+  }[currentLang] || {
+    copy:['Cartoon effect','By default, Pict keeps the subject, objects, composition, and colors, then illustrates the same image.'],style:'Cartoon style',preserve:'Original preservation',styles:['Soft animation','Japanese anime','Storybook watercolor','3D cartoon','Comic ink'],preserves:['High','Balanced','Creative'],placeholder:'For example: a moonlit forest'
+  };
+  const copy={
+    'game-avatar': zh?['原创幻想游戏头像','保留人物脸、年龄、发型与姿势，同时生成清晰可见的原创幻想冒险者服装和场景。']:['Original fantasy game avatar','Keeps the person’s face, age, hair, and pose, while creating a clearly visible original fantasy-adventurer look.'],
+    cartoon: cartoonLocale.copy,
+    'travel-art': zh?['旅行照片转艺术','适合建筑、风景、街景和旅行照片。会尽量保留原始地点、构图和透视，不生成新人物。']:['Travel photo to art','For architecture, landscapes, streets, and travel photos. Preserves the place, composition, and perspective without creating new people.'],
+    'product-poster': zh?['AI 商品海报','适合商品图、实物照片和展示图。会尽量保留商品主体，生成更适合店铺、Pinterest 和社交发布的海报风画面。']:['AI product poster','For product photos, objects, and listing images. Preserves the product while creating a poster-style image for shops, Pinterest, and social posts.'],
+    art: zh?['艺术风格','保留原图构图与人物细节，同时生成清晰可见的原创数字艺术效果。']:['Art effect','Keeps the composition and subject details, while applying a clearly visible original digital-art finish.'],
+    'change-background': zh?['新背景描述（可选）','只更换背景，人物、姿势、衣服和前景会尽量保持不变。例如：阳光花园。']:['New background (optional)','Only the background changes; the subject, pose, clothing, and foreground stay intact. Example: a sunny flower garden.'],
+    'remove-object': zh?['要删除什么？','只描述一个具体物体，并写明位置。例如：the red bag on the table。不会去除整张图片的背景。']:['What should be removed?','Describe one specific item and its location, for example: the red bag on the table. This keeps the rest of the photo intact.'],
+    'scene-lighting': zh?['灯光优化','只改善曝光、白平衡和自然色彩；不会故意压暗背景或改变场景。']:['Lighting enhance','Improves exposure, white balance, and natural color only—without darkening or redesigning the scene.']
+  }[tool];
+  const localizedToolCopy=i18n[currentLang]&&i18n[currentLang][`creative.${tool}.label`] ? [i18n[currentLang][`creative.${tool}.label`],i18n[currentLang][`creative.${tool}.help`]] : (i18n[currentLang]&&i18n[currentLang][`tool.${tool}.desc`] ? [i18n[currentLang][`tool.${tool}`],i18n[currentLang][`tool.${tool}.desc`]] : copy);
+  const keepTranslatedGameAvatar = tool === 'game-avatar' && pageLanguage && pageLanguage !== 'en' && creativePromptLabel.dataset.i18n;
+  if (!keepTranslatedGameAvatar) {
+    creativePromptLabel.textContent=localizedToolCopy[0];
+    creativeHelp.textContent=localizedToolCopy[1];
+  }
+  cartoonControls.hidden=tool!=='cartoon';
+  cartoonControls.style.display=tool==='cartoon'?'grid':'none';
+  document.getElementById('cartoonStyleLabel').textContent=cartoonLocale.style;
+  document.getElementById('cartoonPreserveLabel').textContent=cartoonLocale.preserve;
+  const styleLabels=cartoonLocale.styles;
+  document.querySelectorAll('#cartoonStyleButtons .style-chip').forEach((button,index)=>button.textContent=styleLabels[index]);
+  const preserveLabels=cartoonLocale.preserves;
+  document.querySelectorAll('#cartoonPreserveButtons .style-chip').forEach((button,index)=>button.textContent=preserveLabels[index]);
+  creativePrompt.required=tool==='remove-object';
+  if (keepTranslatedGameAvatar) return;
+  creativePrompt.placeholder=tool==='remove-object'
+    ? (zh?'例如：桌子上的红色包':'For example: the red bag on the table')
+    : tool==='travel-art'
+      ? 'watercolor travel postcard, clean ink lines, preserve the building, no people'
+      : tool==='product-poster'
+        ? 'clean poster background, soft shadow, no text, preserve the subject'
+      : tool==='game-avatar'
+        ? ((i18n[currentLang]&&i18n[currentLang]['creative.game-avatar.placeholder']) || 'For example: a moonlit forest')
+        : cartoonLocale.placeholder;
+  if (resetPrompt) creativePrompt.value='';
+}
+
+async function generateImage(){
+  if(isProcessing)return;
+  const prompt=promptInput.value.trim();
+  if(!prompt){promptInput.focus();return}
+  isProcessing=true;
+  resultArea.classList.add('show','generate-mode');
+  resultActions.style.display='none';
+  resultContent.innerHTML='<div class="spinner show" id="spinner"></div><p id="resultPlaceholder" style="color:var(--text-dim);font-size:13px;">Creating your image...</p>';
+  const liveSpinner=document.getElementById('spinner'),livePlaceholder=document.getElementById('resultPlaceholder');
+  const fd=new FormData();fd.append('tool','generate');fd.append('prompt',prompt);fd.append('style',selectedGenerationStyle);
+  try{
+    const res=await fetch('/api/process',processRequestOptions(fd));
+    if(!res.ok)throw new Error(await apiError(res,'Could not create the image. Please try again shortly.'));
+    const blob=await optimizeResultBlob(await res.blob()),url=URL.createObjectURL(blob);
+    liveSpinner.classList.remove('show');
+    resultContent.innerHTML=`<img src="${url}" style="width:100%;border-radius:12px;" />`;
+    resultActions.style.display='flex';window.resultBlob=blob;
+    await refreshQuota();
+  }catch(e){
+    liveSpinner.classList.remove('show');
+    livePlaceholder.textContent=e.message || 'Could not create the image. Please try again shortly.';
+    livePlaceholder.style.color='#F59E0B';
+  }finally{isProcessing=false}
+}
+
+function showProcessingError(message){
+  spinner.classList.remove('show');
+  resultPlaceholder.textContent=message || 'Could not process the image. Please try again shortly.';
+  resultPlaceholder.style.color='#F59E0B';
+}
+
+function downloadResult(){
+  if(!window.resultBlob)return;
+  const extension=window.resultBlob.type==='image/jpeg'?'jpg':'png';
+  const a=document.createElement('a');a.href=URL.createObjectURL(window.resultBlob);a.download=`pict-${currentTool}-${Date.now()}.${extension}`;a.click();
+}
+async function shareResult(){
+  const title='PictTool — AI Image Tools';
+  const text='I made this with PictTool.';
+  const url=window.location.origin+window.location.pathname+'#upload';
+  try{
+    if(window.resultBlob&&navigator.canShare){
+      const extension=window.resultBlob.type==='image/jpeg'?'jpg':'png';
+      const file=new File([window.resultBlob],`pict-result.${extension}`,{type:window.resultBlob.type});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({title,text,files:[file]});
+        return;
+      }
+    }
+    if(navigator.share){await navigator.share({title,text,url});return}
+    await copyText(url);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }catch(error){
+    if(error&&error.name==='AbortError')return;
+    await copyText(url);
+    alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+  }
+}
+function shareToPinterest(){
+  const url=window.location.origin+window.location.pathname+'#upload';
+  const description='Create and transform images with PictTool AI Image Tools.';
+  window.open(`https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(description)}`,'_blank','noopener,noreferrer');
+}
+async function copyText(text){
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return}
+  const field=document.createElement('textarea');field.value=text;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();document.execCommand('copy');field.remove();
+}
+async function copyPictToolLink(){
+  await copyText(window.location.origin+window.location.pathname+'#upload');
+  alert(currentLang==='zh'?'PictTool 链接已复制。':'PictTool link copied.');
+}
+function authText(key){return (i18n[currentLang]&&i18n[currentLang][key])||i18n.en[key]||key}
+function openAuthDialog(){
+  const dialog=document.getElementById('authDialog');
+  document.getElementById('authIntro').hidden=false;
+  document.getElementById('authEmail').hidden=false;
+  document.getElementById('authActions').hidden=false;
+  document.getElementById('authSentPanel').hidden=true;
+  document.getElementById('authStatus').textContent='';
+  if(dialog&&typeof dialog.showModal==='function')dialog.showModal();
+  document.getElementById('authEmail').focus();
+}
+function closeAuthDialog(){document.getElementById('authDialog').close()}
+function openAccountDialog(){
+  const dialog=document.getElementById('accountDialog');
+  if(dialog&&typeof dialog.showModal==='function')dialog.showModal();
+}
+function closeAccountDialog(){document.getElementById('accountDialog').close()}
+async function signOutAccount(){
+  if(supabaseClient)await supabaseClient.auth.signOut();
+  closeAccountDialog();
+  updateAuthButton(null);
+}
+function setAuthStatus(message,error=false){const status=document.getElementById('authStatus');status.textContent=message;status.style.color=error?'#F59E0B':'var(--accent-light)'}
+function updateAuthButton(user){
+  const button=document.getElementById('authButton');
+  if(!button)return;
+  button.disabled=false;
+  button.textContent=user?(authText('auth.loggedIn')):authText('auth.login');
+  button.title=user?user.email:'';
+  if(user){
+    document.getElementById('accountEmail').textContent=user.email||'';
+    button.onclick=openAccountDialog;
+  }else button.onclick=openAuthDialog;
+}
+function setAuthLoading(){
+  const button=document.getElementById('authButton');
+  if(!button)return;
+  button.disabled=true;
+  button.textContent=currentLang==='zh'?'正在检查…':'Checking…';
+  button.title='';
+}
+async function submitAuth(event){
+  event.preventDefault();
+  const email=document.getElementById('authEmail').value.trim();
+  const submit=document.getElementById('authSubmit');
+  if(!supabaseClient){setAuthStatus(authText('auth.setup'),true);return}
+  submit.disabled=true;
+  submit.setAttribute('aria-busy','true');
+  submit.textContent=authText('auth.sending');
+  try{
+    const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:AUTH_REDIRECT_URL}});
+    if(error)throw error;
+    document.getElementById('authIntro').hidden=true;
+    document.getElementById('authEmail').hidden=true;
+    document.getElementById('authActions').hidden=true;
+    document.getElementById('authSentPanel').hidden=false;
+    setAuthStatus('');
+  }catch(error){setAuthStatus(error.message||authText('auth.invalid'),true)}
+  finally{submit.disabled=false;submit.removeAttribute('aria-busy');submit.textContent=authText('auth.send')}
+}
+async function openProCheckout(event){
+  if(event)event.preventDefault();
+  if(!supabaseClient){openAuthDialog();setAuthStatus(authText('auth.setup'),true);return false}
+  const {data}=await supabaseClient.auth.getSession();
+  if(!data.session){openAuthDialog();return false}
+  if(!initializePaddleCheckout()){
+    setAuthStatus('Checkout is being configured. Please try again shortly.',true);
+    return false;
+  }
+  const user=data.session.user;
+  window.Paddle.Checkout.open({
+    items:[{priceId:PADDLE_PRICE_ID,quantity:1}],
+    customer:{email:user.email},
+    customData:{supabase_user_id:user.id,email:user.email},
+  });
+  return false;
+}
+function resetUpload(){resultArea.classList.remove('show','generate-mode');fileInput.value='';cameraInput.value='';if(pinAfterFile)pinAfterFile.value='';pinAfterImage=null;spinner.classList.remove('show');resultPlaceholder.textContent='Processing...';resultPlaceholder.style.color='var(--text-dim)';resultPlaceholder.style.fontSize='13px';resultActions.style.display='none';window.resultBlob=null}
+
+function initialToolFromUrl(){
+  const tool = new URLSearchParams(location.search).get('tool') || '';
+  const allowed = ['game-avatar','cartoon','travel-art','art','change-background','remove-object','scene-lighting','remove-bg','upscale','colorize','generate','add-text','resize-crop','compress-convert','pin-before-after','product-poster'];
+  return allowed.includes(tool) ? tool : 'game-avatar';
+}
+// Restore the visitor's language before selecting the initial tool.  The
+// creative panel is rendered by selectTool(), so applying the saved locale
+// first prevents its label, help text, and placeholder from falling back to
+// English on a refresh.
+try {
+  const savedLanguage = localStorage.getItem('pict-language');
+  if (savedLanguage && i18n[savedLanguage]) setLanguage(savedLanguage);
+} catch (_) {}
+selectTool(initialToolFromUrl());
+initializePaddleCheckout();
+refreshQuota();
+if(supabaseClient){
+  setAuthLoading();
+  supabaseClient.auth.getSession().then(({data})=>updateAuthButton(data.session&&data.session.user)).catch(()=>updateAuthButton(null));
+  supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthButton(session&&session.user));
+}else updateAuthButton(null);
 </script>
+
 </body>
 </html>
